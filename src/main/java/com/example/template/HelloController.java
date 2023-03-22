@@ -14,6 +14,7 @@ public class HelloController {
 
     @FXML
     private void onClick(){
+        System.out.println("hello");
 
     }
 
