@@ -20,8 +20,7 @@ public class HelloController {
     @FXML
     private TextField txtField;
 
-    ImageView[][] img;
-
+    ImageView[][] img = new ImageView[4][4];
     Image grass;
 
     FileInputStream grasss;
@@ -29,9 +28,9 @@ public class HelloController {
     public HelloController(){
 
         try {
-            grasss = new FileInputStream("");
+            grasss = new FileInputStream("src/main/resources/grass.PNG");
 
-
+            grass = new Image(grasss);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
@@ -43,7 +42,7 @@ public class HelloController {
         for(int i = 0; i<img.length; i++){
             for (int j = 0; j < img[0].length; j++) {
                 img[i][j] = new ImageView();
-                img[i][j].setImage(back);
+                img[i][j].setImage(grass);
                 img[i][j].setFitHeight(125);
                 img[i][j].setFitWidth(125);
                 img[i][j].setRotate(90);
