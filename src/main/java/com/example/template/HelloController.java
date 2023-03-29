@@ -55,22 +55,7 @@ public class HelloController {
 
     }
 
-    private void doStuff(){
-        System.out.println("this is where stuff happens");
-    }
 
-
-    private void potato(){
-        System.out.println("potato");
-    }
-
-    private void tomato(){
-        System.out.println("tomato");
-    }
-
-    private void functionthing(){
-        System.out.println("funcqawpionc");
-    }
 
     private void thisisanother(){
         System.out.println("thingsandshit");
