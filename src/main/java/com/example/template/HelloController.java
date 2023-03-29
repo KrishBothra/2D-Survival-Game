@@ -50,8 +50,9 @@ public class HelloController {
             }
         }
 
-       
-       
+
+        System.out.println("this is test");
+
     }
 
     private void doStuff(){
