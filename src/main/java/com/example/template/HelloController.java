@@ -64,4 +64,8 @@ public class HelloController {
         System.out.println("potato");
     }
 
+    private void tomato(){
+        System.out.println("tomato");
+    }
+
 }
