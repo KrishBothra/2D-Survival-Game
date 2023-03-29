@@ -68,4 +68,8 @@ public class HelloController {
         System.out.println("tomato");
     }
 
+    private void functionthing(){
+        System.out.println("funcqawpionc");
+    }
+
 }
