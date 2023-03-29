@@ -50,10 +50,7 @@ public class HelloController {
             }
         }
 
-        System.out.println("hello");
-        System.out.println("i am at home");
-        System.out.println("danny is at home");
-        System.out.println("danny is a poo poo");
+
     }
 
 }
