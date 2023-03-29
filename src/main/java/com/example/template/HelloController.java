@@ -72,4 +72,8 @@ public class HelloController {
         System.out.println("funcqawpionc");
     }
 
+    private void thisisanother(){
+        System.out.println("thingsandshit");
+    }
+
 }
