@@ -54,7 +54,6 @@ public class HelloController {
         System.out.println("i am at home");
         System.out.println("danny is at home");
         System.out.println("danny is a poo poo");
-        System.out.println("test number 2");
     }
 
 }
