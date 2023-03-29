@@ -59,4 +59,9 @@ public class HelloController {
         System.out.println("taiehgiopashbgophaeopighaeighaopeghiopaeghieop");
     }
 
+
+    private void potato(){
+        System.out.println("potato");
+    }
+
 }
