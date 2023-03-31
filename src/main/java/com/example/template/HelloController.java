@@ -44,8 +44,8 @@ public class HelloController {
 
     //12,20----13,21
 
-    FileInputStream grasss,playerr,playerOverGrasss;
-    Image grass,player,playerOverGrass;
+    FileInputStream grasss,playerr,playerOverGrasss, autumnTreee, fruitTreee, normalTreee;
+    Image grass,player,playerOverGrass, autumnTree, fruitTree, normalTree;
 
     public HelloController(){
 
@@ -53,10 +53,16 @@ public class HelloController {
             grasss = new FileInputStream("src/main/resources/grass.PNG");
             playerr = new FileInputStream("src/main/resources/player.png");
             playerOverGrasss = new FileInputStream("src/main/resources/playerOverGrass.jpg");
+            autumnTreee = new FileInputStream("src/main/resources/Trees/grassAutumnTree.png");
+            fruitTreee = new FileInputStream("src/main/resources/Trees/grassFruitTree.png");
+            normalTreee = new FileInputStream("src/main/resources/Trees/grassTree.png");
 
             grass = new Image(grasss);
             player = new Image(playerr);
             playerOverGrass = new Image(playerOverGrasss);
+            autumnTree = new Image(autumnTreee);
+            fruitTree = new Image(fruitTreee);
+            normalTree = new Image(normalTreee);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
@@ -84,6 +90,8 @@ public class HelloController {
 //        img[12][20].setImage(null);
         map[98][160] = "null";
         map[99][163] = "playerOverGrass";
+//        map[30][160] = "normalTree";
+        createBiomes();
 
 
         gPane.setGridLinesVisible(true);
@@ -105,11 +113,23 @@ public class HelloController {
                 else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("playerOverGrass")){
                     img[i][j].setImage(playerOverGrass); //steve
                 }
+                else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("normalTree")){
+                    img[i][j].setImage(normalTree); //steve
+                }
+                else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("fruitTree")){
+                    img[i][j].setImage(fruitTree); //steve
+                }
+                else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("autumnTree")){
+                    img[i][j].setImage(autumnTree); //steve
+                }
                 else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("null")){
                     img[i][j].setImage(null); //steve
                 }
             }
         }
+//        img[12][20].setImage(normalTree);
+//        img[12][18].setImage(fruitTree);
+//        img[12][16].setImage(autumnTree);
 
 
     }
@@ -124,7 +144,7 @@ public class HelloController {
     }
 
     public void onKeyPressed(KeyEvent keyEvent) {
-        System.out.println(keyEvent.getText());
+//        System.out.println(keyEvent.getText());
         if(keyEvent.getText().equalsIgnoreCase("w")){
             map[playerPositionX][playerPositionY] = "grass";
             playerPositionX -=1;
@@ -146,5 +166,35 @@ public class HelloController {
             map[playerPositionX][playerPositionY] = "playerOverGrass";
         }
         updateScreen();
+        System.out.println("X: " + playerPositionX + " Y: " + playerPositionY);
+    }
+
+
+    private void createBiomes(){
+        for (int i = 10; i < 40; i++) {
+            for (int j = 20; j < 50; j++) {
+                int random = (int)(Math.random()*8);
+                if(random == 0){
+                    map[i][j] = "normalTree";
+                }
+            }
+        }
+        for (int i = 60; i < 90; i++) {
+            for (int j = 70; j < 120; j++) {
+                int random = (int)(Math.random()*8);
+                if(random == 0){
+                    map[i][j] = "fruitTree";
+                }
+            }
+        }
+        for (int i = 10; i < 40; i++) {
+            for (int j = 70; j < 120; j++) {
+                int random = (int)(Math.random()*8);
+                if(random == 0){
+                    map[i][j] = "autumnTree";
+                }
+            }
+        }
+
     }
 }
