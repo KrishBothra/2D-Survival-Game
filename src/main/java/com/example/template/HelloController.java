@@ -1,12 +1,16 @@
 package com.example.template;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.FileInputStream;
@@ -17,6 +21,8 @@ public class HelloController {
     private Label lbl;
     @FXML
     private GridPane gPane;
+    @FXML
+    private AnchorPane anchor;
 
     @FXML
     private TextField txtField;
@@ -84,7 +90,9 @@ public class HelloController {
 
         updateScreen();
 
-       
+
+
+
 
     }
 
@@ -112,6 +120,31 @@ public class HelloController {
         playerPositionX -=2;
         playerPositionY -= 5;
         map[playerPositionX][playerPositionY] = "playerOverGrass";
+        updateScreen();
+    }
+
+    public void onKeyPressed(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getText());
+        if(keyEvent.getText().equalsIgnoreCase("w")){
+            map[playerPositionX][playerPositionY] = "grass";
+            playerPositionX -=1;
+            map[playerPositionX][playerPositionY] = "playerOverGrass";
+        }
+        else if(keyEvent.getText().equalsIgnoreCase("a")){
+            map[playerPositionX][playerPositionY] = "grass";
+            playerPositionY -= 1;
+            map[playerPositionX][playerPositionY] = "playerOverGrass";
+        }
+        else if(keyEvent.getText().equalsIgnoreCase("s")){
+            map[playerPositionX][playerPositionY] = "grass";
+            playerPositionX +=1;
+            map[playerPositionX][playerPositionY] = "playerOverGrass";
+        }
+        else if(keyEvent.getText().equalsIgnoreCase("d")){
+            map[playerPositionX][playerPositionY] = "grass";
+            playerPositionY += 1;
+            map[playerPositionX][playerPositionY] = "playerOverGrass";
+        }
         updateScreen();
     }
 }
