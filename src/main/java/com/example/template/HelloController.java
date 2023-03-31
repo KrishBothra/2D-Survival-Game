@@ -28,7 +28,7 @@ public class HelloController {
     ImageView[][] img = new ImageView[x][y];
 
     String[][] map = new String[x*8+1][y*8+1]; //100 //164
-    Image grass;
+
 
 //    int changeX = 0;
 //    int changeY = 0;
@@ -38,14 +38,19 @@ public class HelloController {
 
     //12,20----13,21
 
-    FileInputStream grasss;
+    FileInputStream grasss,playerr,playerOverGrasss;
+    Image grass,player,playerOverGrass;
 
     public HelloController(){
 
         try {
             grasss = new FileInputStream("src/main/resources/grass.PNG");
+            playerr = new FileInputStream("src/main/resources/player.png");
+            playerOverGrasss = new FileInputStream("src/main/resources/playerOverGrass.jpg");
 
             grass = new Image(grasss);
+            player = new Image(playerr);
+            playerOverGrass = new Image(playerOverGrasss);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
@@ -72,7 +77,7 @@ public class HelloController {
 
 //        img[12][20].setImage(null);
         map[98][160] = "null";
-        map[99][163] = "null";
+        map[99][163] = "playerOverGrass";
 
 
         gPane.setGridLinesVisible(true);
@@ -89,6 +94,9 @@ public class HelloController {
                 if(map[playerPositionX-12+i][playerPositionY-20+j].equals("grass")){
                     img[i][j].setImage(grass);
                 }
+                else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("playerOverGrass")){
+                    img[i][j].setImage(playerOverGrass); //steve
+                }
                 else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("null")){
                     img[i][j].setImage(null); //steve
                 }
@@ -99,11 +107,11 @@ public class HelloController {
     }
 
 
-    public void onClick2(ActionEvent event) {
+    public void onClick2() {
         map[playerPositionX][playerPositionY] = "grass";
         playerPositionX -=2;
         playerPositionY -= 5;
-        map[playerPositionX][playerPositionY] = "null";
+        map[playerPositionX][playerPositionY] = "playerOverGrass";
         updateScreen();
     }
 }
