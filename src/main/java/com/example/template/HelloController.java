@@ -146,29 +146,36 @@ public class HelloController {
     public void onKeyPressed(KeyEvent keyEvent) {
 //        System.out.println(keyEvent.getText());
         if(keyEvent.getText().equalsIgnoreCase("w")){
-            map[playerPositionX][playerPositionY] = "grass";
-            playerPositionX -=1;
-            map[playerPositionX][playerPositionY] = "playerOverGrass";
+            movePlayer("x",-1);
         }
         else if(keyEvent.getText().equalsIgnoreCase("a")){
-            map[playerPositionX][playerPositionY] = "grass";
-            playerPositionY -= 1;
-            map[playerPositionX][playerPositionY] = "playerOverGrass";
+            movePlayer("y",-1);
         }
         else if(keyEvent.getText().equalsIgnoreCase("s")){
-            map[playerPositionX][playerPositionY] = "grass";
-            playerPositionX +=1;
-            map[playerPositionX][playerPositionY] = "playerOverGrass";
+            movePlayer("x",1);
         }
         else if(keyEvent.getText().equalsIgnoreCase("d")){
-            map[playerPositionX][playerPositionY] = "grass";
-            playerPositionY += 1;
-            map[playerPositionX][playerPositionY] = "playerOverGrass";
+            movePlayer("y",1);
         }
         updateScreen();
         System.out.println("X: " + playerPositionX + " Y: " + playerPositionY);
     }
 
+    public void movePlayer(String dirStr,int dirNum){
+        if(dirStr.equals("x")){
+            if(map[playerPositionX+dirNum][playerPositionY].equals("grass")) {
+                map[playerPositionX][playerPositionY] = "grass";
+                playerPositionX += dirNum;
+                map[playerPositionX][playerPositionY] = "playerOverGrass";
+            }
+        } else if (dirStr.equals("y")) {
+            if(map[playerPositionX][playerPositionY+dirNum].equals("grass")) {
+                map[playerPositionX][playerPositionY] = "grass";
+                playerPositionY += dirNum;
+                map[playerPositionX][playerPositionY] = "playerOverGrass";
+            }
+        }
+    }
 
     private void createBiomes(){
         for (int i = 10; i < 40; i++) {
