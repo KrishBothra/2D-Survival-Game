@@ -44,8 +44,8 @@ public class HelloController {
 
     //12,20----13,21
 
-    FileInputStream grasss,playerr,playerOverGrasss, autumnTreee, fruitTreee, normalTreee;
-    Image grass,player,playerOverGrass, autumnTree, fruitTree, normalTree;
+    FileInputStream grasss,playerr,playerOverGrasss, autumnTreee, fruitTreee, normalTreee,grassWXx;
+    Image grass,player,playerOverGrass, autumnTree, fruitTree, normalTree,grassWX;
 
     public HelloController(){
 
@@ -56,6 +56,7 @@ public class HelloController {
             autumnTreee = new FileInputStream("src/main/resources/Trees/grassAutumnTree.png");
             fruitTreee = new FileInputStream("src/main/resources/Trees/grassFruitTree.png");
             normalTreee = new FileInputStream("src/main/resources/Trees/grassTree.png");
+            grassWXx = new FileInputStream("src/main/resources/grassWX.jpg");
 
             grass = new Image(grasss);
             player = new Image(playerr);
@@ -63,6 +64,7 @@ public class HelloController {
             autumnTree = new Image(autumnTreee);
             fruitTree = new Image(fruitTreee);
             normalTree = new Image(normalTreee);
+            grassWX = new Image(grassWXx);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
@@ -84,8 +86,12 @@ public class HelloController {
         for(int i = 0; i<map.length; i++){
             for (int j = 0; j < map[0].length; j++) {
                 map[i][j] = "grass";
+                if(i ==0||i == map.length - 1||j ==0||j == map[0].length - 1){
+                    map[i][j] = "grassWX";
+                }
             }
         }
+
 
 //        img[12][20].setImage(null);
         map[98][160] = "null";
@@ -109,6 +115,9 @@ public class HelloController {
             for (int j = 0; j < img[0].length; j++) {
                 if(map[playerPositionX-12+i][playerPositionY-20+j].equals("grass")){
                     img[i][j].setImage(grass);
+                }
+                else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("grassWX")){
+                    img[i][j].setImage(grassWX); //steve
                 }
                 else if(map[playerPositionX-12+i][playerPositionY-20+j].equals("playerOverGrass")){
                     img[i][j].setImage(playerOverGrass); //steve
