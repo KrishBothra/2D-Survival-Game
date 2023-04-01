@@ -42,6 +42,9 @@ public class HelloController {
     int playerPositionX = 99;//-1
     int playerPositionY = 163;//-1
 
+    int tempPlayerPositionX;//-1
+    int tempPlayerPositionY;//-1
+
     //12,20----13,21
 
     FileInputStream grasss,playerr,playerOverGrasss, autumnTreee, fruitTreee, normalTreee,grassWXx;
@@ -136,21 +139,50 @@ public class HelloController {
                 }
             }
         }
+        tempPlayerPositionX = playerPositionX;
+        tempPlayerPositionY = playerPositionY;
 //        img[12][20].setImage(normalTree);
 //        img[12][18].setImage(fruitTree);
 //        img[12][16].setImage(autumnTree);
+    }
 
+    private void updateScreenEdge(){
+        System.out.println("hey");
+        for(int i = 0; i< img.length; i++){
+            for (int j = 0; j < img[0].length; j++) {
+                if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("grass")){
+                    img[i][j].setImage(grass);
+                }
+                else if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("grassWX")){
+                    img[i][j].setImage(grassWX); //steve
+                }
+                else if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("playerOverGrass")){
+                    img[i][j].setImage(playerOverGrass); //steve
+                }
+                else if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("normalTree")){
+                    img[i][j].setImage(normalTree); //steve
+                }
+                else if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("fruitTree")){
+                    img[i][j].setImage(fruitTree); //steve
+                }
+                else if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("autumnTree")){
+                    img[i][j].setImage(autumnTree); //steve
+                }
+                else if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("null")){
+                    img[i][j].setImage(null); //steve
+                }
+            }
+        }
 
     }
 
-
-    public void onClick2() {
-        map[playerPositionX][playerPositionY] = "grass";
-        playerPositionX -=2;
-        playerPositionY -= 5;
-        map[playerPositionX][playerPositionY] = "playerOverGrass";
-        updateScreen();
-    }
+//    public void onClick2() {
+//        map[playerPositionX][playerPositionY] = "grass";
+//        playerPositionX -=2;
+//        playerPositionY -= 5;
+//        map[playerPositionX][playerPositionY] = "playerOverGrass";
+//        updateScreen();
+//    }
 
     public void onKeyPressed(KeyEvent keyEvent) {
 //        System.out.println(keyEvent.getText());
@@ -166,8 +198,18 @@ public class HelloController {
         else if(keyEvent.getText().equalsIgnoreCase("d")){
             movePlayer("y",1);
         }
-        updateScreen();
         System.out.println("X: " + playerPositionX + " Y: " + playerPositionY);
+        if(playerPositionY<20||playerPositionY>308||playerPositionX<12||playerPositionX>188){
+            if (!(playerPositionY<20||playerPositionY>308)){
+               tempPlayerPositionY = playerPositionY;
+            }
+            if(!(playerPositionX<12||playerPositionX>188)){
+                tempPlayerPositionX = playerPositionX;
+            }
+            updateScreenEdge();
+        }else {
+            updateScreen();
+        }
     }
 
     public void movePlayer(String dirStr,int dirNum){
