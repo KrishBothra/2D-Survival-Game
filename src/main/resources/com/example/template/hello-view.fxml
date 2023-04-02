@@ -7,10 +7,10 @@
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
 
-      <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
+
       <Button fx:id="start" layoutX="369.0" layoutY="318.0" mnemonicParsing="false" onAction="#onClick" text="Start" />
       <Button fx:id="start2" layoutX="369.0" layoutY="200.0" mnemonicParsing="false"  text="Start" visible="false"/>
-
+      <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
 
 
 
