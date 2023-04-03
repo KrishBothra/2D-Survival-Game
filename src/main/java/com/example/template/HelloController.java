@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class HelloController {
     @FXML
@@ -38,6 +39,7 @@ public class HelloController {
 
     String[][] map = new String[x*8+1][y*8+1]; //100 //164
 
+    private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
 
 
@@ -82,6 +84,8 @@ public class HelloController {
 
     @FXML
     private void onClick(){
+        biomeNameList.add("fruitTree"); biomeNameList.add("normalTree"); biomeNameList.add("autumnTree");
+
         arrowImg.setImage(arrow);
         for(int i = 0; i<img.length; i++){
             for (int j = 0; j < img[0].length; j++) {
@@ -300,30 +304,64 @@ public class HelloController {
     }
 
     private void createBiomes(){
-        for (int i = 10; i < 40; i++) {
-            for (int j = 20; j < 50; j++) {
-                int random = (int)(Math.random()*8);
-                if(random == 0){
-                    map[i][j] = "normalTree";
-                }
-            }
-        }
-        for (int i = 60; i < 90; i++) {
-            for (int j = 70; j < 120; j++) {
-                int random = (int)(Math.random()*8);
-                if(random == 0){
-                    map[i][j] = "fruitTree";
-                }
-            }
-        }
-        for (int i = 10; i < 40; i++) {
-            for (int j = 70; j < 120; j++) {
-                int random = (int)(Math.random()*8);
-                if(random == 0){
-                    map[i][j] = "autumnTree";
-                }
-            }
-        }
+        int startX;
+        int startY;
+        int lengthX;
+        int lengthY;
+        boolean valid = false;
+        for (int p = 0; p < 5; p++) {
+            lengthX = (int)(Math.random()*9)+25;
+            lengthY = (int)(Math.random()*15)+25;
+            startX = (int)(Math.random()*(100-lengthX));
+            startY = (int)(Math.random()*(164-lengthY));
 
+            if(biomeNameList.size()==0){
+                biomeNameList.add("fruitTree"); biomeNameList.add("normalTree"); biomeNameList.add("autumnTree");
+            }else{
+                switch (biomeNameList.get(0)) {
+                    case "normalTree":
+                        System.out.println("normal " + startX + " " + startY + " " + lengthX + " " + lengthY);
+                        biomeNameList.remove("normalTree");
+                        for (int i = startX; i < startX+lengthX; i++) {
+                            for (int j = startY; j < startY+lengthY; j++) {
+                                int random = (int) (Math.random() * 8);
+                                if (random == 0) {
+                                    if (map[i][j].equals("grass")) {
+                                        map[i][j] = "normalTree";
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case "fruitTree":
+                        System.out.println("fruit " + startX + " " + startY + " " + lengthX + " " + lengthY);
+                        biomeNameList.remove("fruitTree");
+                        for (int i = startX; i < startX+lengthX; i++) {
+                            for (int j = startY; j < startY+lengthY; j++) {
+                                int random = (int) (Math.random() * 8);
+                                if (random == 0) {
+                                    if (map[i][j].equals("grass")) {
+                                        map[i][j] = "fruitTree";
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case "autumnTree":
+                        System.out.println("autumn " + startX + " " + startY + " " + lengthX + " " + lengthY);
+                        biomeNameList.remove("autumnTree");
+                        for (int i = startX; i < startX+lengthX; i++) {
+                            for (int j = startY; j < startY+lengthY; j++) {
+                                int random = (int) (Math.random() * 8);
+                                if (random == 0) {
+                                    map[i][j] = "autumnTree";
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+
+        }
     }
 }
