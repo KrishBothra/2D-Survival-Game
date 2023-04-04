@@ -42,6 +42,7 @@ public class HelloController {
 
     private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
+    private ArrayList<Biome> biomeArrayList = new ArrayList<>();
     private ArrayList<mineObjects> mineObjectsOnMap = new ArrayList<>();
 
 
@@ -162,7 +163,7 @@ public class HelloController {
     }
 
     private void updateScreenEdge(){
-        System.out.println("hey");
+//        System.out.println("hey");
         for(int i = 0; i< img.length; i++){
             for (int j = 0; j < img[0].length; j++) {
                 if(map[tempPlayerPositionX-12+i][tempPlayerPositionY-20+j].equals("grass")){
@@ -236,7 +237,6 @@ public class HelloController {
             arrowImg.setImage(arrow);
             arrowImg.setRotate(0);
         }
-        System.out.println("X: " + playerPositionX + " Y: " + playerPositionY);
         if(playerPositionY<20||playerPositionY>308||playerPositionX<12||playerPositionX>188){
             if (!(playerPositionY<20||playerPositionY>308)){
                tempPlayerPositionY = playerPositionY;
@@ -323,15 +323,57 @@ public class HelloController {
         int startY;
         int lengthX;
         int lengthY;
+        int randNum;
         boolean valid = false;
         for (int p = 0; p < 5; p++) {
             lengthX = (int)(Math.random()*9)+25;
             lengthY = (int)(Math.random()*15)+25;
-            startX = (int)(Math.random()*(100-lengthX));
-            startY = (int)(Math.random()*(164-lengthY));
+            startX = (int)(Math.random()*(98-lengthX))+1;
+            startY = (int)(Math.random()*(162-lengthY))+1;
 
             if(biomeNameList.size()==0){
                 biomeNameList.add("fruitTree"); biomeNameList.add("normalTree"); biomeNameList.add("autumnTree");
+            }
+
+            randNum = (int)(Math.random()*biomeNameList.size());
+
+            switch (biomeNameList.get(randNum)) {
+                case "normalTree":
+                    biomeArrayList.add(new Biome(startX, startY, startX+lengthX, startY + lengthY, 0));
+                    biomeNameList.remove("normalTree");
+                    for (int i = startX; i < startX+lengthX; i++) {
+                        for (int j = startY; j < startY+lengthY; j++) {
+                            int random = (int) (Math.random() * 8);
+                            if (random == 0) {
+                                if (map[i][j].equals("grass")) {
+                                    map[i][j] = "normalTree";
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case "fruitTree":
+                    biomeArrayList.add(new Biome(startX, startY, startX+lengthX, startY + lengthY, 0));
+                    biomeNameList.remove("fruitTree");
+                    for (int i = startX; i < startX+lengthX; i++) {
+                        for (int j = startY; j < startY+lengthY; j++) {
+                            int random = (int) (Math.random() * 8);
+                            if (random == 0) {
+                                if (map[i][j].equals("grass")) {
+                                    map[i][j] = "fruitTree";
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case "autumnTree":
+                    biomeArrayList.add(new Biome(startX, startY, startX+lengthX, startY + lengthY, 0));
+                    biomeNameList.remove("autumnTree");
+                    for (int i = startX; i < startX+lengthX; i++) {
+                        for (int j = startY; j < startY+lengthY; j++) {
+                            int random = (int) (Math.random() * 8);
+                            if (random == 0) {
+                                if (map[i][j].equals("grass")) {
             }else{
                 switch (biomeNameList.get(0)) {
                     case "normalTree":
@@ -375,10 +417,12 @@ public class HelloController {
                                 }
                             }
                         }
-                        break;
-                }
+                    }
+                    break;
             }
-
         }
-    }
+        for(Biome biome: biomeArrayList){
+            System.out.println(biome.getSx() + " " + biome.getSy() + " " + biome.getEx() + " " + biome.getEy());
+        }
+        }
 }
