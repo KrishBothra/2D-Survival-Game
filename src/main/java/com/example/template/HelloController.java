@@ -1,15 +1,13 @@
 package com.example.template;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -31,6 +29,9 @@ public class HelloController {
     @FXML
     private ImageView arrowImg;
 
+    @FXML
+    private ProgressBar miningBar;
+
     private int x = 25;
 
     private int y = 41;
@@ -41,6 +42,8 @@ public class HelloController {
 
     private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
+    private ArrayList<mineObjects> mineObjectsOnMap = new ArrayList<>();
+
 
 
 //    int changeX = 0;
@@ -117,6 +120,7 @@ public class HelloController {
         gPane.setGridLinesVisible(true);
 
         updateScreen();
+        start();
 
 
 
@@ -195,6 +199,7 @@ public class HelloController {
 //        updateScreen();
 //    }
 
+
     public void onKeyPressed(KeyEvent keyEvent) {
 //        System.out.println(keyEvent.getText());
         if(keyEvent.getText().equalsIgnoreCase("w")){
@@ -244,6 +249,16 @@ public class HelloController {
             updateScreen();
         }
     }
+
+    public void start() {
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+
+            }
+        }.start();
+    }
+
 
     private void interact() {
         int directionChange = 0;
@@ -328,6 +343,7 @@ public class HelloController {
                                 if (random == 0) {
                                     if (map[i][j].equals("grass")) {
                                         map[i][j] = "normalTree";
+                                        mineObjectsOnMap.add(new mineObjects("normalTree",(int)(Math.random()*5)+5,new Resources("normalPlanks"),(int)(Math.random()*2)+3));
                                     }
                                 }
                             }
@@ -342,6 +358,7 @@ public class HelloController {
                                 if (random == 0) {
                                     if (map[i][j].equals("grass")) {
                                         map[i][j] = "fruitTree";
+                                        mineObjectsOnMap.add(new mineObjects("fruitTree",(int)(Math.random()*5)+7,new Resources("fruitPlanks"),(int)(Math.random()*2)+3));
                                     }
                                 }
                             }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,6 +14,7 @@
       <Button fx:id="start2" layoutX="369.0" layoutY="200.0" mnemonicParsing="false" text="Start" visible="false" />
       <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="892.0" pickOnBounds="true" preserveRatio="true" />
+      <ProgressBar fx:id="miningBar" layoutX="1381.0" layoutY="985.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" />
 
 
 
