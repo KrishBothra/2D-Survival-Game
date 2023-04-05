@@ -326,6 +326,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
+                                    mineObjectsOnMap.add(new mineObjects("normalTree",(int)(Math.random()*5)+5,new Resources("normalPlanks"),(int)(Math.random()*2)+3));
                                     map[i][j] = "normalTree";
                                 }
                             }
