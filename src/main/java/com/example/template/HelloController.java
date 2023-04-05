@@ -57,8 +57,8 @@ public class HelloController {
 
     //12,20----13,21
 
-    FileInputStream grasss, playerr, playerOverGrasss, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww;
-    Image grass, player, playerOverGrass, autumnTree, fruitTree, normalTree, grassWX, arrow;
+    FileInputStream grasss, playerr, playerOverGrasss, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee;
+    Image grass, player, playerOverGrass, autumnTree, fruitTree, normalTree, grassWX, arrow, stone;
 
     public HelloController() {
 
@@ -71,6 +71,7 @@ public class HelloController {
             normalTreee = new FileInputStream("src/main/resources/Trees/grassTree.png");
             grassWXx = new FileInputStream("src/main/resources/grassWX.jpg");
             arroww = new FileInputStream("src/main/resources/arrow.png");
+            stonee = new FileInputStream("src/main/resources/stone.jpg");
 
             grass = new Image(grasss);
             player = new Image(playerr);
@@ -80,6 +81,7 @@ public class HelloController {
             normalTree = new Image(normalTreee);
             grassWX = new Image(grassWXx);
             arrow = new Image(arroww);
+            stone = new Image(stonee);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -90,6 +92,7 @@ public class HelloController {
         biomeNameList.add("fruitTree");
         biomeNameList.add("normalTree");
         biomeNameList.add("autumnTree");
+        biomeNameList.add("stone");
 
         arrowImg.setImage(arrow);
         for (int i = 0; i < img.length; i++) {
@@ -142,9 +145,12 @@ public class HelloController {
                     img[i][j].setImage(fruitTree); //steve
                 } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnTree")) {
                     img[i][j].setImage(autumnTree); //steve
+                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stone")) {
+                    img[i][j].setImage(stone);
                 } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
                     img[i][j].setImage(null); //steve
                 }
+
             }
         }
         tempPlayerPositionX = playerPositionX;
@@ -170,7 +176,9 @@ public class HelloController {
                     img[i][j].setImage(fruitTree);
                 } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnTree")) {
                     img[i][j].setImage(autumnTree);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
+                }  else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stone")) {
+                        img[i][j].setImage(stone);
+                }  else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
                     img[i][j].setImage(null);
                 }
             }
@@ -313,12 +321,14 @@ public class HelloController {
                 biomeNameList.add("fruitTree");
                 biomeNameList.add("normalTree");
                 biomeNameList.add("autumnTree");
+                biomeNameList.add("stone");
             }
 
             randNum = (int) (Math.random() * biomeNameList.size());
 
             switch (biomeNameList.get(randNum)) {
                 case "normalTree":
+                    System.out.println("normal");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
                     biomeNameList.remove("normalTree");
                     for (int i = startX; i < startX + lengthX; i++) {
@@ -334,6 +344,7 @@ public class HelloController {
                     }
                     break;
                 case "fruitTree":
+                    System.out.println("fruit");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
                     biomeNameList.remove("fruitTree");
                     for (int i = startX; i < startX + lengthX; i++) {
@@ -348,6 +359,7 @@ public class HelloController {
                     }
                     break;
                 case "autumnTree":
+                    System.out.println("autumn");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
                     biomeNameList.remove("autumnTree");
                     for (int i = startX; i < startX + lengthX; i++) {
@@ -358,6 +370,25 @@ public class HelloController {
                                     map[i][j] = "autumnTree";
                                 }
                             }
+                        }
+                    }
+                case "stone":
+                    System.out.println("stone");
+                    biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
+                    biomeNameList.remove("stone");
+                    for (int i = startX; i < startX + lengthX; i++) {
+                        for (int j = startY; j < startY + lengthY; j++) {
+                            if(i == startX && j == startY){
+                                if((int)(Math.random()*2)==0){
+                                    map[i][j] = "stone";
+                                }
+                            }else{
+                                if (map[i][j].equals("grass")) {
+                                    map[i][j] = "stone";
+                                }
+
+                            }
+
                         }
                     }
             }
