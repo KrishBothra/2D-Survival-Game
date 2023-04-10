@@ -60,6 +60,7 @@ public class HelloController {
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water;
+    private boolean miningObject = false;
 
     public HelloController() {
 
@@ -236,32 +237,34 @@ public class HelloController {
 
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
-        if (keyEvent.getText().equalsIgnoreCase("w")) {
-            movePlayer("x", -1);
-        } else if (keyEvent.getText().equalsIgnoreCase("a")) {
-            movePlayer("y", -1);
-        } else if (keyEvent.getText().equalsIgnoreCase("s")) {
-            movePlayer("x", 1);
-        } else if (keyEvent.getText().equalsIgnoreCase("d")) {
-            movePlayer("y", 1);
-        } else if (keyEvent.getText().equalsIgnoreCase("e")) {
-            interact();
-        } else if (keyEvent.getText().equalsIgnoreCase("i")) {
-            directionInter = "up";
-            arrowImg.setImage(arrow);
-            arrowImg.setRotate(270);
-        } else if (keyEvent.getText().equalsIgnoreCase("j")) {
-            directionInter = "left";
-            arrowImg.setImage(arrow);
-            arrowImg.setRotate(180);
-        } else if (keyEvent.getText().equalsIgnoreCase("k")) {
-            directionInter = "down";
-            arrowImg.setImage(arrow);
-            arrowImg.setRotate(90);
-        } else if (keyEvent.getText().equalsIgnoreCase("l")) {
-            directionInter = "right";
-            arrowImg.setImage(arrow);
-            arrowImg.setRotate(0);
+        if(!miningObject) {
+            if (keyEvent.getText().equalsIgnoreCase("w")) {
+                movePlayer("x", -1);
+            } else if (keyEvent.getText().equalsIgnoreCase("a")) {
+                movePlayer("y", -1);
+            } else if (keyEvent.getText().equalsIgnoreCase("s")) {
+                movePlayer("x", 1);
+            } else if (keyEvent.getText().equalsIgnoreCase("d")) {
+                movePlayer("y", 1);
+            } else if (keyEvent.getText().equalsIgnoreCase("e")) {
+                interact();
+            } else if (keyEvent.getText().equalsIgnoreCase("i")) {
+                directionInter = "up";
+                arrowImg.setImage(arrow);
+                arrowImg.setRotate(270);
+            } else if (keyEvent.getText().equalsIgnoreCase("j")) {
+                directionInter = "left";
+                arrowImg.setImage(arrow);
+                arrowImg.setRotate(180);
+            } else if (keyEvent.getText().equalsIgnoreCase("k")) {
+                directionInter = "down";
+                arrowImg.setImage(arrow);
+                arrowImg.setRotate(90);
+            } else if (keyEvent.getText().equalsIgnoreCase("l")) {
+                directionInter = "right";
+                arrowImg.setImage(arrow);
+                arrowImg.setRotate(0);
+            }
         }
         if (playerPositionY < 20 || playerPositionY > 308 || playerPositionX < 12 || playerPositionX > 188) {
             if (!(playerPositionY < 20 || playerPositionY > 308)) {
@@ -280,7 +283,9 @@ public class HelloController {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-
+                if(miningObject){
+                    
+                }
             }
         }.start();
     }
@@ -300,6 +305,7 @@ public class HelloController {
         if (directionInter.equals("up") || directionInter.equals("down")) {
             switch (map[playerPositionX + directionChange][playerPositionY]) {
                 case "normalTree":
+                    miningObject = true;
                     map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "fruitTree":
@@ -313,6 +319,7 @@ public class HelloController {
         } else {
             switch (map[playerPositionX][playerPositionY + directionChange]) {
                 case "normalTree":
+                    miningObject = true;
                     map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "fruitTree":
@@ -429,7 +436,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("normalTree",(int)(Math.random()*5)+5,new Resources("normalPlanks"),(int)(Math.random()*2)+3));
+                                    mineObjectsOnMap.add(new mineObjects("normalTree",(int)(Math.random()*5)+5,new Resources("normalPlanks"),(int)(Math.random()*2)+3,i,j));
                                     map[i][j] = "normalTree";
                                 }
                             }
