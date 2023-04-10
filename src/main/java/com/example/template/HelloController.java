@@ -37,6 +37,8 @@ public class HelloController {
 
     private int y = 41;
 
+    private long miningTime = System.nanoTime();
+
     ImageView[][] img = new ImageView[x][y];
 
     String[][] map = new String[x * 8 + 1][y * 8 + 1]; //100 //164
@@ -287,7 +289,12 @@ public class HelloController {
             @Override
             public void handle(long now) {
                 if(miningObject){
-                    
+                    //1000000000.0
+                    if(now-miningTime>1000000000.0){
+                        miningTime = System.nanoTime();
+                    }
+
+
                 }
             }
         }.start();
