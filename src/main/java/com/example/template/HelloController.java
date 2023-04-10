@@ -430,12 +430,18 @@ public class HelloController {
                                 valid = false;
                                 System.out.println("not stone");
                                 break;
+                            }else if(startX<=99&&startX+lengthX>=99&&startY<=163&&startY+lengthY>=163){
+                                valid = false;
+                                System.out.println("not stone");
                             }
                         } else if(biomeNameList.get(randNum).equals("water")){
                             if (!map[i][j].equals("water")&&!map[i][j].equals("grass")){
                                 valid = false;
                                 System.out.println("not water");
                                 break;
+                            }else if(startX<=99&&startX+lengthX>=99&&startY<=163&&startY+lengthY>=163){
+                                valid = false;
+                                System.out.println("not stone");
                             }
                         }
                     }
