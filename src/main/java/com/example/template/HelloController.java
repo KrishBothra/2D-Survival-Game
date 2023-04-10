@@ -46,6 +46,8 @@ public class HelloController {
     private ArrayList<Biome> biomeArrayList = new ArrayList<>();
     private ArrayList<mineObjects> mineObjectsOnMap = new ArrayList<>();
 
+    private Resources[] hotbar = new Resources[5];
+
 
 //    int changeX = 0;
 //    int changeY = 0;
@@ -109,6 +111,7 @@ public class HelloController {
         biomeNameList.add("autumnTree");
         biomeNameList.add("stone");
         biomeNameList.add("water");
+        hotbar[0] = new Resources("diamond");
 
         arrowImg.setImage(arrow);
         for (int i = 0; i < img.length; i++) {
@@ -314,6 +317,9 @@ public class HelloController {
                 case "autumnTree":
                     map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
+                case "grass", "stone":
+                    map[playerPositionX + directionChange][playerPositionY] = hotbar[0].getName();
+                    break;
             }
 
         } else {
@@ -327,6 +333,9 @@ public class HelloController {
                     break;
                 case "autumnTree":
                     map[playerPositionX][playerPositionY + directionChange] = "grass";
+                    break;
+                case "grass", "stone":
+                    map[playerPositionX][playerPositionY + directionChange] = hotbar[0].getName();
                     break;
             }
         }
