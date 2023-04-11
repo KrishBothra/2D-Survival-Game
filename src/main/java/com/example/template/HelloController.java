@@ -11,10 +11,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class HelloController {
     @FXML
@@ -61,6 +64,8 @@ public class HelloController {
     int tempPlayerPositionY;//-1
 
     //12,20----13,21
+    MediaPlayer mediaPlayer;
+    Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water;
@@ -85,6 +90,9 @@ public class HelloController {
             goldd = new FileInputStream("src/main/resources/gold.png");
             waterr = new FileInputStream("src/main/resources/water.jpg");
 
+            sound = new Media(new File("src/main/resources/goofy.mp3").toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+
 
             grass = new Image(grasss);
             player = new Image(playerr);
@@ -108,6 +116,7 @@ public class HelloController {
 
     @FXML
     private void onClick() {
+        mediaPlayer.play();
         biomeNameList.add("fruitTree");
         biomeNameList.add("normalTree");
         biomeNameList.add("autumnTree");
