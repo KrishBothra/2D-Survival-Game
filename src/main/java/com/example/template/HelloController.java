@@ -53,6 +53,8 @@ public class HelloController {
 
     private Resources[] hotbar = new Resources[5];
 
+    private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
+
 
 //    int changeX = 0;
 //    int changeY = 0;
@@ -67,11 +69,16 @@ public class HelloController {
     MediaPlayer mediaPlayer;
     Media sound;
 
-    FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr;
-    Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water;
+    FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee;
+    Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone;
     private boolean miningObject = false;
 
     public HelloController() {
+        fruitQuest = false;
+        normalQuest = false;
+        autumnQuest = false;
+        stoneQuest = false;
+        waterQuest = false;
 
         try {
             grasss = new FileInputStream("src/main/resources/grass.PNG");
@@ -89,9 +96,12 @@ public class HelloController {
             rubyy = new FileInputStream("src/main/resources/ruby.png");
             goldd = new FileInputStream("src/main/resources/gold.png");
             waterr = new FileInputStream("src/main/resources/water.jpg");
+            chestWaterr = new FileInputStream("src/main/resources/chestWater.png");
+            mailboxGrasss = new FileInputStream("src/main/resources/mailboxGrass.png");
+            mailboxStonee = new FileInputStream("src/main/resources/mailboxStone.png");
 
-            sound = new Media(new File("src/main/resources/goofy.mp3").toURI().toString());
-            mediaPlayer = new MediaPlayer(sound);
+//            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
+//            mediaPlayer = new MediaPlayer(sound);
 
 
             grass = new Image(grasss);
@@ -109,6 +119,9 @@ public class HelloController {
             ruby = new Image(rubyy);
             gold = new Image(goldd);
             water = new Image(waterr);
+            chestWater = new Image(chestWaterr);
+            mailboxGrass = new Image(mailboxGrasss);
+            mailboxStone = new Image(mailboxStonee);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -116,7 +129,7 @@ public class HelloController {
 
     @FXML
     private void onClick() {
-        mediaPlayer.play();
+//        mediaPlayer.play();
         biomeNameList.add("fruitTree");
         biomeNameList.add("normalTree");
         biomeNameList.add("autumnTree");
