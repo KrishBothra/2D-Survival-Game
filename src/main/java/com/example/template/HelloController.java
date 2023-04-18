@@ -62,9 +62,14 @@ public class HelloController {
     int playerPositionX = 99;//-1
     int playerPositionY = 163;//-1
 
+    boolean first = false;
+
     int tempPlayerPositionX;//-1
     int tempPlayerPositionY;//-1
 
+    int miningX;
+    int miningY;
+    mineObjects tempMine = null;
     //12,20----13,21
     MediaPlayer mediaPlayer;
     Media sound;
@@ -72,6 +77,7 @@ public class HelloController {
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone;
     private boolean miningObject = false;
+    private int tempMineTime;
 
     public HelloController() {
         fruitQuest = false;
@@ -312,8 +318,30 @@ public class HelloController {
             public void handle(long now) {
                 if(miningObject){
                     //1000000000.0
+                    if(!first) {
+                        miningBar.setVisible(true);
+                        for (mineObjects m : mineObjectsOnMap) {
+                            if (miningX == m.getX() && miningY == m.getY()) {
+                                tempMine = m;
+                                System.out.println(m.getX());
+                                System.out.println(m.getY());
+                            }
+                        }
+                        tempMineTime = tempMine.getMineTime();
+                        miningBar.setProgress(1.0);
+                        first = true;
+                    }
                     if(now-miningTime>1000000000.0){
                         miningTime = System.nanoTime();
+                        tempMineTime--;
+                        miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
+                        if(tempMineTime < 1)   {
+                            map[miningX][miningY] = "grass";
+                            miningObject = false;
+                            miningBar.setVisible(false);
+                            first = false;
+                            updateScreen();
+                        }
                     }
 
 
@@ -338,13 +366,21 @@ public class HelloController {
             switch (map[playerPositionX + directionChange][playerPositionY]) {
                 case "normalTree":
                     miningObject = true;
-                    map[playerPositionX + directionChange][playerPositionY] = "grass";
+                    miningX = playerPositionX + directionChange;
+                    miningY = playerPositionY;
+//                    map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "fruitTree":
-                    map[playerPositionX + directionChange][playerPositionY] = "grass";
+                    miningObject = true;
+                    miningX = playerPositionX + directionChange;
+                    miningY = playerPositionY;
+//                    map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "autumnTree":
-                    map[playerPositionX + directionChange][playerPositionY] = "grass";
+                    miningObject = true;
+                    miningX = playerPositionX + directionChange;
+                    miningY = playerPositionY;
+//                    map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "grass", "stone":
                     map[playerPositionX + directionChange][playerPositionY] = hotbar[0].getName();
@@ -355,13 +391,21 @@ public class HelloController {
             switch (map[playerPositionX][playerPositionY + directionChange]) {
                 case "normalTree":
                     miningObject = true;
-                    map[playerPositionX][playerPositionY + directionChange] = "grass";
+                    miningX = playerPositionX;
+                    miningY = playerPositionY + directionChange;
+//                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "fruitTree":
-                    map[playerPositionX][playerPositionY + directionChange] = "grass";
+                    miningObject = true;
+                    miningX = playerPositionX;
+                    miningY = playerPositionY + directionChange;
+//                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "autumnTree":
-                    map[playerPositionX][playerPositionY + directionChange] = "grass";
+                    miningObject = true;
+                    miningX = playerPositionX;
+                    miningY = playerPositionY + directionChange;
+//                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "grass", "stone":
                     map[playerPositionX][playerPositionY + directionChange] = hotbar[0].getName();
