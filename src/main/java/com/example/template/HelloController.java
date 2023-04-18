@@ -23,7 +23,7 @@ public class HelloController {
     @FXML
     private Label lbl, coordsLabel;
     @FXML
-    private GridPane gPane;
+    private GridPane gPane, inventoryPane;
     @FXML
     private AnchorPane anchor;
 
@@ -202,6 +202,16 @@ public class HelloController {
                     img[i][j].setImage(gold);
                 } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
                     img[i][j].setImage(water);
+                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
+                    img[i][j].setImage(mailboxGrass);
+                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnQuest")) {
+                    img[i][j].setImage(mailboxGrass);
+                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalQuest")) {
+                    img[i][j].setImage(mailboxGrass);
+                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneQuest")) {
+                    img[i][j].setImage(mailboxStone);
+                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("waterQuest")) {
+                    img[i][j].setImage(chestWater);
                 } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
                     img[i][j].setImage(null); //steve
                 }
@@ -452,7 +462,7 @@ public class HelloController {
                                 valid = false;
                                 System.out.println("not stone");
                                 break;
-                            }else if(startX<=99&&startX+lengthX>=99&&startY<=163&&startY+lengthY>=163){
+                            }else if(startX>=96&&startX+lengthX<=105&&startY>=160&&startY+lengthY<=165){
                                 valid = false;
                                 System.out.println("not stone");
                             }
@@ -461,7 +471,7 @@ public class HelloController {
                                 valid = false;
                                 System.out.println("not water");
                                 break;
-                            }else if(startX<=99&&startX+lengthX>=99&&startY<=163&&startY+lengthY>=163){
+                            }else if(startX>=96&&startX+lengthX<=105&&startY>=160&&startY+lengthY<=165){
                                 valid = false;
                                 System.out.println("not stone");
                             }
@@ -469,27 +479,37 @@ public class HelloController {
                     }
                 }
             }
+            int x = (int)(Math.random()*(lengthX))+startX;
+            int y = (int)(Math.random()*(lengthY))+startY;
 
             switch (biomeNameList.get(randNum)) {
-                case "normalTree":
+                case "normalTree" -> {
                     System.out.println("normal");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
+                    if(!normalQuest){
+                        map[x][y] = "normalQuest";
+                        normalQuest = true;
+                    }
                     biomeNameList.remove("normalTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("normalTree",(int)(Math.random()*5)+5,new Resources("normalPlanks"),(int)(Math.random()*2)+3,i,j));
+                                    mineObjectsOnMap.add(new mineObjects("normalTree", (int) (Math.random() * 5) + 5, new Resources("normalPlanks"), (int) (Math.random() * 2) + 3, i, j));
                                     map[i][j] = "normalTree";
                                 }
                             }
                         }
                     }
-                    break;
-                case "fruitTree":
+                }
+                case "fruitTree" -> {
                     System.out.println("fruit");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
+                    if(!fruitQuest){
+                        map[x][y] = "fruitQuest";
+                        fruitQuest = true;
+                    }
                     biomeNameList.remove("fruitTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
@@ -501,10 +521,14 @@ public class HelloController {
                             }
                         }
                     }
-                    break;
-                case "autumnTree":
+                }
+                case "autumnTree" -> {
                     System.out.println("autumn");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
+                    if(!autumnQuest){
+                        map[x][y] = "autumnQuest";
+                        autumnQuest = true;
+                    }
                     biomeNameList.remove("autumnTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
@@ -516,57 +540,64 @@ public class HelloController {
                             }
                         }
                     }
-                    break;
-                case "stone":
+                }
+                case "stone" -> {
                     System.out.println("stone");
                     int mineralRand;
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 1));
                     biomeNameList.remove("stone");
+                    if(!stoneQuest){
+                        map[x][y] = "stoneQuest";
+                        stoneQuest = true;
+                    }
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
-                            mineralRand = (int)(Math.random()*50);
-                            if(i == startX || j == startY || i == startX + lengthX-1 || j == startY + lengthY-1 ){
+                            mineralRand = (int) (Math.random() * 50);
+                            if (i == startX || j == startY || i == startX + lengthX - 1 || j == startY + lengthY - 1) {
 
-                                if((int)(Math.random()*2)==0){
+                                if ((int) (Math.random() * 2) == 0) {
                                     map[i][j] = "stone";
                                 }
-                            }else{
+                            } else {
                                 if (map[i][j].equals("grass")) {
-                                    if(mineralRand<4){
+                                    if (mineralRand < 4) {
                                         map[i][j] = "rock";
-                                    }else if(mineralRand<6){
+                                    } else if (mineralRand < 6) {
                                         map[i][j] = "gold";
-                                    }else if(mineralRand<8){
+                                    } else if (mineralRand < 8) {
                                         map[i][j] = "diamond";
-                                    }
-                                    else if(mineralRand<11){
+                                    } else if (mineralRand < 11) {
                                         map[i][j] = "ruby";
-                                    }else{
+                                    } else {
                                         map[i][j] = "stone";
                                     }
                                 }
                             }
                         }
                     }
-                    break;
-                case "water":
+                }
+                case "water" -> {
                     System.out.println("water");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 2));
                     biomeNameList.remove("water");
+                    if(!waterQuest){
+                        map[x][y] = "waterQuest";
+                        waterQuest = true;
+                    }
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
-                            if(i == startX || j == startY || i == startX + lengthX-1 || j == startY + lengthY-1 ){
-                                if((int)(Math.random()*2)==0){
+                            if (i == startX || j == startY || i == startX + lengthX - 1 || j == startY + lengthY - 1) {
+                                if ((int) (Math.random() * 2) == 0) {
                                     map[i][j] = "water";
                                 }
-                            }else {
+                            } else {
                                 if (map[i][j].equals("grass")) {
                                     map[i][j] = "water";
                                 }
                             }
                         }
                     }
-                    break;
+                }
             }
         }
 
