@@ -37,6 +37,10 @@ public class mineObjects {
         return y;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getMineTime() {
         return mineTime;
     }
