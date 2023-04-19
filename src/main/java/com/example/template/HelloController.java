@@ -388,6 +388,7 @@ public class HelloController {
                             }
                         }
                         tempMineTime = tempMine.getMineTime();
+                        System.out.println("MINE TIME "+tempMineTime);
                         miningBar.setProgress(1.0);
                         first = true;
                     }
@@ -396,10 +397,15 @@ public class HelloController {
                         tempMineTime--;
                         miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
                         if(tempMineTime < 1)   {
-                            map[miningX][miningY] = "grass";
+                            if(tempMine.getName().equals("autumnTree")||tempMine.getName().equals("normalTree")||tempMine.getName().equals("fruitTree")) {
+                                map[miningX][miningY] = "grass";
+                            }else{
+                                map[miningX][miningY] = "stone";
+                            }
                             miningObject = false;
                             miningBar.setVisible(false);
                             first = false;
+                            mineObjectsOnMap.remove(tempMine);
                             updateScreen();
                         }
                     }
@@ -412,30 +418,17 @@ public class HelloController {
 
 
     private void interact() {
-        int directionChange = 0;
-        if (directionInter.equals("up")) {
-            directionChange = -1;
-        } else if (directionInter.equals("down")) {
-            directionChange = 1;
-        } else if (directionInter.equals("right")) {
-            directionChange = 1;
-        } else if (directionInter.equals("left")) {
-            directionChange = -1;
-        }
+        int directionChange = switch (directionInter) {
+            case "up" -> -1;
+            case "down" -> 1;
+            case "right" -> 1;
+            case "left" -> -1;
+            default -> 0;
+        };
         if (directionInter.equals("up") || directionInter.equals("down")) {
             switch (map[playerPositionX + directionChange][playerPositionY]) {
                 case "normalTree":
-                    miningObject = true;
-                    miningX = playerPositionX + directionChange;
-                    miningY = playerPositionY;
-//                    map[playerPositionX + directionChange][playerPositionY] = "grass";
-                    break;
                 case "fruitTree":
-                    miningObject = true;
-                    miningX = playerPositionX + directionChange;
-                    miningY = playerPositionY;
-//                    map[playerPositionX + directionChange][playerPositionY] = "grass";
-                    break;
                 case "autumnTree":
                     miningObject = true;
                     miningX = playerPositionX + directionChange;
@@ -450,18 +443,13 @@ public class HelloController {
         } else {
             switch (map[playerPositionX][playerPositionY + directionChange]) {
                 case "normalTree":
-                    miningObject = true;
-                    miningX = playerPositionX;
-                    miningY = playerPositionY + directionChange;
-//                    map[playerPositionX][playerPositionY + directionChange] = "grass";
-                    break;
                 case "fruitTree":
-                    miningObject = true;
-                    miningX = playerPositionX;
-                    miningY = playerPositionY + directionChange;
-//                    map[playerPositionX][playerPositionY + directionChange] = "grass";
-                    break;
                 case "autumnTree":
+                case "rock":
+                case "gold":
+                case "ruby":
+                case "diamond":
+
                     miningObject = true;
                     miningX = playerPositionX;
                     miningY = playerPositionY + directionChange;
@@ -469,6 +457,7 @@ public class HelloController {
                     break;
                 case "grass", "stone":
                     map[playerPositionX][playerPositionY + directionChange] = hotbar[0].getName();
+                    mineObjectsOnMap.add(new mineObjects("diamond", (int) (Math.random() * 5) + 20, new Resources("diamondR"), 1, playerPositionX, playerPositionY + directionChange));
                     break;
             }
         }
@@ -590,7 +579,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("normalTree", (int) (Math.random() * 5) + 5, new Resources("normalPlanks"), (int) (Math.random() * 2) + 3, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("normalTree", (int) (Math.random() * 5) + 5, new Resources("normalWood"), (int) (Math.random() * 2) + 3, i, j));
                                     map[i][j] = "normalTree";
                                 }
                             }
@@ -610,6 +599,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
+                                    mineObjectsOnMap.add(new mineObjects("fruitTree", (int) (Math.random() * 5) + 5, new Resources("fruitWood"), (int) (Math.random() * 2) + 3,new Resources("apples"),(int) (Math.random() * 3) + 1, i, j));
                                     map[i][j] = "fruitTree";
                                 }
                             }
@@ -630,6 +620,8 @@ public class HelloController {
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
                                     map[i][j] = "autumnTree";
+                                    mineObjectsOnMap.add(new mineObjects("autumntree", (int) (Math.random() * 5) + 5, new Resources("autumnWood"), (int) (Math.random() * 2) + 3, i, j));
+
                                 }
                             }
                         }
@@ -656,12 +648,20 @@ public class HelloController {
                                 if (map[i][j].equals("grass")) {
                                     if (mineralRand < 4) {
                                         map[i][j] = "rock";
+                                        mineObjectsOnMap.add(new mineObjects("rock", (int) (Math.random() * 5) + 10, new Resources("cobblestone"), (int) (Math.random() * 3) + 1, i, j));
+
                                     } else if (mineralRand < 6) {
                                         map[i][j] = "gold";
+                                        mineObjectsOnMap.add(new mineObjects("gold", (int) (Math.random() * 5) + 15, new Resources("goldR"), (int) (Math.random() * 2) + 1, i, j));
+
                                     } else if (mineralRand < 8) {
                                         map[i][j] = "diamond";
+                                        mineObjectsOnMap.add(new mineObjects("diamond", (int) (Math.random() * 5) + 20, new Resources("diamondR"), 1, i, j));
+
                                     } else if (mineralRand < 11) {
                                         map[i][j] = "ruby";
+                                        mineObjectsOnMap.add(new mineObjects("ruby", (int) (Math.random() * 5) + 15, new Resources("rubyR"), (int) (Math.random() * 2) + 1, i, j));
+
                                     } else {
                                         map[i][j] = "stone";
                                     }
