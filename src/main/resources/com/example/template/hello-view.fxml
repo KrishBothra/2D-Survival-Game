@@ -17,7 +17,7 @@
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="892.0" pickOnBounds="true" preserveRatio="true" />
       <ProgressBar fx:id="miningBar" layoutX="1381.0" layoutY="985.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" visible="false" />
       <Label fx:id="coordsLabel" layoutX="1803.0" layoutY="253.0" text="Label" />
-      <GridPane fx:id="inventoryPane" layoutX="35.0" layoutY="35.0" />
+      <GridPane fx:id="inventoryPane" layoutX="500.0" layoutY="400.0" />
 
 
 

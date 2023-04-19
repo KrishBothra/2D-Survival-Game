@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="1056.0" prefWidth="1912.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="1056.0" prefWidth="1912.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
 
 
@@ -17,6 +17,7 @@
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="892.0" pickOnBounds="true" preserveRatio="true" />
       <ProgressBar fx:id="miningBar" layoutX="1381.0" layoutY="985.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" visible="false" />
       <Label fx:id="coordsLabel" layoutX="1803.0" layoutY="253.0" text="Label" />
+      <GridPane fx:id="inventoryPane" layoutX="500.0" layoutY="400.0" />
 
 
 

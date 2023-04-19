@@ -44,6 +44,8 @@ public class HelloController {
 
     ImageView[][] img = new ImageView[x][y];
 
+    private ImageView[][] inventoryImg = new ImageView[6][12];
+
     String[][] map = new String[x * 8 + 1][y * 8 + 1]; //100 //164
 
     private ArrayList<String> biomeNameList = new ArrayList<>();
@@ -74,8 +76,10 @@ public class HelloController {
     MediaPlayer mediaPlayer;
     Media sound;
 
-    FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee;
-    Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone;
+    FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee
+            , grayBackk, blackBackk, yellowBackk;
+    Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone
+            , grayBack, blackBack, yellowBack;
     private boolean miningObject = false;
     private int tempMineTime;
 
@@ -105,6 +109,9 @@ public class HelloController {
             chestWaterr = new FileInputStream("src/main/resources/chestWater.png");
             mailboxGrasss = new FileInputStream("src/main/resources/mailboxGrass.png");
             mailboxStonee = new FileInputStream("src/main/resources/mailboxStone.png");
+            grayBackk= new FileInputStream("src/main/resources/grayBack.png");
+            blackBackk= new FileInputStream("src/main/resources/blackBack.png");
+            yellowBackk= new FileInputStream("src/main/resources/yellowBack.png");
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
@@ -128,6 +135,9 @@ public class HelloController {
             chestWater = new Image(chestWaterr);
             mailboxGrass = new Image(mailboxGrasss);
             mailboxStone = new Image(mailboxStonee);
+            grayBack = new Image(grayBackk);
+            blackBack = new Image(blackBackk);
+            yellowBack = new Image(yellowBackk);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -144,6 +154,46 @@ public class HelloController {
         hotbar[0] = new Resources("diamond");
 
         arrowImg.setImage(arrow);
+        gPane.setVisible(false);
+
+        for (int i = 0; i < inventoryImg.length; i++) {
+            for (int j = 0; j < inventoryImg[0].length; j++) {
+                inventoryImg[i][j] = new ImageView();
+                if(i==0||j==0||i==inventoryImg.length-1||j==inventoryImg[0].length-1){
+                    inventoryImg[i][j].setImage(blackBack);
+                }else{
+                    inventoryImg[i][j].setImage(grayBack);
+                }
+
+                inventoryImg[i][j].setFitHeight(80);
+                inventoryImg[i][j].setFitWidth(80);
+                inventoryPane.add(inventoryImg[i][j], j, i);
+
+            }
+        }
+
+        inventoryImg[1][2].setImage(blackBack);
+        inventoryImg[2][2].setImage(blackBack);
+        inventoryImg[3][2].setImage(blackBack);
+        inventoryImg[4][2].setImage(blackBack);
+        inventoryImg[1][8].setImage(blackBack);
+        inventoryImg[2][8].setImage(blackBack);
+        inventoryImg[3][8].setImage(blackBack);
+        inventoryImg[4][8].setImage(blackBack);
+        inventoryImg[1][9].setImage(blackBack);
+        inventoryImg[1][10].setImage(blackBack);
+        inventoryImg[4][9].setImage(blackBack);
+        inventoryImg[4][10].setImage(blackBack);
+
+        inventoryImg[4][3].setImage(yellowBack);
+        inventoryImg[4][4].setImage(yellowBack);
+        inventoryImg[4][5].setImage(yellowBack);
+        inventoryImg[4][6].setImage(yellowBack);
+        inventoryImg[4][7].setImage(yellowBack);
+
+
+
+
         for (int i = 0; i < img.length; i++) {
             for (int j = 0; j < img[0].length; j++) {
                 img[i][j] = new ImageView();
