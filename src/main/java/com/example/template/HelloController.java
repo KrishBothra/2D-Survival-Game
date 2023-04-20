@@ -23,7 +23,7 @@ public class HelloController {
     @FXML
     private Label lbl, coordsLabel;
     @FXML
-    private GridPane gPane, inventoryPane;
+    private GridPane gPane, inventoryPane, hotbarG;
     @FXML
     private AnchorPane anchor;
 
@@ -45,6 +45,7 @@ public class HelloController {
     ImageView[][] img = new ImageView[x][y];
 
     private ImageView[][] inventoryImg = new ImageView[6][12];
+    private ImageView[][] hotbarImg = new ImageView[5][1];
 
     String[][] map = new String[x * 8 + 1][y * 8 + 1]; //100 //164
 
@@ -53,7 +54,7 @@ public class HelloController {
     private ArrayList<Biome> biomeArrayList = new ArrayList<>();
     private ArrayList<mineObjects> mineObjectsOnMap = new ArrayList<>();
 
-    private Resources[] hotbar = new Resources[5];
+    private inventoryItems[] hotbar = new inventoryItems[5];
 
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
@@ -153,8 +154,9 @@ public class HelloController {
         biomeNameList.add("water");
         hotbar[0] = new Resources("diamond");
 
-        arrowImg.setImage(arrow);
-        gPane.setVisible(false);
+
+        gPane.setVisible(true);
+        inventoryPane.setVisible(false);
 
         for (int i = 0; i < inventoryImg.length; i++) {
             for (int j = 0; j < inventoryImg[0].length; j++) {
@@ -191,8 +193,14 @@ public class HelloController {
         inventoryImg[4][6].setImage(yellowBack);
         inventoryImg[4][7].setImage(yellowBack);
 
-
-
+        for (int i = 0; i < 5; i++) {
+            hotbarImg[i][0] = new ImageView();
+            hotbarImg[i][0].setImage(grayBack);
+            hotbarImg[i][0].setFitHeight(170);
+            hotbarImg[i][0].setFitWidth(170);
+            hotbarG.add(hotbarImg[i][0],0,i);
+        }
+        arrowImg.setImage(arrow);
 
         for (int i = 0; i < img.length; i++) {
             for (int j = 0; j < img[0].length; j++) {
