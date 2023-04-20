@@ -83,6 +83,7 @@ public class HelloController {
             , grayBack, blackBack, yellowBack;
     private boolean miningObject = false;
     private int tempMineTime;
+    private boolean inventoryShowing = false;
 
     public HelloController() {
         fruitQuest = false;
@@ -339,32 +340,45 @@ public class HelloController {
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
         if(!miningObject) {
-            if (keyEvent.getText().equalsIgnoreCase("w")) {
-                movePlayer("x", -1);
-            } else if (keyEvent.getText().equalsIgnoreCase("a")) {
-                movePlayer("y", -1);
-            } else if (keyEvent.getText().equalsIgnoreCase("s")) {
-                movePlayer("x", 1);
-            } else if (keyEvent.getText().equalsIgnoreCase("d")) {
-                movePlayer("y", 1);
-            } else if (keyEvent.getText().equalsIgnoreCase("e")) {
-                interact();
-            } else if (keyEvent.getText().equalsIgnoreCase("i")) {
-                directionInter = "up";
-                arrowImg.setImage(arrow);
-                arrowImg.setRotate(270);
-            } else if (keyEvent.getText().equalsIgnoreCase("j")) {
-                directionInter = "left";
-                arrowImg.setImage(arrow);
-                arrowImg.setRotate(180);
-            } else if (keyEvent.getText().equalsIgnoreCase("k")) {
-                directionInter = "down";
-                arrowImg.setImage(arrow);
-                arrowImg.setRotate(90);
-            } else if (keyEvent.getText().equalsIgnoreCase("l")) {
-                directionInter = "right";
-                arrowImg.setImage(arrow);
-                arrowImg.setRotate(0);
+            if(!inventoryShowing) {
+                if (keyEvent.getText().equalsIgnoreCase("w")) {
+                    movePlayer("x", -1);
+                } else if (keyEvent.getText().equalsIgnoreCase("a")) {
+                    movePlayer("y", -1);
+                } else if (keyEvent.getText().equalsIgnoreCase("s")) {
+                    movePlayer("x", 1);
+                } else if (keyEvent.getText().equalsIgnoreCase("d")) {
+                    movePlayer("y", 1);
+                } else if (keyEvent.getText().equalsIgnoreCase("e")) {
+                    interact();
+                } else if (keyEvent.getText().equalsIgnoreCase("i")) {
+                    directionInter = "up";
+                    arrowImg.setImage(arrow);
+                    arrowImg.setRotate(270);
+                } else if (keyEvent.getText().equalsIgnoreCase("j")) {
+                    directionInter = "left";
+                    arrowImg.setImage(arrow);
+                    arrowImg.setRotate(180);
+                } else if (keyEvent.getText().equalsIgnoreCase("k")) {
+                    directionInter = "down";
+                    arrowImg.setImage(arrow);
+                    arrowImg.setRotate(90);
+                } else if (keyEvent.getText().equalsIgnoreCase("l")) {
+                    directionInter = "right";
+                    arrowImg.setImage(arrow);
+                    arrowImg.setRotate(0);
+                }
+            }
+            if (keyEvent.getText().equalsIgnoreCase("q")) {
+                if(inventoryShowing){
+                    gPane.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                }else{
+                    gPane.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                }
             }
         }
         if (playerPositionY < 20 || playerPositionY > 308 || playerPositionX < 12 || playerPositionX > 188) {
