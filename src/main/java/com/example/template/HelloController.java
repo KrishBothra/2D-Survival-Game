@@ -1,6 +1,7 @@
 package com.example.template;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -8,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -56,6 +58,10 @@ public class HelloController {
 
     private inventoryItems[] hotbar = new inventoryItems[5];
 
+    private Image inventorySelected = null;
+    private int invSelectedRow;
+    private int invSelectedCol;
+
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
 
@@ -78,9 +84,9 @@ public class HelloController {
     Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee
-            , grayBackk, blackBackk, yellowBackk;
+            , grayBackk, blackBackk, yellowBackk, rubyInvv;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone
-            , grayBack, blackBack, yellowBack;
+            , grayBack, blackBack, yellowBack, rubyInv;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -114,6 +120,7 @@ public class HelloController {
             grayBackk= new FileInputStream("src/main/resources/grayBack.png");
             blackBackk= new FileInputStream("src/main/resources/blackBack.png");
             yellowBackk= new FileInputStream("src/main/resources/yellowBack.png");
+            rubyInvv = new FileInputStream("src/main/resources/rubyInv.png");
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
@@ -140,6 +147,7 @@ public class HelloController {
             grayBack = new Image(grayBackk);
             blackBack = new Image(blackBackk);
             yellowBack = new Image(yellowBackk);
+            rubyInv = new Image(rubyInvv);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -156,6 +164,7 @@ public class HelloController {
         hotbar[0] = new Resources("diamond");
 
 
+
         gPane.setVisible(true);
         inventoryPane.setVisible(false);
 
@@ -168,10 +177,46 @@ public class HelloController {
                     inventoryImg[i][j].setImage(grayBack);
                 }
 
-                inventoryImg[i][j].setFitHeight(80);
-                inventoryImg[i][j].setFitWidth(80);
+                inventoryImg[i][j].setFitHeight(158);
+                inventoryImg[i][j].setFitWidth(158);
                 inventoryPane.add(inventoryImg[i][j], j, i);
 
+            }
+        }
+        EventHandler z = new EventHandler<MouseEvent>()
+        {
+
+            @Override
+            public void handle(MouseEvent t)
+            {
+                int row = GridPane.getRowIndex(((ImageView) t.getSource()));
+                int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
+                if(inventorySelected!=null){
+                    if(inventoryImg[row][col].getImage()==grayBack){
+                        inventoryImg[row][col].setImage(inventoryImg[invSelectedRow][invSelectedCol].getImage());
+                        inventoryImg[invSelectedRow][invSelectedCol].setImage(grayBack);
+                        inventorySelected= null;
+                        System.out.println("hi");
+                    }
+                }
+                else {
+                    System.out.println();
+                    if(!(inventoryImg[row][col].getImage()==grayBack|| !(inventoryImg[row][col].getImage()==blackBack))|| !(inventoryImg[row][col].getImage()==yellowBack)){
+                        inventorySelected=inventoryImg[row][col].getImage();
+                        System.out.println(inventoryImg[row][col].getImage());
+                        invSelectedRow = row;
+                        invSelectedCol = col;
+                    }
+                }
+                System.out.println(inventorySelected);
+
+
+            }
+        };
+
+        for(int i=0; i<inventoryImg.length; i++){
+            for(int j=0; j<inventoryImg[0].length;j++){
+                inventoryImg[i][j].setOnMouseClicked(z);
             }
         }
 
@@ -183,16 +228,17 @@ public class HelloController {
         inventoryImg[2][8].setImage(blackBack);
         inventoryImg[3][8].setImage(blackBack);
         inventoryImg[4][8].setImage(blackBack);
-        inventoryImg[1][9].setImage(blackBack);
-        inventoryImg[1][10].setImage(blackBack);
-        inventoryImg[4][9].setImage(blackBack);
+        inventoryImg[3][9].setImage(blackBack);
+        inventoryImg[3][10].setImage(blackBack);
         inventoryImg[4][10].setImage(blackBack);
-
         inventoryImg[4][3].setImage(yellowBack);
         inventoryImg[4][4].setImage(yellowBack);
         inventoryImg[4][5].setImage(yellowBack);
         inventoryImg[4][6].setImage(yellowBack);
         inventoryImg[4][7].setImage(yellowBack);
+
+
+        inventoryImg[1][3].setImage(rubyInv);
 
         for (int i = 0; i < 5; i++) {
             hotbarImg[i][0] = new ImageView();
