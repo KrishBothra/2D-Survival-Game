@@ -7,4 +7,7 @@ public class Resources extends inventoryItems {
         super(name);
         this.name = name;
     }
+
+
+
 }

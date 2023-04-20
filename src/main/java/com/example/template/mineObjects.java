@@ -1,8 +1,8 @@
 package com.example.template;
 
 public class mineObjects {
-    private Resources resourceDropSecond;
-    private int amountDropSecond;
+    private Resources resourceDropSecond = null;
+    private int amountDropSecond = 0;
     String name;
     int mineTime;
     Resources resourceDrop;
@@ -43,5 +43,21 @@ public class mineObjects {
 
     public int getMineTime() {
         return mineTime;
+    }
+
+    public int getAmountDrop() {
+        return amountDrop;
+    }
+
+    public int getAmountDropSecond() {
+        return amountDropSecond;
+    }
+
+    public Resources getResourceDrop() {
+        return resourceDrop;
+    }
+
+    public Resources getResourceDropSecond() {
+        return resourceDropSecond;
     }
 }
