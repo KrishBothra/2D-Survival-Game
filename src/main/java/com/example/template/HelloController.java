@@ -84,9 +84,9 @@ public class HelloController {
     Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee
-            , grayBackk, blackBackk, yellowBackk, rubyInvv;
+            , grayBackk, blackBackk, yellowBackk, rubyInvv, normalWoodd;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone
-            , grayBack, blackBack, yellowBack, rubyInv;
+            , grayBack, blackBack, yellowBack, rubyInv, normalWood;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -121,11 +121,12 @@ public class HelloController {
             blackBackk= new FileInputStream("src/main/resources/blackBack.png");
             yellowBackk= new FileInputStream("src/main/resources/yellowBack.png");
             rubyInvv = new FileInputStream("src/main/resources/rubyInv.png");
+            normalWoodd = new FileInputStream("src/main/resources/normalWood.png");
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
 
-
+            normalWood = new Image(normalWoodd);
             grass = new Image(grasss);
             player = new Image(playerr);
             playerOverGrass = new Image(playerOverGrasss);
@@ -277,9 +278,13 @@ public class HelloController {
 
 
         gPane.setGridLinesVisible(true);
+        for (int i = 0; i < hotbar.length; i++) {
+            hotbar[i] = new inventoryItems("empty");
+        }
 
         updateScreen();
         start();
+
 
 
     }
@@ -327,10 +332,18 @@ public class HelloController {
                     img[i][j].setImage(null); //steve
                 }
 
+
+
             }
         }
         tempPlayerPositionX = playerPositionX;
         tempPlayerPositionY = playerPositionY;
+
+        for (int i = 0; i < hotbar.length; i++) {
+            if(hotbar[i].getName().equals("normalWood")){
+                hotbarImg[i][0].setImage(normalWood);
+            }
+        }
 //        img[12][20].setImage(normalTree);
 //        img[12][18].setImage(fruitTree);
 //        img[12][16].setImage(autumnTree);
@@ -371,7 +384,11 @@ public class HelloController {
                 }
             }
         }
-
+        for (int i = 0; i < hotbar.length; i++) {
+            if(hotbar[i].getName().equals("normalWood")){
+                hotbarImg[i][0].setImage(normalWood);
+            }
+        }
     }
 
 //    public void onClick2() {
@@ -418,10 +435,12 @@ public class HelloController {
             if (keyEvent.getText().equalsIgnoreCase("q")) {
                 if(inventoryShowing){
                     gPane.setVisible(true);
+                    hotbarG.setVisible(true);
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                 }else{
                     gPane.setVisible(false);
+                    hotbarG.setVisible(false);
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                 }
@@ -474,7 +493,32 @@ public class HelloController {
                             miningBar.setVisible(false);
                             first = false;
                             mineObjectsOnMap.remove(tempMine);
-                            updateScreen();
+                            for (int i = 0; i < hotbar.length; i++) {
+                                if(hotbar[i].getName().equals(tempMine.getResourceDrop().getName())){
+                                    System.out.println("hey");
+                                    hotbar[i].changeAmount(tempMine.getAmountDrop());
+                                    break;
+                                } else if(hotbar[i].getName().equals("empty")){
+                                    hotbar[i] = tempMine.getResourceDrop();
+                                    hotbar[i].setAmount(tempMine.getAmountDrop());
+                                    if(tempMine.getAmountDropSecond()!= 0){
+                                        hotbar[i] = tempMine.getResourceDropSecond();
+                                        hotbar[i].setAmountSecond(tempMine.getAmountDropSecond());
+                                    }
+                                    break;
+                                }
+                            }
+                            if (playerPositionY < 20 || playerPositionY > 308 || playerPositionX < 12 || playerPositionX > 188) {
+                                if (!(playerPositionY < 20 || playerPositionY > 308)) {
+                                    tempPlayerPositionY = playerPositionY;
+                                }
+                                if (!(playerPositionX < 12 || playerPositionX > 188)) {
+                                    tempPlayerPositionX = playerPositionX;
+                                }
+                                updateScreenEdge();
+                            } else {
+                                updateScreen();
+                            }
                         }
                     }
 
