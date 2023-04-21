@@ -57,8 +57,9 @@ public class HelloController {
     private ArrayList<mineObjects> mineObjectsOnMap = new ArrayList<>();
 
     private inventoryItems[] hotbar = new inventoryItems[5];
+    private inventoryItems[][] inventoryA = new inventoryItems[6][12];
 
-    private Image inventorySelected = null;
+    private inventoryItems inventorySelected = new inventoryItems("nothing");
     private int invSelectedRow;
     private int invSelectedCol;
 
@@ -192,7 +193,7 @@ public class HelloController {
             {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
-                if(inventorySelected!=null){
+                if(!inventorySelected.getName().equals("nothing")){
                     if(inventoryImg[row][col].getImage()==grayBack){
                         inventoryImg[row][col].setImage(inventoryImg[invSelectedRow][invSelectedCol].getImage());
                         inventoryImg[invSelectedRow][invSelectedCol].setImage(grayBack);
@@ -203,7 +204,7 @@ public class HelloController {
                 else {
                     System.out.println();
                     if(!(inventoryImg[row][col].getImage()==grayBack|| !(inventoryImg[row][col].getImage()==blackBack))|| !(inventoryImg[row][col].getImage()==yellowBack)){
-                        inventorySelected=inventoryImg[row][col].getImage();
+//                        inventorySelected=inventoryImg[row][col].getImage();  ENEDED HERE
                         System.out.println(inventoryImg[row][col].getImage());
                         invSelectedRow = row;
                         invSelectedCol = col;
@@ -232,14 +233,15 @@ public class HelloController {
         inventoryImg[3][9].setImage(blackBack);
         inventoryImg[3][10].setImage(blackBack);
         inventoryImg[4][10].setImage(blackBack);
-        inventoryImg[4][3].setImage(yellowBack);
-        inventoryImg[4][4].setImage(yellowBack);
-        inventoryImg[4][5].setImage(yellowBack);
-        inventoryImg[4][6].setImage(yellowBack);
-        inventoryImg[4][7].setImage(yellowBack);
+        inventoryImg[4][3].setImage(grayBack);
+        inventoryImg[4][4].setImage(grayBack);
+        inventoryImg[4][5].setImage(grayBack);
+        inventoryImg[4][6].setImage(grayBack);
+        inventoryImg[4][7].setImage(grayBack);
 
 
         inventoryImg[1][3].setImage(rubyInv);
+        inventoryA[1][3] = new inventoryItems("ruby",1);
 
         for (int i = 0; i < 5; i++) {
             hotbarImg[i][0] = new ImageView();
@@ -342,7 +344,19 @@ public class HelloController {
         for (int i = 0; i < hotbar.length; i++) {
             if(hotbar[i].getName().equals("normalWood")){
                 hotbarImg[i][0].setImage(normalWood);
+            }else if(hotbar[i].getName().equals("autumnWood")){
+                hotbarImg[i][0].setImage(normalWood);
+            }else if(hotbar[i].getName().equals("fruitWood")){
+                hotbarImg[i][0].setImage(normalWood);
+            } else if(hotbar[i].getName().equals("apples")){
+                hotbarImg[i][0].setImage(rubyInv);
             }
+        }
+
+
+
+        for (int i = 3; i < 8; i++) {
+            inventoryImg[4][i].setImage(hotbarImg[i-3][0].getImage());
         }
 //        img[12][20].setImage(normalTree);
 //        img[12][18].setImage(fruitTree);
@@ -387,7 +401,16 @@ public class HelloController {
         for (int i = 0; i < hotbar.length; i++) {
             if(hotbar[i].getName().equals("normalWood")){
                 hotbarImg[i][0].setImage(normalWood);
+            }else if(hotbar[i].getName().equals("autumnWood")){
+                hotbarImg[i][0].setImage(normalWood);
+            }else if(hotbar[i].getName().equals("fruitWood")){
+                hotbarImg[i][0].setImage(normalWood);
+            } else if(hotbar[i].getName().equals("apples")){
+                hotbarImg[i][0].setImage(rubyInv);
             }
+        }
+        for (int i = 3; i < 8; i++) {
+            inventoryImg[4][i].setImage(hotbarImg[i-3][0].getImage());
         }
     }
 
@@ -502,8 +525,17 @@ public class HelloController {
                                     hotbar[i] = tempMine.getResourceDrop();
                                     hotbar[i].setAmount(tempMine.getAmountDrop());
                                     if(tempMine.getAmountDropSecond()!= 0){
-                                        hotbar[i] = tempMine.getResourceDropSecond();
-                                        hotbar[i].setAmountSecond(tempMine.getAmountDropSecond());
+                                        for (int m = 0; m < hotbar.length; m++) {
+                                            if(hotbar[m].getName().equals(tempMine.getResourceDropSecond().getName())){
+                                                System.out.println("hey");
+                                                hotbar[m].changeAmount(tempMine.getAmountDropSecond());
+                                                break;
+                                            } else if(hotbar[m].getName().equals("empty")){
+                                                hotbar[m] = tempMine.getResourceDropSecond();
+                                                hotbar[m].setAmount(tempMine.getAmountDropSecond());
+                                                break;
+                                            }
+                                        }
                                     }
                                     break;
                                 }
