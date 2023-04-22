@@ -46,7 +46,7 @@ public class HelloController {
 
     ImageView[][] img = new ImageView[x][y];
 
-    private ImageView[][] inventoryImg = new ImageView[6][12];
+    
     private ImageView[][] hotbarImg = new ImageView[5][1];
 
     String[][] map = new String[x * 8 + 1][y * 8 + 1]; //100 //164
@@ -59,9 +59,11 @@ public class HelloController {
     private inventoryItems[] hotbar = new inventoryItems[5];
     private inventoryItems[][] inventoryA = new inventoryItems[6][12];
 
-    private inventoryItems inventorySelected = new inventoryItems("nothing");
-    private int invSelectedRow;
-    private int invSelectedCol;
+    private inventoryItems inventorySelected = new inventoryItems("empty");
+    private ImageView[][] inventoryImg = new ImageView[6][12];
+    
+    private int invSelectedRow = -1;
+    private int invSelectedCol = -1;
 
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
@@ -85,12 +87,13 @@ public class HelloController {
 //    Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee
-            , grayBackk, blackBackk, yellowBackk, rubyInvv, normalWoodd;
+            , grayBackk, blackBackk, yellowBackk, rubyInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone
-            , grayBack, blackBack, yellowBack, rubyInv, normalWood;
+            , grayBack, blackBack, yellowBack, rubyInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
+    private boolean breakB = false;
 
     public HelloController() {
         fruitQuest = false;
@@ -123,11 +126,20 @@ public class HelloController {
             yellowBackk= new FileInputStream("src/main/resources/yellowBack.png");
             rubyInvv = new FileInputStream("src/main/resources/rubyInv.png");
             normalWoodd = new FileInputStream("src/main/resources/normalWood.png");
+            normalWooddInv = new FileInputStream("src/main/resources/InventoryItems/normalWood.png");
+            fruitWooddInv = new FileInputStream("src/main/resources/InventoryItems/jungleWood.png");
+            autumnWooddInv = new FileInputStream("src/main/resources/InventoryItems/acaciaWood.png");
+            appleeInv = new FileInputStream("src/main/resources/InventoryItems/apple.png");
+
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
 
             normalWood = new Image(normalWoodd);
+            normalWoodInv = new Image(normalWooddInv);
+            fruitWoodInv = new Image(fruitWooddInv);
+            autumnWoodInv = new Image(autumnWooddInv);
+            appleInv = new Image(appleeInv);
             grass = new Image(grasss);
             player = new Image(playerr);
             playerOverGrass = new Image(playerOverGrasss);
@@ -150,6 +162,7 @@ public class HelloController {
             blackBack = new Image(blackBackk);
             yellowBack = new Image(yellowBackk);
             rubyInv = new Image(rubyInvv);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -193,25 +206,42 @@ public class HelloController {
             {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
-                if(!inventorySelected.getName().equals("nothing")){
-                    if(inventoryImg[row][col].getImage()==grayBack){
-                        inventoryImg[row][col].setImage(inventoryImg[invSelectedRow][invSelectedCol].getImage());
-                        inventoryImg[invSelectedRow][invSelectedCol].setImage(grayBack);
-                        inventorySelected= null;
-                        System.out.println("hi");
+//                if(!inventorySelected.getName().equals("nothing")){
+//                    if(inventoryImg[row][col].getImage()==grayBack){
+//                        inventoryImg[row][col].setImage(inventoryImg[invSelectedRow][invSelectedCol].getImage());
+//                        inventoryImg[invSelectedRow][invSelectedCol].setImage(grayBack);
+//                        inventorySelected= null;
+//                        System.out.println("hi");
+//                    }
+//                }
+//                else {
+//                    System.out.println();
+//                    if(!(inventoryImg[row][col].getImage()==grayBack|| !(inventoryImg[row][col].getImage()==blackBack))|| !(inventoryImg[row][col].getImage()==yellowBack)){
+////                        inventorySelected=inventoryImg[row][col].getImage();  ENEDED HERE
+//                        System.out.println(inventoryImg[row][col].getImage());
+//                        invSelectedRow = row;
+//                        invSelectedCol = col;
+//                    }
+//                }
+//                System.out.println(inventorySelected);
+                if(invSelectedCol!= -1&&invSelectedRow!=-1){
+                    System.out.println("hey");
+                    if(inventoryA[row][col].getName().equals("empty")){
+                        System.out.println("hey2");
+                        inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                        inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                        invSelectedCol = -1;
+                        invSelectedRow = -1;
+                        updateScreen();
                     }
                 }
-                else {
-                    System.out.println();
-                    if(!(inventoryImg[row][col].getImage()==grayBack|| !(inventoryImg[row][col].getImage()==blackBack))|| !(inventoryImg[row][col].getImage()==yellowBack)){
-//                        inventorySelected=inventoryImg[row][col].getImage();  ENEDED HERE
-                        System.out.println(inventoryImg[row][col].getImage());
-                        invSelectedRow = row;
-                        invSelectedCol = col;
-                    }
+                else if(!inventoryA[row][col].getName().equals("empty")){
+                    System.out.println("hey3");
+                    invSelectedRow = row;
+                    invSelectedCol = col;
                 }
-                System.out.println(inventorySelected);
 
+                
 
             }
         };
@@ -240,8 +270,8 @@ public class HelloController {
         inventoryImg[4][7].setImage(grayBack);
 
 
-        inventoryImg[1][3].setImage(rubyInv);
-        inventoryA[1][3] = new inventoryItems("ruby",1);
+//        inventoryImg[1][3].setImage(rubyInv);
+//        inventoryA[1][3] = new inventoryItems("ruby",1);
 
         for (int i = 0; i < 5; i++) {
             hotbarImg[i][0] = new ImageView();
@@ -284,6 +314,13 @@ public class HelloController {
             hotbar[i] = new inventoryItems("empty");
         }
 
+        for (int i = 0; i < inventoryA.length; i++) {
+            for (int j = 0; j < inventoryA[0].length; j++) {
+                inventoryA[i][j] = new inventoryItems("empty");
+            }
+
+        }
+
         updateScreen();
         start();
         //for the change
@@ -291,126 +328,131 @@ public class HelloController {
 
     }
 
+
+
     private void updateScreen() {
-        for (int i = 0; i < img.length; i++) {
-            for (int j = 0; j < img[0].length; j++) {
-                if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
-                    img[i][j].setImage(grass);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grassWX")) {
-                    img[i][j].setImage(grassWX); //steve
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverGrass")) {
-                    img[i][j].setImage(playerOverGrass); //steve
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalTree")) {
-                    img[i][j].setImage(normalTree); //steve
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitTree")) {
-                    img[i][j].setImage(fruitTree); //steve
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnTree")) {
-                    img[i][j].setImage(autumnTree); //steve
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stone")) {
-                    img[i][j].setImage(stone);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
-                    img[i][j].setImage(playerOverStone);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rock")) {
-                    img[i][j].setImage(rock);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("ruby")) {
-                    img[i][j].setImage(ruby);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamond")) {
-                    img[i][j].setImage(diamond);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("gold")) {
-                    img[i][j].setImage(gold);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
-                    img[i][j].setImage(water);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
-                    img[i][j].setImage(mailboxGrass);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnQuest")) {
-                    img[i][j].setImage(mailboxGrass);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalQuest")) {
-                    img[i][j].setImage(mailboxGrass);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneQuest")) {
-                    img[i][j].setImage(mailboxStone);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("waterQuest")) {
-                    img[i][j].setImage(chestWater);
-                } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
-                    img[i][j].setImage(null); //steve
-                }
-
-
-
+        if (playerPositionY < 20 || playerPositionY > 308 || playerPositionX < 12 || playerPositionX > 188) {
+            if (!(playerPositionY < 20 || playerPositionY > 308)) {
+                tempPlayerPositionY = playerPositionY;
             }
-        }
-        tempPlayerPositionX = playerPositionX;
-        tempPlayerPositionY = playerPositionY;
-
-        for (int i = 0; i < hotbar.length; i++) {
-            if(hotbar[i].getName().equals("normalWood")){
-                hotbarImg[i][0].setImage(normalWood);
-            }else if(hotbar[i].getName().equals("autumnWood")){
-                hotbarImg[i][0].setImage(normalWood);
-            }else if(hotbar[i].getName().equals("fruitWood")){
-                hotbarImg[i][0].setImage(normalWood);
-            } else if(hotbar[i].getName().equals("apples")){
-                hotbarImg[i][0].setImage(rubyInv);
+            if (!(playerPositionX < 12 || playerPositionX > 188)) {
+                tempPlayerPositionX = playerPositionX;
             }
-        }
-
-
-
-        for (int i = 3; i < 8; i++) {
-            inventoryImg[4][i].setImage(hotbarImg[i-3][0].getImage());
-        }
-//        img[12][20].setImage(normalTree);
-//        img[12][18].setImage(fruitTree);
-//        img[12][16].setImage(autumnTree);
-    }
-
-    private void updateScreenEdge() {
-//        System.out.println("hey");
-        for (int i = 0; i < img.length; i++) {
-            for (int j = 0; j < img[0].length; j++) {
-                if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
-                    img[i][j].setImage(grass);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grassWX")) {
-                    img[i][j].setImage(grassWX); //steve
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverGrass")) {
-                    img[i][j].setImage(playerOverGrass); //steve
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalTree")) {
-                    img[i][j].setImage(normalTree);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitTree")) {
-                    img[i][j].setImage(fruitTree);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnTree")) {
-                    img[i][j].setImage(autumnTree);
-                }  else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stone")) {
+            //UPDATE SCREEN EDGE
+            for (int i = 0; i < img.length; i++) {
+                for (int j = 0; j < img[0].length; j++) {
+                    if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
+                        img[i][j].setImage(grass);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grassWX")) {
+                        img[i][j].setImage(grassWX); //steve
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverGrass")) {
+                        img[i][j].setImage(playerOverGrass); //steve
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalTree")) {
+                        img[i][j].setImage(normalTree);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitTree")) {
+                        img[i][j].setImage(fruitTree);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnTree")) {
+                        img[i][j].setImage(autumnTree);
+                    }  else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stone")) {
                         img[i][j].setImage(stone);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
-                    img[i][j].setImage(playerOverStone);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rock")) {
-                    img[i][j].setImage(rock);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("gold")) {
-                    img[i][j].setImage(gold);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("ruby")) {
-                    img[i][j].setImage(ruby);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamond")) {
-                    img[i][j].setImage(diamond);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("water")) {
-                    img[i][j].setImage(water);
-                } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
-                    img[i][j].setImage(null);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
+                        img[i][j].setImage(playerOverStone);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rock")) {
+                        img[i][j].setImage(rock);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("gold")) {
+                        img[i][j].setImage(gold);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("ruby")) {
+                        img[i][j].setImage(ruby);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamond")) {
+                        img[i][j].setImage(diamond);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("water")) {
+                        img[i][j].setImage(water);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
+                        img[i][j].setImage(null);
+                    }
                 }
             }
+        } else {
+            //UPDATE SCREEN
+            for (int i = 0; i < img.length; i++) {
+                for (int j = 0; j < img[0].length; j++) {
+                    if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
+                        img[i][j].setImage(grass);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grassWX")) {
+                        img[i][j].setImage(grassWX); //steve
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverGrass")) {
+                        img[i][j].setImage(playerOverGrass); //steve
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalTree")) {
+                        img[i][j].setImage(normalTree); //steve
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitTree")) {
+                        img[i][j].setImage(fruitTree); //steve
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnTree")) {
+                        img[i][j].setImage(autumnTree); //steve
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stone")) {
+                        img[i][j].setImage(stone);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
+                        img[i][j].setImage(playerOverStone);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rock")) {
+                        img[i][j].setImage(rock);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("ruby")) {
+                        img[i][j].setImage(ruby);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamond")) {
+                        img[i][j].setImage(diamond);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("gold")) {
+                        img[i][j].setImage(gold);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
+                        img[i][j].setImage(water);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
+                        img[i][j].setImage(mailboxGrass);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnQuest")) {
+                        img[i][j].setImage(mailboxGrass);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalQuest")) {
+                        img[i][j].setImage(mailboxGrass);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneQuest")) {
+                        img[i][j].setImage(mailboxStone);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("waterQuest")) {
+                        img[i][j].setImage(chestWater);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
+                        img[i][j].setImage(null); //steve
+                    }
+                }
+            }
+            tempPlayerPositionX = playerPositionX;
+            tempPlayerPositionY = playerPositionY;
         }
+
+        for (int i = 3; i < 8; i++) {
+            hotbar[i-3]=inventoryA[4][i];
+        }
+
         for (int i = 0; i < hotbar.length; i++) {
             if(hotbar[i].getName().equals("normalWood")){
-                hotbarImg[i][0].setImage(normalWood);
+                hotbarImg[i][0].setImage(normalWoodInv);
             }else if(hotbar[i].getName().equals("autumnWood")){
-                hotbarImg[i][0].setImage(normalWood);
+                hotbarImg[i][0].setImage(autumnWoodInv);
             }else if(hotbar[i].getName().equals("fruitWood")){
-                hotbarImg[i][0].setImage(normalWood);
+                hotbarImg[i][0].setImage(fruitWoodInv);
             } else if(hotbar[i].getName().equals("apples")){
-                hotbarImg[i][0].setImage(rubyInv);
+                hotbarImg[i][0].setImage(appleInv);
+            }else if(hotbar[i].getName().equals("empty")){
+                hotbarImg[i][0].setImage(grayBack);
             }
         }
-        for (int i = 3; i < 8; i++) {
-            inventoryImg[4][i].setImage(hotbarImg[i-3][0].getImage());
+
+        for (int i = 1; i <=4; i++) {
+            for (int j = 3; j <=7; j++) {
+                if(inventoryA[i][j].getName().equals("normalWood")){
+                    inventoryImg[i][j].setImage(normalWoodInv);
+                }else if(inventoryA[i][j].getName().equals("autumnWood")){
+                    inventoryImg[i][j].setImage(autumnWoodInv);
+                }else if(inventoryA[i][j].getName().equals("fruitWood")){
+                    inventoryImg[i][j].setImage(fruitWoodInv);
+                } else if(inventoryA[i][j].getName().equals("apples")){
+                    inventoryImg[i][j].setImage(appleInv);
+                }else if(inventoryA[i][j].getName().equals("empty")){
+                    inventoryImg[i][j].setImage(grayBack);
+                }
+            }
         }
     }
 
@@ -469,17 +511,8 @@ public class HelloController {
                 }
             }
         }
-        if (playerPositionY < 20 || playerPositionY > 308 || playerPositionX < 12 || playerPositionX > 188) {
-            if (!(playerPositionY < 20 || playerPositionY > 308)) {
-                tempPlayerPositionY = playerPositionY;
-            }
-            if (!(playerPositionX < 12 || playerPositionX > 188)) {
-                tempPlayerPositionX = playerPositionX;
-            }
-            updateScreenEdge();
-        } else {
-            updateScreen();
-        }
+        updateScreen();
+
     }
 
     public void start() {
@@ -510,48 +543,120 @@ public class HelloController {
                             if(tempMine.getName().equals("autumnTree")||tempMine.getName().equals("normalTree")||tempMine.getName().equals("fruitTree")) {
                                 map[miningX][miningY] = "grass";
                             }else{
+                                System.out.println(tempMine.getName());
                                 map[miningX][miningY] = "stone";
                             }
                             miningObject = false;
                             miningBar.setVisible(false);
                             first = false;
                             mineObjectsOnMap.remove(tempMine);
-                            for (int i = 0; i < hotbar.length; i++) {
-                                if(hotbar[i].getName().equals(tempMine.getResourceDrop().getName())){
-                                    System.out.println("hey");
-                                    hotbar[i].changeAmount(tempMine.getAmountDrop());
-                                    break;
-                                } else if(hotbar[i].getName().equals("empty")){
-                                    hotbar[i] = tempMine.getResourceDrop();
-                                    hotbar[i].setAmount(tempMine.getAmountDrop());
-                                    if(tempMine.getAmountDropSecond()!= 0){
-                                        for (int m = 0; m < hotbar.length; m++) {
-                                            if(hotbar[m].getName().equals(tempMine.getResourceDropSecond().getName())){
-                                                System.out.println("hey");
-                                                hotbar[m].changeAmount(tempMine.getAmountDropSecond());
-                                                break;
-                                            } else if(hotbar[m].getName().equals("empty")){
-                                                hotbar[m] = tempMine.getResourceDropSecond();
-                                                hotbar[m].setAmount(tempMine.getAmountDropSecond());
-                                                break;
+                            for (int i = 4; i >=1; i--) {
+                                for (int j = 3; j <=7; j++) {
+                                    if(inventoryA[i][j].getName().equals(tempMine.getResourceDrop().getName())){
+                                        System.out.println("hi");
+                                        inventoryA[i][j].changeAmount(tempMine.getAmountDrop());
+                                        if(tempMine.getAmountDropSecond()!= 0){
+                                            for (int m = 4; m >=1; m--) {
+                                                for (int k = 3; k <=7; k++) {
+                                                    if(inventoryA[m][k].getName().equals(tempMine.getResourceDropSecond().getName())){
+                                                        System.out.println("hey");
+                                                        inventoryA[m][k].changeAmount(tempMine.getAmountDropSecond());
+                                                        breakB = true;
+                                                        break;
+                                                    }
+                                                }
+
+
+
+                                                if(breakB){
+                                                    break;
+                                                }
+                                            }
+
+                                            for (int m = 4; m >=1; m--) {
+                                                if(breakB){
+                                                    break;
+                                                }
+                                                for (int k = 3; k <=7; k++) {
+                                                    if(inventoryA[m][k].getName().equals("empty")){
+                                                        inventoryA[m][k] = tempMine.getResourceDropSecond();
+                                                        inventoryA[m][k].setAmount(tempMine.getAmountDropSecond());
+                                                        breakB = true;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if(breakB){
+                                                    break;
+                                                }
                                             }
                                         }
+                                        breakB = true;
+                                        break;
                                     }
+                                }
+                                if(breakB){
                                     break;
                                 }
                             }
-                            if (playerPositionY < 20 || playerPositionY > 308 || playerPositionX < 12 || playerPositionX > 188) {
-                                if (!(playerPositionY < 20 || playerPositionY > 308)) {
-                                    tempPlayerPositionY = playerPositionY;
+
+
+
+
+                            for (int i = 4; i >=1; i--) {
+                                if(breakB){
+                                    breakB = false;
+                                    break;
                                 }
-                                if (!(playerPositionX < 12 || playerPositionX > 188)) {
-                                    tempPlayerPositionX = playerPositionX;
+                                for (int j = 3; j <=7; j++) {
+                                    if(inventoryA[i][j].getName().equals("empty")){
+                                        inventoryA[i][j] = tempMine.getResourceDrop();
+                                        inventoryA[i][j].setAmount(tempMine.getAmountDrop());
+                                        if(tempMine.getAmountDropSecond()!= 0){
+                                            for (int m = 4; m >=1; m--) {
+                                                for (int k = 3; k <=7; k++) {
+                                                    if(inventoryA[m][k].getName().equals(tempMine.getResourceDropSecond().getName())){
+                                                        System.out.println("hi");
+                                                        inventoryA[m][k].changeAmount(tempMine.getAmountDropSecond());
+                                                        breakB = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if(breakB){
+                                                    break;
+                                                }
+                                            }
+
+
+                                            for (int m = 4; m >=1; m--) {
+                                                if(breakB){
+                                                    break;
+                                                }
+                                                for (int k = 3; k <=7; k++) {
+                                                    if(inventoryA[m][k].getName().equals("empty")){
+                                                        inventoryA[m][k] = tempMine.getResourceDropSecond();
+                                                        inventoryA[m][k].setAmount(tempMine.getAmountDropSecond());
+                                                        breakB = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if(breakB){
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        breakB = true;
+                                        break;
+                                    }
                                 }
-                                updateScreenEdge();
-                            } else {
-                                updateScreen();
+                                if(breakB){
+                                    breakB = false;
+                                    break;
+                                }
                             }
+                            updateScreen();
                         }
+
                     }
 
 
@@ -764,7 +869,7 @@ public class HelloController {
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
                                     map[i][j] = "autumnTree";
-                                    mineObjectsOnMap.add(new mineObjects("autumntree", (int) (Math.random() * 5) + 5, new Resources("autumnWood"), (int) (Math.random() * 2) + 3, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("autumnTree", (int) (Math.random() * 5) + 5, new Resources("autumnWood"), (int) (Math.random() * 2) + 3, i, j));
 
                                 }
                             }
