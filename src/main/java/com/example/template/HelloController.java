@@ -18,8 +18,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Objects;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 
 public class HelloController {
     @FXML
@@ -81,8 +81,8 @@ public class HelloController {
     int miningY;
     mineObjects tempMine = null;
     //12,20----13,21
-    MediaPlayer mediaPlayer;
-    Media sound;
+//    MediaPlayer mediaPlayer;
+//    Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv, normalWoodd;
