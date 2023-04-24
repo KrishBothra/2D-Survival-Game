@@ -6,12 +6,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" style="-fx-background-color: #D3D3D3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="1056.0" prefWidth="1912.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="1056.0" prefWidth="1912.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
 
 
-      <Button fx:id="start" layoutX="369.0" layoutY="318.0" mnemonicParsing="false" onAction="#onClick" text="Start" />
+      <Button fx:id="start" layoutX="350.0" layoutY="403.0" mnemonicParsing="false" onAction="#onClick" text="Start" />
       <Button fx:id="start2" layoutX="369.0" layoutY="200.0" mnemonicParsing="false" text="Start" visible="false" />
       <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="910.0" pickOnBounds="true" preserveRatio="true" />
@@ -19,6 +20,134 @@
       <GridPane fx:id="inventoryPane" layoutX="10.0" layoutY="30.0" />
       <GridPane fx:id="hotbarG" layoutX="1700.0" layoutY="25.0" />
       <Label fx:id="coordsLabel" layoutX="1803.0" layoutY="253.0" text="Label" />
+
+
+      <Label layoutX="610.0" layoutY="310.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="one2" layoutX="768.0" layoutY="310.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label><Label fx:id="one1" layoutX="610.0" layoutY="310.0" text="22" textFill="WHITE">
+      <font>
+         <Font size="23.0" />
+      </font>
+   </Label>
+      <Label fx:id="one3" layoutX="926.0" layoutY="310.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="one4" layoutX="1084.0" layoutY="310.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="one5" layoutX="1242.0" layoutY="310.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+
+
+
+      <Label layoutX="610.0" layoutY="468.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="two2" layoutX="768.0" layoutY="468.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label><Label fx:id="two1" layoutX="610.0" layoutY="468.0" text="22" textFill="WHITE">
+      <font>
+         <Font size="23.0" />
+      </font>
+   </Label>
+      <Label fx:id="two3" layoutX="926.0" layoutY="468.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="two4" layoutX="1084.0" layoutY="468.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="two5" layoutX="1242.0" layoutY="468.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+
+
+
+      <Label layoutX="610.0" layoutY="626.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three2" layoutX="768.0" layoutY="626.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label><Label fx:id="three1" layoutX="610.0" layoutY="626.0" text="22" textFill="WHITE">
+      <font>
+         <Font size="23.0" />
+      </font>
+   </Label>
+      <Label fx:id="three3" layoutX="926.0" layoutY="626.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three4" layoutX="1084.0" layoutY="626.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three5" layoutX="1242.0" layoutY="626.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      
+      
+      
+      <Label layoutX="610.0" layoutY="784.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="four2" layoutX="768.0" layoutY="784.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label><Label fx:id="four1" layoutX="610.0" layoutY="784.0" text="22" textFill="WHITE">
+      <font>
+         <Font size="23.0" />
+      </font>
+   </Label>
+      <Label fx:id="four3" layoutX="926.0" layoutY="784.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="four4" layoutX="1084.0" layoutY="784.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="four5" layoutX="1242.0" layoutY="784.0" text="22" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+
 
 
 

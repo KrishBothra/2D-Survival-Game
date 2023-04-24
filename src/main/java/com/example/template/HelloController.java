@@ -69,6 +69,11 @@ public class HelloController {
     private inventoryItems equipped;
     private int selected = 0;
 
+    private Label[][] inventoryLabels = new Label[4][5];
+
+    @FXML
+    private Label one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5;
+
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
 
@@ -181,6 +186,7 @@ public class HelloController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
     @FXML
@@ -193,12 +199,38 @@ public class HelloController {
         biomeNameList.add("water");
         hotbar[0] = new Resources("diamond");
 
+        inventoryLabels[0][0] = one1;
+        inventoryLabels[0][1] = one2;
+        inventoryLabels[0][2] = one3;
+        inventoryLabels[0][3] = one4;
+        inventoryLabels[0][4] = one5;
+        inventoryLabels[1][0] = two1;
+        inventoryLabels[1][1] = two2;
+        inventoryLabels[1][2] = two3;
+        inventoryLabels[1][3] = two4;
+        inventoryLabels[1][4] = two5;
+        inventoryLabels[2][0] = three1;
+        inventoryLabels[2][1] = three2;
+        inventoryLabels[2][2] = three3;
+        inventoryLabels[2][3] = three4;
+        inventoryLabels[2][4] = three5;
+        inventoryLabels[3][0] = four1;
+        inventoryLabels[3][1] = four2;
+        inventoryLabels[3][2] = four3;
+        inventoryLabels[3][3] = four4;
+        inventoryLabels[3][4] = four5;
+        for (int i = 0; i<inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                inventoryLabels[i][j].setVisible(false);
+            }
+        }
+
 
 
         gPane.setVisible(true);
         inventoryPane.setVisible(false);
-
         for (int i = 0; i < inventoryImg.length; i++) {
+
             for (int j = 0; j < inventoryImg[0].length; j++) {
                 inventoryImg[i][j] = new ImageView();
                 if(i==0||j==0||i==inventoryImg.length-1||j==inventoryImg[0].length-1){
