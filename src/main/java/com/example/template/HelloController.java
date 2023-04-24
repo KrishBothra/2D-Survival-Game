@@ -409,6 +409,8 @@ public class HelloController {
                         img[i][j].setImage(water);
                     } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
                         img[i][j].setImage(null);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalWood")) {
+                        img[i][j].setImage(normalWood);
                     }
                 }
             }
@@ -454,6 +456,8 @@ public class HelloController {
                         img[i][j].setImage(chestWater);
                     } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
                         img[i][j].setImage(null); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalWood")) {
+                        img[i][j].setImage(normalWood); //steve
                     }
                 }
             }
@@ -762,13 +766,33 @@ public class HelloController {
                 case "normalTree":
                 case "fruitTree":
                 case "autumnTree":
+                case "rock":
+                case "goldOre":
+                case "rubyOre":
+                case "diamondOre":
+                case "normalWood":
                     miningObject = true;
                     miningX = playerPositionX + directionChange;
                     miningY = playerPositionY;
 //                    map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "grass", "stone":
-                    map[playerPositionX + directionChange][playerPositionY] = hotbar[0].getName();
+                    if(!equipped.getName().equals("empty")){
+                        int mineTime;
+                        if(equipped.getType().equals("pickaxe")){
+                            mineTime = (int) (Math.random() * 5) + 15;
+                        }else{
+                            mineTime = (int) (Math.random() * 5) + 8;
+                        }
+                        if(equipped.getAmount()>1){
+                            equipped.changeAmount(-1);
+                        }else{
+                            equipped = new inventoryItems("empty");
+                        }
+                        map[playerPositionX+ directionChange][playerPositionY ] = equipped.getName();
+                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX+ directionChange, playerPositionY ));
+
+                    }
                     break;
             }
 
@@ -781,6 +805,8 @@ public class HelloController {
                 case "goldOre":
                 case "rubyOre":
                 case "diamondOre":
+                case "normalWood":
+
 
                     miningObject = true;
                     miningX = playerPositionX;
@@ -788,8 +814,22 @@ public class HelloController {
 //                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "grass", "stone":
-                    map[playerPositionX][playerPositionY + directionChange] = "diamondOre";
-                    mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new Resources("diamond"), 1, playerPositionX, playerPositionY + directionChange));
+                    if(!equipped.getName().equals("empty")){
+                        int mineTime;
+                        if(equipped.getType().equals("pickaxe")){
+                            mineTime = (int) (Math.random() * 5) + 15;
+                        }else{
+                            mineTime = (int) (Math.random() * 5) + 8;
+                        }
+                        if(equipped.getAmount()>1){
+                            equipped.changeAmount(-1);
+                        }else{
+                            equipped = new inventoryItems("empty");
+                        }
+                        map[playerPositionX][playerPositionY + directionChange] = equipped.getName();
+                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX, playerPositionY + directionChange));
+
+                    }
                     break;
             }
         }
@@ -911,7 +951,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("normalTree","axe", (int) (Math.random() * 5) + 5, new Resources("normalWood"), (int) (Math.random() * 2) + 3, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("normalTree","axe", (int) (Math.random() * 5) + 5, new Resources("normalWood","axe"), (int) (Math.random() * 2) + 3, i, j));
                                     map[i][j] = "normalTree";
                                 }
                             }
@@ -931,7 +971,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood"), (int) (Math.random() * 2) + 3,new Resources("apples"),(int) (Math.random() * 3) + 1, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood","axe"), (int) (Math.random() * 2) + 3,new Resources("apples"),(int) (Math.random() * 3) + 1, i, j));
                                     map[i][j] = "fruitTree";
                                 }
                             }
@@ -952,7 +992,7 @@ public class HelloController {
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
                                     map[i][j] = "autumnTree";
-                                    mineObjectsOnMap.add(new mineObjects("autumnTree","axe", (int) (Math.random() * 5) + 5, new Resources("autumnWood"), (int) (Math.random() * 2) + 3, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("autumnTree","axe", (int) (Math.random() * 5) + 5, new Resources("autumnWood","axe"), (int) (Math.random() * 2) + 3, i, j));
 
                                 }
                             }
@@ -980,19 +1020,19 @@ public class HelloController {
                                 if (map[i][j].equals("grass")) {
                                     if (mineralRand < 4) {
                                         map[i][j] = "rock";
-                                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone"), (int) (Math.random() * 3) + 1, i, j));
+                                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 1, i, j));
 
                                     } else if (mineralRand < 6) {
                                         map[i][j] = "goldOre";
-                                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldIngot"), (int) (Math.random() * 2) + 1, i, j));
+                                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldIngot","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
 
                                     } else if (mineralRand < 8) {
                                         map[i][j] = "diamondOre";
-                                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new Resources("diamond"), 1, i, j));
+                                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new Resources("diamond","pickaxe"), 1, i, j));
 
                                     } else if (mineralRand < 11) {
                                         map[i][j] = "rubyOre";
-                                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("ruby"), (int) (Math.random() * 2) + 1, i, j));
+                                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("ruby","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
 
                                     } else {
                                         map[i][j] = "stone";

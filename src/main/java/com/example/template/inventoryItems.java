@@ -13,6 +13,8 @@ public class inventoryItems {
 
     String type;
 
+    boolean placeable = false;
+
     public inventoryItems(String name){
         this.name = name;
     }
@@ -31,9 +33,16 @@ public class inventoryItems {
         this.amount = amount;
     }
 
+    public inventoryItems(String name, String type){
+        this.name = name;
+        this.type = type;
+    }
 
+    public boolean isPlaceable() {
+        return placeable;
+    }
 
-    public inventoryItems(String name,int amount,int amountSecond){
+    public inventoryItems(String name, int amount, int amountSecond){
         this.name = name;
         this.amount = amount;
         this.amountSecond = amountSecond;
