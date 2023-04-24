@@ -5,20 +5,22 @@ public class mineObjects {
     private int amountDropSecond = 0;
     String name;
     int mineTime;
+    String type;
     Resources resourceDrop;
     int amountDrop;
     int x,y;
 
-    public mineObjects(String name,int mineTime,Resources resourceDrop,int amountDrop,int x,int y) {
+    public mineObjects(String name,String type,int mineTime,Resources resourceDrop,int amountDrop,int x,int y) {
         this.name = name;
         this.mineTime = mineTime;
         this.resourceDrop = resourceDrop;
         this.amountDrop = amountDrop;
         this.x = x;
         this.y = y;
+        this.type = type;
     }
 
-    public mineObjects(String name,int mineTime,Resources resourceDrop,int amountDrop,Resources resourceDropSecond,int amountDropSecond,int x,int y) {
+    public mineObjects(String name,String type,int mineTime,Resources resourceDrop,int amountDrop,Resources resourceDropSecond,int amountDropSecond,int x,int y) {
         this.name = name;
         this.mineTime = mineTime;
         this.resourceDrop = resourceDrop;
@@ -27,6 +29,7 @@ public class mineObjects {
         this.amountDropSecond = amountDropSecond ;
         this.x = x;
         this.y = y;
+        this.type = type;
     }
 
     public int getX() {
@@ -59,5 +62,9 @@ public class mineObjects {
 
     public Resources getResourceDropSecond() {
         return resourceDropSecond;
+    }
+
+    public String getType() {
+        return type;
     }
 }

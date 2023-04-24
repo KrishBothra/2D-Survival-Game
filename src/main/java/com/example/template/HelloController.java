@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -65,6 +66,9 @@ public class HelloController {
     private int invSelectedRow = -1;
     private int invSelectedCol = -1;
 
+    private inventoryItems equipped;
+    private int selected = 0;
+
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
 
@@ -86,14 +90,18 @@ public class HelloController {
 //    MediaPlayer mediaPlayer;
 //    Media sound;
 
-    FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondd, rubyy, goldd, waterr, chestWaterr, mailboxGrasss, mailboxStonee
-            , grayBackk, blackBackk, yellowBackk, rubyInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv;
-    Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamond, ruby, gold, water, chestWater, mailboxGrass, mailboxStone
-            , grayBack, blackBack, yellowBack, rubyInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv;
+    FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
+            , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv;
+    Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
+            , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
     private boolean breakB = false;
+    private boolean clickedS = false;
+    int amountChange = 0;
+    private boolean clickedP  = false;
+    private double toolBoost =1;
 
     public HelloController() {
         fruitQuest = false;
@@ -114,9 +122,9 @@ public class HelloController {
             arroww = new FileInputStream("src/main/resources/arrow.png");
             stonee = new FileInputStream("src/main/resources/stone.jpg");
             rockk = new FileInputStream("src/main/resources/rock.png");
-            diamondd = new FileInputStream("src/main/resources/diamond.png");
-            rubyy = new FileInputStream("src/main/resources/ruby.png");
-            goldd = new FileInputStream("src/main/resources/gold.png");
+            diamondOree = new FileInputStream("src/main/resources/diamondOre.jpg");
+            rubyOree = new FileInputStream("src/main/resources/rubyOre.png");
+            goldOree = new FileInputStream("src/main/resources/goldOre.jpg");
             waterr = new FileInputStream("src/main/resources/water.jpg");
             chestWaterr = new FileInputStream("src/main/resources/chestWater.png");
             mailboxGrasss = new FileInputStream("src/main/resources/mailboxGrass.png");
@@ -125,16 +133,21 @@ public class HelloController {
             blackBackk= new FileInputStream("src/main/resources/blackBack.png");
             yellowBackk= new FileInputStream("src/main/resources/yellowBack.png");
             rubyInvv = new FileInputStream("src/main/resources/rubyInv.png");
+            goldIngotInvv = new FileInputStream("src/main/resources/InventoryItems/goldIngot.png");
+            diamondInvv = new FileInputStream("src/main/resources/InventoryItems/diamond.png");
             normalWoodd = new FileInputStream("src/main/resources/normalWood.png");
             normalWooddInv = new FileInputStream("src/main/resources/InventoryItems/normalWood.png");
             fruitWooddInv = new FileInputStream("src/main/resources/InventoryItems/jungleWood.png");
             autumnWooddInv = new FileInputStream("src/main/resources/InventoryItems/acaciaWood.png");
             appleeInv = new FileInputStream("src/main/resources/InventoryItems/apple.png");
+            cobblestoneInvv = new FileInputStream("src/main/resources/InventoryItems/cobblestone.png");
+            woodAxeInvv = new FileInputStream("src/main/resources/InventoryItems/woodAxe.png");
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
-
+            woodAxeInv = new Image(woodAxeInvv);
+            cobbelstoneInv = new Image(cobblestoneInvv);
             normalWood = new Image(normalWoodd);
             normalWoodInv = new Image(normalWooddInv);
             fruitWoodInv = new Image(fruitWooddInv);
@@ -151,9 +164,9 @@ public class HelloController {
             arrow = new Image(arroww);
             stone = new Image(stonee);
             rock = new Image(rockk);
-            diamond = new Image(diamondd);
-            ruby = new Image(rubyy);
-            gold = new Image(goldd);
+            diamondOre = new Image(diamondOree);
+            rubyOre = new Image(rubyOree);
+            goldOre = new Image(goldOree);
             water = new Image(waterr);
             chestWater = new Image(chestWaterr);
             mailboxGrass = new Image(mailboxGrasss);
@@ -162,6 +175,8 @@ public class HelloController {
             blackBack = new Image(blackBackk);
             yellowBack = new Image(yellowBackk);
             rubyInv = new Image(rubyInvv);
+            diamondInv = new Image(diamondInvv  );
+            goldIngotInv = new Image(goldIngotInvv);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -198,6 +213,7 @@ public class HelloController {
 
             }
         }
+
         EventHandler z = new EventHandler<MouseEvent>()
         {
 
@@ -206,39 +222,54 @@ public class HelloController {
             {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
-//                if(!inventorySelected.getName().equals("nothing")){
-//                    if(inventoryImg[row][col].getImage()==grayBack){
-//                        inventoryImg[row][col].setImage(inventoryImg[invSelectedRow][invSelectedCol].getImage());
-//                        inventoryImg[invSelectedRow][invSelectedCol].setImage(grayBack);
-//                        inventorySelected= null;
-//                        System.out.println("hi");
-//                    }
-//                }
-//                else {
-//                    System.out.println();
-//                    if(!(inventoryImg[row][col].getImage()==grayBack|| !(inventoryImg[row][col].getImage()==blackBack))|| !(inventoryImg[row][col].getImage()==yellowBack)){
-////                        inventorySelected=inventoryImg[row][col].getImage();  ENEDED HERE
-//                        System.out.println(inventoryImg[row][col].getImage());
-//                        invSelectedRow = row;
-//                        invSelectedCol = col;
-//                    }
-//                }
-//                System.out.println(inventorySelected);
-                if(invSelectedCol!= -1&&invSelectedRow!=-1){
-                    System.out.println("hey");
-                    if(inventoryA[row][col].getName().equals("empty")){
-                        System.out.println("hey2");
-                        inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
-                        inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                        invSelectedCol = -1;
-                        invSelectedRow = -1;
-                        updateScreen();
+                if(t.getButton().equals(MouseButton.PRIMARY)&&!clickedS) {
+                    if (invSelectedCol != -1 && invSelectedRow != -1) {
+                        System.out.println("hey");
+                        if (inventoryA[row][col].getName().equals("empty")) {
+                            System.out.println("hey2");
+                            inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                            inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                            invSelectedCol = -1;
+                            invSelectedRow = -1;
+                            updateScreen();
+                            clickedP = false;
+                        } else if (inventoryA[row][col].getName().equals(inventoryA[invSelectedRow][invSelectedCol].getName())) {
+                            System.out.println("hey5");
+                            inventoryA[row][col].changeAmount(inventoryA[invSelectedRow][invSelectedCol].getAmount());
+                            inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                            invSelectedCol = -1;
+                            invSelectedRow = -1;
+                            updateScreen();
+                        }
+                    } else if (!inventoryA[row][col].getName().equals("empty")) {
+                        System.out.println("hey3");
+                        invSelectedRow = row;
+                        invSelectedCol = col;
+                        clickedP = true;
+                        System.out.println(inventoryA[row][col].getAmount());
                     }
-                }
-                else if(!inventoryA[row][col].getName().equals("empty")){
-                    System.out.println("hey3");
-                    invSelectedRow = row;
-                    invSelectedCol = col;
+                }else if(t.getButton().equals(MouseButton.SECONDARY)&&!clickedP){
+                    if (invSelectedCol != -1 && invSelectedRow != -1) {
+                        System.out.println("hey");
+                        if (inventoryA[row][col].getName().equals("empty")) {
+                            System.out.println("hey2");
+                            inventoryA[row][col] = new inventoryItems(inventoryA[invSelectedRow][invSelectedCol].getName(),amountChange);
+                            inventoryA[invSelectedRow][invSelectedCol].changeAmount(-(amountChange));
+                            invSelectedCol = -1;
+                            invSelectedRow = -1;
+                            updateScreen();
+                            clickedS = false;
+                        }
+                    } else if (!inventoryA[row][col].getName().equals("empty")) {
+                        if(inventoryA[row][col].getAmount()>1){
+                            amountChange = inventoryA[row][col].getAmount()/2;
+                            System.out.println("hey3");
+                            invSelectedRow = row;
+                            invSelectedCol = col;
+                            clickedS = true;
+                        }
+
+                    }
                 }
 
                 
@@ -252,22 +283,31 @@ public class HelloController {
             }
         }
 
-        inventoryImg[1][2].setImage(blackBack);
-        inventoryImg[2][2].setImage(blackBack);
-        inventoryImg[3][2].setImage(blackBack);
-        inventoryImg[4][2].setImage(blackBack);
-        inventoryImg[1][8].setImage(blackBack);
-        inventoryImg[2][8].setImage(blackBack);
-        inventoryImg[3][8].setImage(blackBack);
-        inventoryImg[4][8].setImage(blackBack);
-        inventoryImg[3][9].setImage(blackBack);
-        inventoryImg[3][10].setImage(blackBack);
-        inventoryImg[4][10].setImage(blackBack);
-        inventoryImg[4][3].setImage(grayBack);
-        inventoryImg[4][4].setImage(grayBack);
-        inventoryImg[4][5].setImage(grayBack);
-        inventoryImg[4][6].setImage(grayBack);
-        inventoryImg[4][7].setImage(grayBack);
+        for (int i = 0; i < inventoryImg.length; i++) {
+            for (int j = 0; j < inventoryImg[0].length; j++) {
+                inventoryImg[i][j].setImage(blackBack);
+
+            }
+        }
+
+        inventoryImg[1][1].setImage(grayBack);
+        inventoryImg[2][1].setImage(grayBack);
+        inventoryImg[3][1].setImage(grayBack);
+        inventoryImg[4][1].setImage(grayBack);
+
+        inventoryImg[1][9].setImage(grayBack);
+        inventoryImg[2][9].setImage(grayBack);
+        inventoryImg[1][10].setImage(grayBack);
+        inventoryImg[2][10].setImage(grayBack);
+
+
+        inventoryImg[4][9].setImage(grayBack);
+
+        for (int i = 1; i <=4 ; i++) {
+            for (int j = 3; j <=7 ; j++) {
+                inventoryImg[i][j].setImage(grayBack);
+            }
+        }
 
 
 //        inventoryImg[1][3].setImage(rubyInv);
@@ -325,7 +365,7 @@ public class HelloController {
         start();
         //for the change
 
-
+        inventoryA[4][3] = new Tools("woodAxe",1,"axe");
     }
 
 
@@ -359,12 +399,12 @@ public class HelloController {
                         img[i][j].setImage(playerOverStone);
                     } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rock")) {
                         img[i][j].setImage(rock);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("gold")) {
-                        img[i][j].setImage(gold);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("ruby")) {
-                        img[i][j].setImage(ruby);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamond")) {
-                        img[i][j].setImage(diamond);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("goldOre")) {
+                        img[i][j].setImage(goldOre);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rubyOre")) {
+                        img[i][j].setImage(rubyOre);
+                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamondOre")) {
+                        img[i][j].setImage(diamondOre);
                     } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("water")) {
                         img[i][j].setImage(water);
                     } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
@@ -394,12 +434,12 @@ public class HelloController {
                         img[i][j].setImage(playerOverStone);
                     } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rock")) {
                         img[i][j].setImage(rock);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("ruby")) {
-                        img[i][j].setImage(ruby);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamond")) {
-                        img[i][j].setImage(diamond);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("gold")) {
-                        img[i][j].setImage(gold);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rubyOre")) {
+                        img[i][j].setImage(rubyOre);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamondOre")) {
+                        img[i][j].setImage(diamondOre);
+                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("goldOre")) {
+                        img[i][j].setImage(goldOre);
                     } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
                         img[i][j].setImage(water);
                     } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
@@ -434,6 +474,16 @@ public class HelloController {
                 hotbarImg[i][0].setImage(fruitWoodInv);
             } else if(hotbar[i].getName().equals("apples")){
                 hotbarImg[i][0].setImage(appleInv);
+            } else if(hotbar[i].getName().equals("diamond")){
+                hotbarImg[i][0].setImage(diamondInv);
+            } else if(hotbar[i].getName().equals("goldIngot")){
+                hotbarImg[i][0].setImage(goldIngotInv);
+            } else if(hotbar[i].getName().equals("ruby")){
+                hotbarImg[i][0].setImage(rubyInv);
+            }else if(hotbar[i].getName().equals("cobblestone")){
+                hotbarImg[i][0].setImage(cobbelstoneInv);
+            }else if(hotbar[i].getName().equals("woodAxe")){
+                hotbarImg[i][0].setImage(woodAxeInv);
             }else if(hotbar[i].getName().equals("empty")){
                 hotbarImg[i][0].setImage(grayBack);
             }
@@ -449,11 +499,23 @@ public class HelloController {
                     inventoryImg[i][j].setImage(fruitWoodInv);
                 } else if(inventoryA[i][j].getName().equals("apples")){
                     inventoryImg[i][j].setImage(appleInv);
+                } else if(inventoryA[i][j].getName().equals("diamond")){
+                    inventoryImg[i][j].setImage(diamondInv);
+                } else if(inventoryA[i][j].getName().equals("goldIngot")){
+                    inventoryImg[i][j].setImage(goldIngotInv);
+                } else if(inventoryA[i][j].getName().equals("ruby")){
+                    inventoryImg[i][j].setImage(rubyInv);
+                }else if(inventoryA[i][j].getName().equals("cobblestone")){
+                    inventoryImg[i][j].setImage(cobbelstoneInv);
+                }else if(inventoryA[i][j].getName().equals("woodAxe")){
+                    inventoryImg[i][j].setImage(woodAxeInv);
                 }else if(inventoryA[i][j].getName().equals("empty")){
                     inventoryImg[i][j].setImage(grayBack);
                 }
             }
         }
+        equipped = hotbar[selected];
+        //System.out.println(equipped.getName());
     }
 
 //    public void onClick2() {
@@ -510,6 +572,18 @@ public class HelloController {
                     inventoryShowing = true;
                 }
             }
+            if (keyEvent.getText().equalsIgnoreCase("1")) {
+                selected = 0;
+            } else if (keyEvent.getText().equalsIgnoreCase("2")) {
+                selected = 1;
+            } else if (keyEvent.getText().equalsIgnoreCase("3")) {
+                selected = 2;
+            } else if (keyEvent.getText().equalsIgnoreCase("4")) {
+                selected = 3;
+            } else if (keyEvent.getText().equalsIgnoreCase("5")) {
+                selected = 4;
+            }
+
         }
         updateScreen();
 
@@ -534,8 +608,17 @@ public class HelloController {
                         System.out.println("MINE TIME "+tempMineTime);
                         miningBar.setProgress(1.0);
                         first = true;
+                        System.out.println(equipped.getName());
+                        System.out.println(equipped.getTier());
+                        if(equipped.getTier()>0){
+                            System.out.println(tempMine.getType());
+                            if(tempMine.getType().equals(equipped.getType())){
+                                toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                                System.out.println(toolBoost);
+                            }
+                        }
                     }
-                    if(now-miningTime>1000000000.0){
+                    if(now-miningTime>1000000000.0/toolBoost){
                         miningTime = System.nanoTime();
                         tempMineTime--;
                         miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
@@ -695,9 +778,9 @@ public class HelloController {
                 case "fruitTree":
                 case "autumnTree":
                 case "rock":
-                case "gold":
-                case "ruby":
-                case "diamond":
+                case "goldOre":
+                case "rubyOre":
+                case "diamondOre":
 
                     miningObject = true;
                     miningX = playerPositionX;
@@ -705,8 +788,8 @@ public class HelloController {
 //                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "grass", "stone":
-                    map[playerPositionX][playerPositionY + directionChange] = hotbar[0].getName();
-                    mineObjectsOnMap.add(new mineObjects("diamond", (int) (Math.random() * 5) + 20, new Resources("diamondR"), 1, playerPositionX, playerPositionY + directionChange));
+                    map[playerPositionX][playerPositionY + directionChange] = "diamondOre";
+                    mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new Resources("diamond"), 1, playerPositionX, playerPositionY + directionChange));
                     break;
             }
         }
@@ -828,7 +911,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("normalTree", (int) (Math.random() * 5) + 5, new Resources("normalWood"), (int) (Math.random() * 2) + 3, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("normalTree","axe", (int) (Math.random() * 5) + 5, new Resources("normalWood"), (int) (Math.random() * 2) + 3, i, j));
                                     map[i][j] = "normalTree";
                                 }
                             }
@@ -848,7 +931,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("fruitTree", (int) (Math.random() * 5) + 5, new Resources("fruitWood"), (int) (Math.random() * 2) + 3,new Resources("apples"),(int) (Math.random() * 3) + 1, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood"), (int) (Math.random() * 2) + 3,new Resources("apples"),(int) (Math.random() * 3) + 1, i, j));
                                     map[i][j] = "fruitTree";
                                 }
                             }
@@ -869,7 +952,7 @@ public class HelloController {
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
                                     map[i][j] = "autumnTree";
-                                    mineObjectsOnMap.add(new mineObjects("autumnTree", (int) (Math.random() * 5) + 5, new Resources("autumnWood"), (int) (Math.random() * 2) + 3, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("autumnTree","axe", (int) (Math.random() * 5) + 5, new Resources("autumnWood"), (int) (Math.random() * 2) + 3, i, j));
 
                                 }
                             }
@@ -897,19 +980,19 @@ public class HelloController {
                                 if (map[i][j].equals("grass")) {
                                     if (mineralRand < 4) {
                                         map[i][j] = "rock";
-                                        mineObjectsOnMap.add(new mineObjects("rock", (int) (Math.random() * 5) + 10, new Resources("cobblestone"), (int) (Math.random() * 3) + 1, i, j));
+                                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone"), (int) (Math.random() * 3) + 1, i, j));
 
                                     } else if (mineralRand < 6) {
-                                        map[i][j] = "gold";
-                                        mineObjectsOnMap.add(new mineObjects("gold", (int) (Math.random() * 5) + 15, new Resources("goldR"), (int) (Math.random() * 2) + 1, i, j));
+                                        map[i][j] = "goldOre";
+                                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldIngot"), (int) (Math.random() * 2) + 1, i, j));
 
                                     } else if (mineralRand < 8) {
-                                        map[i][j] = "diamond";
-                                        mineObjectsOnMap.add(new mineObjects("diamond", (int) (Math.random() * 5) + 20, new Resources("diamondR"), 1, i, j));
+                                        map[i][j] = "diamondOre";
+                                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new Resources("diamond"), 1, i, j));
 
                                     } else if (mineralRand < 11) {
-                                        map[i][j] = "ruby";
-                                        mineObjectsOnMap.add(new mineObjects("ruby", (int) (Math.random() * 5) + 15, new Resources("rubyR"), (int) (Math.random() * 2) + 1, i, j));
+                                        map[i][j] = "rubyOre";
+                                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("ruby"), (int) (Math.random() * 2) + 1, i, j));
 
                                     } else {
                                         map[i][j] = "stone";
