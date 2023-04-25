@@ -865,14 +865,17 @@ public class HelloController {
                         }else{
                             mineTime = (int) (Math.random() * 5) + 8;
                         }
+
+                        map[playerPositionX+ directionChange][playerPositionY ] = equipped.getName();
+                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX+ directionChange, playerPositionY ));
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
-                            equipped = new inventoryItems("empty");
+                            inventoryA[4][selected] = new inventoryItems("empty");
+                            System.out.println(inventoryA[4][selected].getName());
+                            updateScreen();
+                            System.out.println(equipped.getName());
                         }
-                        map[playerPositionX+ directionChange][playerPositionY ] = equipped.getName();
-                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX+ directionChange, playerPositionY ));
-
                     }
                     break;
             }
@@ -902,14 +905,17 @@ public class HelloController {
                         }else{
                             mineTime = (int) (Math.random() * 5) + 8;
                         }
+
+                        map[playerPositionX][playerPositionY + directionChange] = equipped.getName();
+                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX, playerPositionY + directionChange));
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
-                            equipped = new inventoryItems("empty");
+                            inventoryA[4][selected] = new inventoryItems("empty");
+                            System.out.println(inventoryA[4][selected].getName());
+                            updateScreen();
+                            System.out.println(equipped.getName());
                         }
-                        map[playerPositionX][playerPositionY + directionChange] = equipped.getName();
-                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX, playerPositionY + directionChange));
-
                     }
                     break;
             }
