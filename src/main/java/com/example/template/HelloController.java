@@ -515,7 +515,7 @@ public class HelloController {
                 }
             }
         }
-
+        System.out.println(inventoryA[4][selected].getName());
         for (int i = 3; i < 8; i++) {
             hotbar[i-3]=inventoryA[4][i];
         }
@@ -569,7 +569,9 @@ public class HelloController {
                 }
             }
         }
+        System.out.println(hotbar[selected].getName());
         equipped = hotbar[selected];
+        System.out.println(equipped.getName());
         checkCrafts();
         //System.out.println(equipped.getName());
     }
@@ -871,9 +873,10 @@ public class HelloController {
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
-                            inventoryA[4][selected] = new inventoryItems("empty");
-                            System.out.println(inventoryA[4][selected].getName());
+                            inventoryA[4][selected+3] = new inventoryItems("empty");
+                            System.out.println(inventoryA[4][selected+3].getName());
                             updateScreen();
+                            System.out.println(hotbar[selected].getName());
                             System.out.println(equipped.getName());
                         }
                     }
@@ -911,9 +914,10 @@ public class HelloController {
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
-                            inventoryA[4][selected] = new inventoryItems("empty");
-                            System.out.println(inventoryA[4][selected].getName());
+                            inventoryA[4][selected+3] = new inventoryItems("empty");
+                            System.out.println(inventoryA[4][selected+3].getName());
                             updateScreen();
+                            System.out.println(hotbar[selected].getName());
                             System.out.println(equipped.getName());
                         }
                     }
