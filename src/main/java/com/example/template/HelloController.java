@@ -72,7 +72,7 @@ public class HelloController {
     private Label[][] inventoryLabels = new Label[4][5];
 
     @FXML
-    private Label one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5;
+    private Label one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5, one1c, one2c, two1c, two2c, result;
 
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
@@ -495,6 +495,25 @@ public class HelloController {
             }
             tempPlayerPositionX = playerPositionX;
             tempPlayerPositionY = playerPositionY;
+            for (int i = 0; i<inventoryLabels.length; i++) {
+                for (int j = 0; j < inventoryLabels[0].length; j++) {
+                    if(inventoryA[i+1][j+3].getAmount()!=0&&inventoryA[i+1][j+3].getAmount()!=1){
+                        inventoryLabels[i][j].setText(Integer.toString(inventoryA[i+1][j+3].getAmount()));
+                        one1c.setText(Integer.toString(inventoryA[1][9].getAmount()));
+                        one2c.setText(Integer.toString(inventoryA[1][10].getAmount()));
+                        two1c.setText(Integer.toString(inventoryA[2][9].getAmount()));
+                        one2c.setText(Integer.toString(inventoryA[2][10].getAmount()));
+                        result.setText(Integer.toString(inventoryA[4][9].getAmount()));
+                    }else{
+                        inventoryLabels[i][j].setText("");
+                        one1c.setText("");
+                        one2c.setText("");
+                        two1c.setText("");
+                        two2c.setText("");
+                        result.setText("");
+                    }
+                }
+            }
         }
 
         for (int i = 3; i < 8; i++) {
@@ -551,6 +570,7 @@ public class HelloController {
             }
         }
         equipped = hotbar[selected];
+        checkCrafts();
         //System.out.println(equipped.getName());
     }
 
@@ -562,6 +582,15 @@ public class HelloController {
 //        updateScreen();
 //    }
 
+    private void checkCrafts(){
+        inventoryItems tl = inventoryA[1][9];
+        inventoryItems tr = inventoryA[1][10];
+        inventoryItems bl = inventoryA[2][9];
+        inventoryItems br = inventoryA[2][10];
+        if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")||br.getName().equals("empty")){
+
+        }
+    }
 
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
@@ -601,11 +630,31 @@ public class HelloController {
                     hotbarG.setVisible(true);
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
+                    for (int i = 0; i<inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            result.setVisible(false);
+                        }
+                    }
                 }else{
                     gPane.setVisible(false);
                     hotbarG.setVisible(false);
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
+                    for (int i = 0; i<inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            result.setVisible(true);
+                        }
+                    }
                 }
             }
             if (keyEvent.getText().equalsIgnoreCase("1")) {
