@@ -13,6 +13,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +39,9 @@ public class HelloController {
 
     @FXML
     private ProgressBar miningBar;
+
+    @FXML
+    private Rectangle slot1,slot2,slot3,slot4,slot5;
 
     private int x = 25;
 
@@ -96,9 +100,9 @@ public class HelloController {
 //    Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
-            , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv;
+            , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
-            , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv;
+            , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -147,10 +151,14 @@ public class HelloController {
             appleeInv = new FileInputStream("src/main/resources/InventoryItems/apple.png");
             cobblestoneInvv = new FileInputStream("src/main/resources/InventoryItems/cobblestone.png");
             woodAxeInvv = new FileInputStream("src/main/resources/InventoryItems/woodAxe.png");
+            autumnWoodd = new FileInputStream("src/main/resources/acaciaWood.png");
+            jungleWoodd = new FileInputStream("src/main/resources/jungleWood.png");
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
+            autumnWood = new Image(autumnWoodd);
+            fruitWood = new Image(jungleWoodd);
             woodAxeInv = new Image(woodAxeInvv);
             cobbelstoneInv = new Image(cobblestoneInvv);
             normalWood = new Image(normalWoodd);
@@ -258,22 +266,26 @@ public class HelloController {
                     if (invSelectedCol != -1 && invSelectedRow != -1) {
                         System.out.println("hey");
                         if (inventoryA[row][col].getName().equals("empty")) {
-                            System.out.println("hey2");
-                            inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
-                            inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                            invSelectedCol = -1;
-                            invSelectedRow = -1;
-                            updateScreen();
-                            clickedP = false;
+                            if(inventoryImg[row][col].getImage().equals(grayBack)) {
+                                System.out.println("hey2");
+                                inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                                inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                invSelectedCol = -1;
+                                invSelectedRow = -1;
+                                updateScreen();
+                                clickedP = false;
+                            }
                         } else if (inventoryA[row][col].getName().equals(inventoryA[invSelectedRow][invSelectedCol].getName())) {
-                            System.out.println("hey5");
-                            inventoryA[row][col].changeAmount(inventoryA[invSelectedRow][invSelectedCol].getAmount());
-                            inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                            invSelectedCol = -1;
-                            invSelectedRow = -1;
-                            updateScreen();
+                            if(row!=invSelectedRow||col!=invSelectedCol) {
+                                System.out.println("hey5");
+                                inventoryA[row][col].changeAmount(inventoryA[invSelectedRow][invSelectedCol].getAmount());
+                                inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                invSelectedCol = -1;
+                                invSelectedRow = -1;
+                                updateScreen();
+                            }
                         }
-                    } else if (!inventoryA[row][col].getName().equals("empty")) {
+                    } else if (!inventoryA[row][col].getName().equals("empty")&&!inventoryA[row][col].getName().equals("nothing")) {
                         System.out.println("hey3");
                         invSelectedRow = row;
                         invSelectedCol = col;
@@ -284,15 +296,17 @@ public class HelloController {
                     if (invSelectedCol != -1 && invSelectedRow != -1) {
                         System.out.println("hey");
                         if (inventoryA[row][col].getName().equals("empty")) {
-                            System.out.println("hey2");
-                            inventoryA[row][col] = new inventoryItems(inventoryA[invSelectedRow][invSelectedCol].getName(),amountChange);
-                            inventoryA[invSelectedRow][invSelectedCol].changeAmount(-(amountChange));
-                            invSelectedCol = -1;
-                            invSelectedRow = -1;
-                            updateScreen();
-                            clickedS = false;
+                            if(inventoryImg[row][col].getImage().equals(grayBack)) {
+                                System.out.println("hey2");
+                                inventoryA[row][col] = new inventoryItems(inventoryA[invSelectedRow][invSelectedCol].getName(), amountChange);
+                                inventoryA[invSelectedRow][invSelectedCol].changeAmount(-(amountChange));
+                                invSelectedCol = -1;
+                                invSelectedRow = -1;
+                                updateScreen();
+                                clickedS = false;
+                            }
                         }
-                    } else if (!inventoryA[row][col].getName().equals("empty")) {
+                    } else if (!inventoryA[row][col].getName().equals("empty")&&!inventoryA[row][col].getName().equals("nothing")) {
                         if(inventoryA[row][col].getAmount()>1){
                             amountChange = inventoryA[row][col].getAmount()/2;
                             System.out.println("hey3");
@@ -304,7 +318,7 @@ public class HelloController {
                     }
                 }
 
-                
+
 
             }
         };
@@ -388,16 +402,23 @@ public class HelloController {
 
         for (int i = 0; i < inventoryA.length; i++) {
             for (int j = 0; j < inventoryA[0].length; j++) {
-                inventoryA[i][j] = new inventoryItems("empty");
+                if(!inventoryImg[i][j].getImage().equals(blackBack)) {
+                    inventoryA[i][j] = new inventoryItems("empty");
+                }else{
+                    inventoryA[i][j] = new inventoryItems("nothing");
+                }
+
             }
 
         }
+
+        inventoryA[4][3] = new Tools("woodAxe",1,"axe");
 
         updateScreen();
         start();
         //for the change
 
-        inventoryA[4][3] = new Tools("woodAxe",1,"axe");
+
     }
 
 
@@ -443,6 +464,10 @@ public class HelloController {
                         img[i][j].setImage(null);
                     } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalWood")) {
                         img[i][j].setImage(normalWood);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnWood")) {
+                        img[i][j].setImage(autumnWood);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitWood")) {
+                        img[i][j].setImage(fruitWood);
                     }
                 }
             }
@@ -490,6 +515,10 @@ public class HelloController {
                         img[i][j].setImage(null); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalWood")) {
                         img[i][j].setImage(normalWood); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnWood")) {
+                        img[i][j].setImage(autumnWood); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitWood")) {
+                        img[i][j].setImage(fruitWood); //steve
                     }
                 }
             }
@@ -515,7 +544,7 @@ public class HelloController {
                 }
             }
         }
-        System.out.println(inventoryA[4][selected].getName());
+        //System.out.println(inventoryA[4][selected].getName());
         for (int i = 3; i < 8; i++) {
             hotbar[i-3]=inventoryA[4][i];
         }
@@ -544,8 +573,8 @@ public class HelloController {
             }
         }
 
-        for (int i = 1; i <=4; i++) {
-            for (int j = 3; j <=7; j++) {
+        for (int i = 0; i <inventoryA.length; i++) {
+            for (int j = 0; j <inventoryA[0].length; j++) {
                 if(inventoryA[i][j].getName().equals("normalWood")){
                     inventoryImg[i][j].setImage(normalWoodInv);
                 }else if(inventoryA[i][j].getName().equals("autumnWood")){
@@ -569,9 +598,8 @@ public class HelloController {
                 }
             }
         }
-        System.out.println(hotbar[selected].getName());
         equipped = hotbar[selected];
-        System.out.println(equipped.getName());
+
         checkCrafts();
         //System.out.println(equipped.getName());
     }
@@ -661,14 +689,39 @@ public class HelloController {
             }
             if (keyEvent.getText().equalsIgnoreCase("1")) {
                 selected = 0;
+                slot1.setVisible(true);
+                slot2.setVisible(false);
+                slot3.setVisible(false);
+                slot4.setVisible(false);
+                slot5.setVisible(false);
             } else if (keyEvent.getText().equalsIgnoreCase("2")) {
                 selected = 1;
+                slot1.setVisible(false);
+                slot2.setVisible(true);
+                slot3.setVisible(false);
+                slot4.setVisible(false);
+                slot5.setVisible(false);
             } else if (keyEvent.getText().equalsIgnoreCase("3")) {
                 selected = 2;
+                slot1.setVisible(false);
+                slot2.setVisible(false);
+                slot3.setVisible(true);
+                slot4.setVisible(false);
+                slot5.setVisible(false);
             } else if (keyEvent.getText().equalsIgnoreCase("4")) {
                 selected = 3;
+                slot1.setVisible(false);
+                slot2.setVisible(false);
+                slot3.setVisible(false);
+                slot4.setVisible(true);
+                slot5.setVisible(false);
             } else if (keyEvent.getText().equalsIgnoreCase("5")) {
                 selected = 4;
+                slot1.setVisible(false);
+                slot2.setVisible(false);
+                slot3.setVisible(false);
+                slot4.setVisible(false);
+                slot5.setVisible(true);
             }
 
         }
@@ -710,7 +763,7 @@ public class HelloController {
                         tempMineTime--;
                         miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
                         if(tempMineTime < 1)   {
-                            if(tempMine.getName().equals("autumnTree")||tempMine.getName().equals("normalTree")||tempMine.getName().equals("fruitTree")) {
+                            if(tempMine.getName().endsWith("Tree")||tempMine.getName().endsWith("Wood")) {
                                 map[miningX][miningY] = "grass";
                             }else{
                                 System.out.println(tempMine.getName());
@@ -854,22 +907,28 @@ public class HelloController {
                 case "rubyOre":
                 case "diamondOre":
                 case "normalWood":
+                case "fruitWood":
+                case "autumnWood":
                     miningObject = true;
                     miningX = playerPositionX + directionChange;
                     miningY = playerPositionY;
 //                    map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "grass", "stone":
-                    if(!equipped.getName().equals("empty")){
+                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()){
                         int mineTime;
+                        String type;
                         if(equipped.getType().equals("pickaxe")){
                             mineTime = (int) (Math.random() * 5) + 15;
+                            type = "pickaxe";
                         }else{
                             mineTime = (int) (Math.random() * 5) + 8;
+                            type = "axe";
                         }
 
                         map[playerPositionX+ directionChange][playerPositionY ] = equipped.getName();
-                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX+ directionChange, playerPositionY ));
+                        System.out.println(map[playerPositionX+ directionChange][playerPositionY ]);
+                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName(),type), 1, playerPositionX+ directionChange, playerPositionY ));
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
@@ -893,7 +952,8 @@ public class HelloController {
                 case "rubyOre":
                 case "diamondOre":
                 case "normalWood":
-
+                case "fruitWood":
+                case "autumnWood":
 
                     miningObject = true;
                     miningX = playerPositionX;
@@ -901,16 +961,20 @@ public class HelloController {
 //                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "grass", "stone":
-                    if(!equipped.getName().equals("empty")){
+                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()){
                         int mineTime;
+                        String type;
                         if(equipped.getType().equals("pickaxe")){
                             mineTime = (int) (Math.random() * 5) + 15;
+                            type = "pickaxe";
                         }else{
                             mineTime = (int) (Math.random() * 5) + 8;
+                            type = "axe";
                         }
 
                         map[playerPositionX][playerPositionY + directionChange] = equipped.getName();
-                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName()), 1, playerPositionX, playerPositionY + directionChange));
+                        System.out.println(map[playerPositionX][playerPositionY + directionChange]);
+                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName(),type), 1, playerPositionX, playerPositionY + directionChange));
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
@@ -1062,7 +1126,7 @@ public class HelloController {
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood","axe"), (int) (Math.random() * 2) + 3,new Resources("apples"),(int) (Math.random() * 3) + 1, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood","axe"), (int) (Math.random() * 2) + 3,new Food("apples"),(int) (Math.random() * 3) + 1, i, j));
                                     map[i][j] = "fruitTree";
                                 }
                             }

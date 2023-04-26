@@ -24,6 +24,8 @@ public class inventoryItems {
         return boost;
     }
 
+
+
     public String getType() {
         return type;
     }

@@ -1,12 +1,12 @@
 package com.example.template;
 
 public class mineObjects {
-    private Resources resourceDropSecond = null;
+    private inventoryItems resourceDropSecond = null;
     private int amountDropSecond = 0;
     String name;
     int mineTime;
     String type;
-    Resources resourceDrop;
+    inventoryItems resourceDrop;
     int amountDrop;
     int x,y;
 
@@ -20,7 +20,7 @@ public class mineObjects {
         this.type = type;
     }
 
-    public mineObjects(String name,String type,int mineTime,Resources resourceDrop,int amountDrop,Resources resourceDropSecond,int amountDropSecond,int x,int y) {
+    public mineObjects(String name,String type,int mineTime,inventoryItems resourceDrop,int amountDrop,inventoryItems resourceDropSecond,int amountDropSecond,int x,int y) {
         this.name = name;
         this.mineTime = mineTime;
         this.resourceDrop = resourceDrop;
@@ -56,11 +56,11 @@ public class mineObjects {
         return amountDropSecond;
     }
 
-    public Resources getResourceDrop() {
+    public inventoryItems getResourceDrop() {
         return resourceDrop;
     }
 
-    public Resources getResourceDropSecond() {
+    public inventoryItems getResourceDropSecond() {
         return resourceDropSecond;
     }
 
