@@ -100,9 +100,11 @@ public class HelloController {
 //    Media sound;
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
-            , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd;
+            , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
+            sheepp;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
-            , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood;
+            , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
+            ,sheep;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -153,10 +155,12 @@ public class HelloController {
             woodAxeInvv = new FileInputStream("src/main/resources/InventoryItems/woodAxe.png");
             autumnWoodd = new FileInputStream("src/main/resources/acaciaWood.png");
             jungleWoodd = new FileInputStream("src/main/resources/jungleWood.png");
+            sheepp = new FileInputStream("src/main/resources/Animals/sheep.png");
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
+            sheep = new Image(sheepp);
             autumnWood = new Image(autumnWoodd);
             fruitWood = new Image(jungleWoodd);
             woodAxeInv = new Image(woodAxeInvv);
@@ -468,6 +472,8 @@ public class HelloController {
                         img[i][j].setImage(autumnWood);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitWood")) {
                         img[i][j].setImage(fruitWood);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("sheep")) {
+                        img[i][j].setImage(sheep);
                     }
                 }
             }
@@ -519,6 +525,8 @@ public class HelloController {
                         img[i][j].setImage(autumnWood); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitWood")) {
                         img[i][j].setImage(fruitWood); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("sheep")) {
+                        img[i][j].setImage(sheep); //steve
                     }
                 }
             }
