@@ -412,7 +412,7 @@ public class HelloController {
 
         }
 
-        inventoryA[4][3] = new Tools("woodAxe",1,"axe");
+        inventoryA[4][3] = new Tools("woodAxe",1,"axe",2,20);
 
         updateScreen();
         start();
@@ -919,10 +919,10 @@ public class HelloController {
                         int mineTime;
                         String type;
                         if(equipped.getType().equals("pickaxe")){
-                            mineTime = (int) (Math.random() * 5) + 15;
+                            mineTime = (int) (Math.random() * 6) + 10;
                             type = "pickaxe";
                         }else{
-                            mineTime = (int) (Math.random() * 5) + 8;
+                            mineTime = (int) (Math.random() * 5) + 5;
                             type = "axe";
                         }
 
@@ -965,10 +965,10 @@ public class HelloController {
                         int mineTime;
                         String type;
                         if(equipped.getType().equals("pickaxe")){
-                            mineTime = (int) (Math.random() * 5) + 15;
+                            mineTime = (int) (Math.random() * 6) + 10;
                             type = "pickaxe";
                         }else{
-                            mineTime = (int) (Math.random() * 5) + 8;
+                            mineTime = (int) (Math.random() * 5) + 5;
                             type = "axe";
                         }
 

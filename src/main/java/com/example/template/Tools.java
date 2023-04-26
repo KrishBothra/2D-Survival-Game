@@ -5,12 +5,13 @@ public class Tools extends inventoryItems {
 
 
     String type;
-    public Tools(String name, int tier,String type){
+    public Tools(String name, int tier,String type,int damage, int durability){
         super(name);
         this.name = name;
         super.tier = tier;
         super.type = type;
-
+        super.damage =damage * tier;
+        super.durability = durability;
 
     }
 

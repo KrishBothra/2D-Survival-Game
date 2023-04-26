@@ -6,6 +6,8 @@ public class inventoryItems {
     int amount;
     int amountSecond;
 
+    int damage;
+    int durbality;
     int tier = 0;
 
     int durability;
