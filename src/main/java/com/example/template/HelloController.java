@@ -101,10 +101,10 @@ public class HelloController {
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
-            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv;
+            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
-            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv;
+            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -157,14 +157,19 @@ public class HelloController {
             jungleWoodd = new FileInputStream("src/main/resources/jungleWood.png");
             sheepp = new FileInputStream("src/main/resources/Animals/sheep.png");
             normalPlankkInv = new FileInputStream("src/main/resources/InventoryItems/oakPlank.png");
-            autumnPlankkInv = new FileInputStream("src/main/resources/InventoryItems/junglePlank.png");
-            fruitPlankkInv = new FileInputStream("src/main/resources/InventoryItems/acaiaPlank.png");
-
+            autumnPlankkInv = new FileInputStream("src/main/resources/InventoryItems/acaiaPlank.png");
+            fruitPlankkInv = new FileInputStream("src/main/resources/InventoryItems/junglePlank.png");
+            fruitPlankk = new FileInputStream("src/main/resources/junglePlank.png");
+            autumnPlankk = new FileInputStream("src/main/resources/acaciaPlank.jpg");
+            normalPlankk = new FileInputStream("src/main/resources/oakPlank.png");
 
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
+            fruitPlank = new Image(fruitPlankk);
+            autumnPlank = new Image(autumnPlankk);
+            normalPlank = new Image(normalPlankk);
             sheep = new Image(sheepp);
             autumnWood = new Image(autumnWoodd);
             fruitWood = new Image(jungleWoodd);
@@ -500,6 +505,12 @@ public class HelloController {
                         img[i][j].setImage(fruitWood);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("sheep")) {
                         img[i][j].setImage(sheep);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitPlank")) {
+                        img[i][j].setImage(fruitPlank);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalPlank")) {
+                        img[i][j].setImage(normalPlank);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnPlank")) {
+                        img[i][j].setImage(autumnPlank);
                     }
                 }
             }
@@ -553,6 +564,12 @@ public class HelloController {
                         img[i][j].setImage(fruitWood); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("sheep")) {
                         img[i][j].setImage(sheep); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitPlank")) {
+                        img[i][j].setImage(fruitPlank); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalPlank")) {
+                        img[i][j].setImage(normalPlank); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnPlank")) {
+                        img[i][j].setImage(autumnPlank); //steve
                     }
                 }
             }
@@ -618,10 +635,10 @@ public class HelloController {
                 hotbarImg[i][0].setImage(cobbelstoneInv);
             }else if(hotbar[i].getName().equals("woodAxe")){
                 hotbarImg[i][0].setImage(woodAxeInv);
-            }else if(inventoryA[i][0].getName().equals("autumnPlank")) {
-                inventoryImg[i][0].setImage(autumnPlankInv);
-            }else if(inventoryA[i][0].getName().equals("fruitPlank")) {
-                inventoryImg[i][0].setImage(fruitPlankInv);
+            }else if(hotbar[i].getName().equals("autumnPlank")) {
+                hotbarImg[i][0].setImage(autumnPlankInv);
+            }else if(hotbar[i].getName().equals("fruitPlank")) {
+                hotbarImg[i][0].setImage(fruitPlankInv);
             }else if(hotbar[i].getName().equals("empty")){
                 hotbarImg[i][0].setImage(grayBack);
             }
@@ -680,46 +697,46 @@ public class HelloController {
 
         //NORMAL WOOD PLANKS
         if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9] = new Resources("normalPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("normalWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9] = new Resources("normalPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("normalWood")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9] = new Resources("normalPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("normalWood")){
-            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9] = new Resources("normalPlank","axe");
             inventoryA[4][9].setAmount(4);
         }
         
         /////////////////////FRUIT PLANKS
         else if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9] = new Resources("fruitPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9] = new Resources("fruitPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("fruitWood")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9] = new Resources("fruitPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("fruitWood")){
-            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9] = new Resources("fruitPlank","axe");
             inventoryA[4][9].setAmount(4);
         }
         
         /////////////////////AUTUMN PLANKS
         else if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9] = new Resources("autumnPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9] = new Resources("autumnPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("autumnWood")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9] = new Resources("autumnPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("autumnWood")){
-            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9] = new Resources("autumnPlank","axe");
             inventoryA[4][9].setAmount(4);
         }else{
             inventoryA[4][9] = new inventoryItems("empty");
@@ -1018,6 +1035,9 @@ public class HelloController {
                 case "normalWood":
                 case "fruitWood":
                 case "autumnWood":
+                case "fruitPlank":
+                case "normalPlank":
+                case "autumnPlank":
                     miningObject = true;
                     miningX = playerPositionX + directionChange;
                     miningY = playerPositionY;
@@ -1063,6 +1083,9 @@ public class HelloController {
                 case "normalWood":
                 case "fruitWood":
                 case "autumnWood":
+                case "fruitPlank":
+                case "normalPlank":
+                case "autumnPlank":
 
                     miningObject = true;
                     miningX = playerPositionX;
