@@ -1172,23 +1172,24 @@ public class HelloController {
         int lengthY = 0;
         int randNum;
         boolean valid;
-        for (int p = 0; p < 5; p++) {
+        for (int p = 0; p < 20; p++) {
 
 
             if (biomeNameList.size() == 0) {
                 biomeNameList.add("fruitTree");
                 biomeNameList.add("normalTree");
+                biomeNameList.add("water");
                 biomeNameList.add("autumnTree");
                 biomeNameList.add("stone");
-                biomeNameList.add("water");
             }
 
             randNum = (int) (Math.random() * biomeNameList.size());
             valid = false;
             while(!valid){
+                System.out.println(biomeNameList);
                 valid = true;
-                lengthX = (int) (Math.random() * 9) + 25;
-                lengthY = (int) (Math.random() * 15) + 25;
+                lengthX = (int) (Math.random() * 9) + 40;
+                lengthY = (int) (Math.random() * 15) + 40;
                 startX = (int) (Math.random() * (199 - lengthX)) + 1;
                 startY = (int) (Math.random() * (327 - lengthY)) + 1;
                 for (int i = startX; i < startX + lengthX; i++) {
@@ -1196,26 +1197,20 @@ public class HelloController {
                         if(!Objects.equals(biomeNameList.get(randNum), "stone")){
                             if (map[i][j].equals("stone")||map[i][j].equals("water")) {
                                 valid = false;
-                                System.out.println("is stone");
-                                break;
+//                                System.out.println("not grass when tree");
                             }
                         }else if(biomeNameList.get(randNum).equals("stone")){
                             if (!map[i][j].equals("stone")&&!map[i][j].equals("grass")){
                                 valid = false;
-                                System.out.println("not stone");
-                                break;
-                            }else if(startX>=96&&startX+lengthX<=105&&startY>=160&&startY+lengthY<=165){
-                                valid = false;
-                                System.out.println("not stone");
                             }
-                        } else if(biomeNameList.get(randNum).equals("water")){
-                            if (!map[i][j].equals("water")&&!map[i][j].equals("grass")){
+                        }else if(biomeNameList.get(randNum).equals("water")){
+                            System.out.println("witnqoitnwq");
+                            if (!map[i][j].equals("grass")){
                                 valid = false;
-                                System.out.println("not water");
-                                break;
-                            }else if(startX>=96&&startX+lengthX<=105&&startY>=160&&startY+lengthY<=165){
+                                System.out.println("not grass when water");
+                            }
+                            if(startX>=96&&startX+lengthX<=105&&startY>=160&&startY+lengthY<=165){
                                 valid = false;
-                                System.out.println("not stone");
                             }
                         }
                     }
