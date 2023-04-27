@@ -73,6 +73,8 @@ public class HelloController {
     private inventoryItems equipped;
     private int selected = 0;
 
+    private ArrayList<Animals> animalsOnMap = new ArrayList<>();
+
     private Label[][] inventoryLabels = new Label[4][5];
 
     @FXML
@@ -222,7 +224,8 @@ public class HelloController {
         biomeNameList.add("autumnTree");
         biomeNameList.add("stone");
         biomeNameList.add("water");
-        hotbar[0] = new Resources("diamond");
+//        hotbar[0] = new Resources("diamond");
+        animalsOnMap.add(new Animals("sheep",100,new Food("raw mutton"),100,163));
 
         inventoryLabels[0][0] = one1;
         inventoryLabels[0][1] = one2;
@@ -1011,6 +1014,17 @@ public class HelloController {
 
 
                 }
+
+                if(animalsOnMap.size()>0){
+                    for(Animals animal:animalsOnMap){
+                        if(now - animal.getStartTime() > 1000000000.0){
+                            animal.changeLoc(map);
+                            animal.resetStartTime();
+                            updateScreen();
+                        }
+                    }
+                }
+
             }
         }.start();
     }
@@ -1195,7 +1209,7 @@ public class HelloController {
                 startY = (int) (Math.random() * (327 - lengthY)) + 1;
                 for (int i = startX; i < startX + lengthX; i++) {
                     for (int j = startY; j < startY + lengthY; j++) {
-                        if(!Objects.equals(biomeNameList.get(randNum), "stone")){
+                        if(!Objects.equals(biomeNameList.get(randNum), "stone")&&!Objects.equals(biomeNameList.get(randNum), "water")){
                             if (map[i][j].equals("stone")||map[i][j].equals("water")) {
                                 valid = false;
 //                                System.out.println("not grass when tree");
