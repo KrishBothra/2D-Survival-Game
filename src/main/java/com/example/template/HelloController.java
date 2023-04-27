@@ -889,7 +889,8 @@ public class HelloController {
                         tempMineTime--;
                         miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
                         if(tempMineTime < 1)   {
-                            if(tempMine.getName().endsWith("Tree")||tempMine.getName().endsWith("Wood")) {
+                            ///////TEMPORARY
+                            if(tempMine.getName().endsWith("Tree")||tempMine.getName().endsWith("Wood")||tempMine.getName().endsWith("Plank")) {
                                 map[miningX][miningY] = "grass";
                             }else{
                                 System.out.println(tempMine.getName());
