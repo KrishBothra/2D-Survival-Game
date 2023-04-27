@@ -101,10 +101,10 @@ public class HelloController {
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
-            sheepp;
+            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
-            ,sheep;
+            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -156,6 +156,11 @@ public class HelloController {
             autumnWoodd = new FileInputStream("src/main/resources/acaciaWood.png");
             jungleWoodd = new FileInputStream("src/main/resources/jungleWood.png");
             sheepp = new FileInputStream("src/main/resources/Animals/sheep.png");
+            normalPlankkInv = new FileInputStream("src/main/resources/InventoryItems/oakPlank.png");
+            autumnPlankkInv = new FileInputStream("src/main/resources/InventoryItems/junglePlank.png");
+            fruitPlankkInv = new FileInputStream("src/main/resources/InventoryItems/acaiaPlank.png");
+
+
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
@@ -194,6 +199,9 @@ public class HelloController {
             rubyInv = new Image(rubyInvv);
             diamondInv = new Image(diamondInvv  );
             goldIngotInv = new Image(goldIngotInvv);
+            normalPlankInv = new Image(normalPlankkInv);
+            autumnPlankInv = new Image(autumnPlankkInv);
+            fruitPlankInv = new Image(fruitPlankkInv);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -258,6 +266,8 @@ public class HelloController {
             }
         }
 
+
+
         EventHandler z = new EventHandler<MouseEvent>()
         {
 
@@ -266,6 +276,7 @@ public class HelloController {
             {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
+
                 if(t.getButton().equals(MouseButton.PRIMARY)&&!clickedS) {
                     if (invSelectedCol != -1 && invSelectedRow != -1) {
                         System.out.println("hey");
@@ -323,8 +334,23 @@ public class HelloController {
                 }
 
 
+                checkCrafts();
+                if(row==4&&col==9){
+                    if(!inventoryA[4][9].getName().equals("empty")){
+                        for (int i = 1; i < 3; i++) {
+                            for (int j = 9; j < 11; j++) {
+                                if(inventoryA[i][j].getAmount()>1){
+                                    inventoryA[i][j].setAmount(inventoryA[i][j].getAmount()-1);
+                                }else{
+                                    inventoryA[i][j] = new inventoryItems("empty");
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
+
         };
 
         for(int i=0; i<inventoryImg.length; i++){
@@ -536,21 +562,37 @@ public class HelloController {
                 for (int j = 0; j < inventoryLabels[0].length; j++) {
                     if(inventoryA[i+1][j+3].getAmount()!=0&&inventoryA[i+1][j+3].getAmount()!=1){
                         inventoryLabels[i][j].setText(Integer.toString(inventoryA[i+1][j+3].getAmount()));
-                        one1c.setText(Integer.toString(inventoryA[1][9].getAmount()));
-                        one2c.setText(Integer.toString(inventoryA[1][10].getAmount()));
-                        two1c.setText(Integer.toString(inventoryA[2][9].getAmount()));
-                        one2c.setText(Integer.toString(inventoryA[2][10].getAmount()));
-                        result.setText(Integer.toString(inventoryA[4][9].getAmount()));
                     }else{
                         inventoryLabels[i][j].setText("");
-                        one1c.setText("");
-                        one2c.setText("");
-                        two1c.setText("");
-                        two2c.setText("");
-                        result.setText("");
                     }
                 }
             }
+            if(inventoryA[2][9].getAmount()!=0&&inventoryA[2][9].getAmount()!=1){
+                two1c.setText(Integer.toString(inventoryA[2][9].getAmount()));
+            }else{
+                two1c.setText("");
+            }
+            if(inventoryA[2][10].getAmount()!=0&&inventoryA[2][10].getAmount()!=1){
+                two2c.setText(Integer.toString(inventoryA[2][10].getAmount()));
+            }else{
+                two2c.setText("");
+            }
+            if(inventoryA[1][9].getAmount()!=0&&inventoryA[1][9].getAmount()!=1){
+                one1c.setText(Integer.toString(inventoryA[1][9].getAmount()));
+            }else{
+                one1c.setText("");
+            }
+            if(inventoryA[1][10].getAmount()!=0&&inventoryA[1][10].getAmount()!=1){
+                one2c.setText(Integer.toString(inventoryA[1][10].getAmount()));
+            }else{
+                one2c.setText("");
+            }
+            if(inventoryA[4][9].getAmount()!=0&&inventoryA[4][9].getAmount()!=1){
+                result.setText(Integer.toString(inventoryA[4][9].getAmount()));
+            }else{
+                result.setText("");
+            }
+
         }
         //System.out.println(inventoryA[4][selected].getName());
         for (int i = 3; i < 8; i++) {
@@ -576,6 +618,10 @@ public class HelloController {
                 hotbarImg[i][0].setImage(cobbelstoneInv);
             }else if(hotbar[i].getName().equals("woodAxe")){
                 hotbarImg[i][0].setImage(woodAxeInv);
+            }else if(inventoryA[i][0].getName().equals("autumnPlank")) {
+                inventoryImg[i][0].setImage(autumnPlankInv);
+            }else if(inventoryA[i][0].getName().equals("fruitPlank")) {
+                inventoryImg[i][0].setImage(fruitPlankInv);
             }else if(hotbar[i].getName().equals("empty")){
                 hotbarImg[i][0].setImage(grayBack);
             }
@@ -601,14 +647,20 @@ public class HelloController {
                     inventoryImg[i][j].setImage(cobbelstoneInv);
                 }else if(inventoryA[i][j].getName().equals("woodAxe")){
                     inventoryImg[i][j].setImage(woodAxeInv);
-                }else if(inventoryA[i][j].getName().equals("empty")){
+                }else if(inventoryA[i][j].getName().equals("normalPlank")) {
+                    inventoryImg[i][j].setImage(normalPlankInv);
+                } else if(inventoryA[i][j].getName().equals("autumnPlank")) {
+                    inventoryImg[i][j].setImage(autumnPlankInv);
+                }else if(inventoryA[i][j].getName().equals("fruitPlank")) {
+                    inventoryImg[i][j].setImage(fruitPlankInv);
+                } else if(inventoryA[i][j].getName().equals("empty")){
                     inventoryImg[i][j].setImage(grayBack);
                 }
             }
         }
         equipped = hotbar[selected];
 
-        checkCrafts();
+
         //System.out.println(equipped.getName());
     }
 
@@ -625,9 +677,58 @@ public class HelloController {
         inventoryItems tr = inventoryA[1][10];
         inventoryItems bl = inventoryA[2][9];
         inventoryItems br = inventoryA[2][10];
-        if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")||br.getName().equals("empty")){
 
+        //NORMAL WOOD PLANKS
+        if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("normalWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("normalWood")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("normalWood")){
+            inventoryA[4][9] = new inventoryItems("normalPlank");
+            inventoryA[4][9].setAmount(4);
         }
+        
+        /////////////////////FRUIT PLANKS
+        else if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("fruitWood")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("fruitWood")){
+            inventoryA[4][9] = new inventoryItems("fruitPlank");
+            inventoryA[4][9].setAmount(4);
+        }
+        
+        /////////////////////AUTUMN PLANKS
+        else if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("autumnWood")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("autumnWood")){
+            inventoryA[4][9] = new inventoryItems("autumnPlank");
+            inventoryA[4][9].setAmount(4);
+        }else{
+            inventoryA[4][9] = new inventoryItems("empty");
+            inventoryA[4][9].setAmount(0);
+        }
+
+
+
+        updateScreen();
     }
 
     public void onKeyPressed(KeyEvent keyEvent) {
