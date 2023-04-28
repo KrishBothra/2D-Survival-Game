@@ -594,6 +594,10 @@ public class HelloController {
                         img[i][j].setImage(normalPlank); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnPlank")) {
                         img[i][j].setImage(autumnPlank); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("craftingTable")) {
+                        img[i][j].setImage(craftingTable); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("boat")) {
+                        img[i][j].setImage(boat); //steve
                     }
                 }
             }
@@ -795,22 +799,22 @@ public class HelloController {
 
         /////////////////////STICKS
         else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9] = new inventoryItems("stick");
             inventoryA[4][9].setAmount(4);
         } else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("autumnPlank")){
-            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9] = new inventoryItems("stick");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9] = new inventoryItems("stick");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")){
-            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9] = new inventoryItems("stick");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9] = new inventoryItems("stick");
             inventoryA[4][9].setAmount(4);
         }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("fruitPlank")){
-            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9] = new inventoryItems("stick");
             inventoryA[4][9].setAmount(4);
         }
 
