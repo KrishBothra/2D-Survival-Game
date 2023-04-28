@@ -73,4 +73,7 @@ public class inventoryItems {
         this.amount += amountS;
     }
 
+    public int getDamage() {
+        return damage;
+    }
 }
