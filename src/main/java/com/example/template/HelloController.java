@@ -51,7 +51,7 @@ public class HelloController {
 
     ImageView[][] img = new ImageView[x][y];
 
-    
+
     private ImageView[][] hotbarImg = new ImageView[5][1];
 
     String[][] map = new String[x * 8 + 1][y * 8 + 1]; //100 //164
@@ -66,7 +66,7 @@ public class HelloController {
 
     private inventoryItems inventorySelected = new inventoryItems("empty");
     private ImageView[][] inventoryImg = new ImageView[6][12];
-    
+
     private int invSelectedRow = -1;
     private int invSelectedCol = -1;
 
@@ -79,6 +79,9 @@ public class HelloController {
 
     @FXML
     private Label one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5, one1c, one2c, two1c, two2c, result;
+
+    @FXML
+    private Label one1v, one2v, one3v, one4v, one5v, two1v, two2v, two3v, two4v, two5v, three1v, three2v, three3v, three4v, three5v, four1v, four2v, four3v, four4v, four5v, one1vc, one2vc, one3vc, two1vc, two2vc, two3vc, three1vc, three2vc, three3vc,  resultvc;
 
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
@@ -766,7 +769,7 @@ public class HelloController {
             inventoryA[4][9] = new Resources("normalPlank","axe");
             inventoryA[4][9].setAmount(4);
         }
-        
+
         /////////////////////FRUIT PLANKS
         else if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
             inventoryA[4][9] = new Resources("fruitPlank","axe");
@@ -781,7 +784,7 @@ public class HelloController {
             inventoryA[4][9] = new Resources("fruitPlank","axe");
             inventoryA[4][9].setAmount(4);
         }
-        
+
         /////////////////////AUTUMN PLANKS
         else if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
             inventoryA[4][9] = new Resources("autumnPlank","axe");
@@ -839,6 +842,30 @@ public class HelloController {
         updateScreen();
     }
 
+    private void interactTwo(){
+        int directionChange = switch (directionInter) {
+            case "up" -> -1;
+            case "down" -> 1;
+            case "right" -> 1;
+            case "left" -> -1;
+            default -> 0;
+        };
+        if (directionInter.equals("up") || directionInter.equals("down")) {
+            switch (map[playerPositionX + directionChange][playerPositionY]) {
+                case "craftingTable":
+                    System.out.println("craftingThing");
+            }
+        }
+        else {
+            switch (map[playerPositionX][playerPositionY + directionChange]) {
+                case "craftingTable":
+                    System.out.println("craftingThing");
+            }
+        }
+
+    }
+
+
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
         if(!miningObject) {
@@ -853,6 +880,8 @@ public class HelloController {
                     movePlayer("y", 1);
                 } else if (keyEvent.getText().equalsIgnoreCase("e")) {
                     interact();
+                }else if (keyEvent.getText().equalsIgnoreCase("r")) {
+                    interactTwo();
                 } else if (keyEvent.getText().equalsIgnoreCase("i")) {
                     directionInter = "up";
                     arrowImg.setImage(arrow);
