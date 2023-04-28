@@ -7,16 +7,23 @@ public class Animals {
     String name;
     int health;
     int x,y;
+    int amount;
 
     long startTime;
 
-    public Animals(String name,int health,inventoryItems resourceDrop,int x,int y){
+    public Animals(String name,int health,inventoryItems resourceDrop,int amount,int x,int y){
         this.name = name;
         this.health = health;
         this.resourceDrop = resourceDrop;
         this.x = x;
         this.y = y;
         this.startTime = System.nanoTime();
+        this.amount  = amount;
+
+    }
+
+    public int getAmountDrop() {
+        return amount;
     }
 
     public long getStartTime() {
@@ -73,6 +80,10 @@ public class Animals {
 
 //          System.out.println("x: " + x);
 
+    }
+
+    public void changeHealth(int change){
+        health+=change;
     }
 
 

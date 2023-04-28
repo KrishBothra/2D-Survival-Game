@@ -55,6 +55,8 @@ public class HelloController {
     private ImageView[][] hotbarImg = new ImageView[5][1];
 
     String[][] map = new String[x * 8 + 1][y * 8 + 1]; //100 //164
+    String[][] mapBackground = new String[x * 8 + 1][y * 8 + 1]; //100 //164
+
 
     private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
@@ -242,7 +244,7 @@ public class HelloController {
         biomeNameList.add("stone");
         biomeNameList.add("water");
 //        hotbar[0] = new Resources("diamond");
-        animalsOnMap.add(new Animals("sheep",100,new Food("raw mutton"),100,163));
+        animalsOnMap.add(new Animals("sheep",15,new Food("raw mutton"),(int)(Math.random()*3)+1,100,163));
 
         inventoryLabels[0][0] = one1;
         inventoryLabels[0][1] = one2;
@@ -467,7 +469,7 @@ public class HelloController {
 
         }
 
-        inventoryA[4][3] = new Tools("woodAxe",1,"axe",2,20);
+        inventoryA[4][3] = new Tools("woodAxe",1,"axe",3,20);
 
         updateScreen();
         start();
@@ -980,8 +982,8 @@ public class HelloController {
                         tempMineTime--;
                         miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
                         if(tempMineTime < 1)   {
-                            ///////TEMPORARY
-                            if(tempMine.getName().endsWith("Tree")||tempMine.getName().endsWith("Wood")||tempMine.getName().endsWith("Plank")) {
+                            ///////TEMPORARY not anymore?
+                            if(mapBackground[miningX][miningY].equals("grass")) {
                                 map[miningX][miningY] = "grass";
                             }else{
                                 System.out.println(tempMine.getName());
@@ -1105,7 +1107,7 @@ public class HelloController {
 
                 if(animalsOnMap.size()>0){
                     for(Animals animal:animalsOnMap){
-                        if(now - animal.getStartTime() > 1000000000.0){
+                        if(now - animal.getStartTime() > 1000000000.0 * 1.5){
                             animal.changeLoc(map);
                             animal.resetStartTime();
                             updateScreen();
@@ -1173,6 +1175,10 @@ public class HelloController {
                             System.out.println(equipped.getName());
                         }
                     }
+
+                case "sheep":
+
+
                     break;
             }
 
@@ -1222,6 +1228,55 @@ public class HelloController {
                             updateScreen();
                             System.out.println(hotbar[selected].getName());
                             System.out.println(equipped.getName());
+                        }
+                    }
+
+                case "sheep":
+                    int damage = 1;
+                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
+                        damage = equipped.getDamage();
+                    }
+                    for(Animals animal:animalsOnMap){
+                        if(animal.getX()==playerPositionX&&animal.getY()==playerPositionY+directionChange){
+                            animal.changeHealth(-(damage));
+                            if(animal.getHealth()<=0){
+
+                                for (int i = 4; i >=1; i--) {
+                                    for (int j = 3; j <=7; j++) {
+                                        if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
+                                            System.out.println("hi");
+                                            inventoryA[i][j].changeAmount(animal.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        break;
+                                    }
+                                }
+
+
+
+
+                                for (int i = 4; i >=1; i--) {
+                                    for (int j = 3; j <=7; j++) {
+                                        if(inventoryA[i][j].getName().equals("empty")){
+                                            inventoryA[i][j] = animal.getResourceDrop();
+                                            inventoryA[i][j].setAmount(animal.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                }
+
+
+                                animalsOnMap.remove(animal);
+                                break;
+                            }
                         }
                     }
                     break;
@@ -1279,6 +1334,12 @@ public class HelloController {
         int lengthY = 0;
         int randNum;
         boolean valid;
+
+        for (int i = 0; i < mapBackground.length; i++) {
+            for (int j = 0; j < mapBackground[0].length; j++) {
+                mapBackground[i][j] = "grass";
+            }
+        }
         for (int p = 0; p < 20; p++) {
 
 
@@ -1336,6 +1397,7 @@ public class HelloController {
                     biomeNameList.remove("normalTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
+//                            mapBackground[i][j] = "grass";
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
@@ -1356,6 +1418,7 @@ public class HelloController {
                     biomeNameList.remove("fruitTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
+//                            mapBackground[i][j] = "grass";
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
@@ -1376,6 +1439,7 @@ public class HelloController {
                     biomeNameList.remove("autumnTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
+//                            mapBackground[i][j] = "grass";
                             int random = (int) (Math.random() * 8);
                             if (random == 0) {
                                 if (map[i][j].equals("grass")) {
@@ -1398,14 +1462,17 @@ public class HelloController {
                     }
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
+
                             mineralRand = (int) (Math.random() * 50);
                             if (i == startX || j == startY || i == startX + lengthX - 1 || j == startY + lengthY - 1) {
 
                                 if ((int) (Math.random() * 2) == 0) {
+                                    mapBackground[i][j] = "stone";
                                     map[i][j] = "stone";
                                 }
                             } else {
                                 if (map[i][j].equals("grass")) {
+                                    mapBackground[i][j] = "stone";
                                     if (mineralRand < 4) {
                                         map[i][j] = "rock";
                                         mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 1, i, j));
