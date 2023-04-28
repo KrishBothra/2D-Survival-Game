@@ -103,10 +103,10 @@ public class HelloController {
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
-            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk;
+            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
-            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank;
+            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -165,6 +165,15 @@ public class HelloController {
             autumnPlankk = new FileInputStream("src/main/resources/acaciaPlank.jpg");
             normalPlankk = new FileInputStream("src/main/resources/oakPlank.png");
 
+            craftingTablee = new FileInputStream("src/main/resources/craftingTable.jpg");
+            boatt = new FileInputStream("src/main/resources/boatOverWater.png");
+            craftingTableeInv = new FileInputStream("src/main/resources/InventoryItems/craftingTable.png");
+            woodPickaxeeInv = new FileInputStream("src/main/resources/InventoryItems/woodPickaxe.png");
+            woodSworddInv = new FileInputStream("src/main/resources/InventoryItems/woodSword.png");
+            stickkInv = new FileInputStream("src/main/resources/InventoryItems/stick.png");
+            boattInv = new FileInputStream("src/main/resources/InventoryItems/boat.png");
+
+
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
@@ -209,6 +218,14 @@ public class HelloController {
             normalPlankInv = new Image(normalPlankkInv);
             autumnPlankInv = new Image(autumnPlankkInv);
             fruitPlankInv = new Image(fruitPlankkInv);
+
+            craftingTableInv = new Image(craftingTableeInv);
+            craftingTable = new Image(craftingTablee);
+            stickInv = new Image(stickkInv);
+            boatInv = new Image(boattInv);
+            boat = new Image(boatt);
+            woodSwordInv = new Image(woodSworddInv);
+            woodPickaxeInv = new Image(woodPickaxeeInv);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -514,6 +531,10 @@ public class HelloController {
                         img[i][j].setImage(normalPlank);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnPlank")) {
                         img[i][j].setImage(autumnPlank);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("craftingTable")) {
+                        img[i][j].setImage(craftingTable);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("boat")) {
+                        img[i][j].setImage(boat);
                     }
                 }
             }
@@ -638,11 +659,26 @@ public class HelloController {
                 hotbarImg[i][0].setImage(cobbelstoneInv);
             }else if(hotbar[i].getName().equals("woodAxe")){
                 hotbarImg[i][0].setImage(woodAxeInv);
-            }else if(hotbar[i].getName().equals("autumnPlank")) {
+            }else if(hotbar[i].getName().equals("normalPlank")) {
+                hotbarImg[i][0].setImage(normalPlankInv);
+            } else if(hotbar[i].getName().equals("autumnPlank")) {
                 hotbarImg[i][0].setImage(autumnPlankInv);
             }else if(hotbar[i].getName().equals("fruitPlank")) {
                 hotbarImg[i][0].setImage(fruitPlankInv);
-            }else if(hotbar[i].getName().equals("empty")){
+            }else if(hotbar[i].getName().equals("craftingTable")) {
+                hotbarImg[i][0].setImage(craftingTableInv);
+            }else if(hotbar[i].getName().equals("boat")) {
+                hotbarImg[i][0].setImage(boatInv);
+            }else if(hotbar[i].getName().equals("stick")) {
+                hotbarImg[i][0].setImage(stickInv);
+            }else if(hotbar[i].getName().equals("woodSword")) {
+                hotbarImg[i][0].setImage(woodSwordInv);
+            }else if(hotbar[i].getName().equals("woodPickaxe")) {
+                hotbarImg[i][0].setImage(woodPickaxeInv);
+            }
+
+
+            else if(hotbar[i].getName().equals("empty")){
                 hotbarImg[i][0].setImage(grayBack);
             }
         }
@@ -673,7 +709,21 @@ public class HelloController {
                     inventoryImg[i][j].setImage(autumnPlankInv);
                 }else if(inventoryA[i][j].getName().equals("fruitPlank")) {
                     inventoryImg[i][j].setImage(fruitPlankInv);
-                } else if(inventoryA[i][j].getName().equals("empty")){
+                }else if(inventoryA[i][j].getName().equals("craftingTable")) {
+                    inventoryImg[i][j].setImage(craftingTableInv);
+                }else if(inventoryA[i][j].getName().equals("stick")) {
+                    inventoryImg[i][j].setImage(stickInv);
+                }else if(inventoryA[i][j].getName().equals("boat")) {
+                    inventoryImg[i][j].setImage(boatInv);
+                }else if(inventoryA[i][j].getName().equals("woodSword")) {
+                    inventoryImg[i][j].setImage(woodSwordInv);
+                }else if(inventoryA[i][j].getName().equals("woodPickaxe")) {
+                    inventoryImg[i][j].setImage(woodPickaxeInv);
+                }
+
+
+
+                else if(inventoryA[i][j].getName().equals("empty")){
                     inventoryImg[i][j].setImage(grayBack);
                 }
             }
@@ -741,12 +791,46 @@ public class HelloController {
         }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("autumnWood")){
             inventoryA[4][9] = new Resources("autumnPlank","axe");
             inventoryA[4][9].setAmount(4);
-        }else{
-            inventoryA[4][9] = new inventoryItems("empty");
-            inventoryA[4][9].setAmount(0);
+        }
+
+        /////////////////////STICKS
+        else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9].setAmount(4);
+        } else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("autumnPlank")){
+            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")){
+            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")){
+            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9].setAmount(4);
+        }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("fruitPlank")){
+            inventoryA[4][9] = new Resources("stick","axe");
+            inventoryA[4][9].setAmount(4);
+        }
+
+        /////////////////////CRAFTING TABLE
+        else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("fruitPlank")&&br.getName().equals("fruitPlank")){
+            inventoryA[4][9] = new Resources("craftingTable","axe");
+            inventoryA[4][9].setAmount(1);
+        }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("autumnPlank")&&br.getName().equals("autumnPlank")){
+            inventoryA[4][9] = new Resources("craftingTable","axe");
+            inventoryA[4][9].setAmount(1);
+        }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")){
+            inventoryA[4][9] = new Resources("craftingTable","axe");
+            inventoryA[4][9].setAmount(1);
         }
 
 
+        else{
+            inventoryA[4][9] = new inventoryItems("empty");
+            inventoryA[4][9].setAmount(0);
+        }
 
         updateScreen();
     }
@@ -1053,6 +1137,8 @@ public class HelloController {
                 case "fruitPlank":
                 case "normalPlank":
                 case "autumnPlank":
+                case "boat":
+                case "craftingTable":
                     miningObject = true;
                     miningX = playerPositionX + directionChange;
                     miningY = playerPositionY;
@@ -1101,6 +1187,8 @@ public class HelloController {
                 case "fruitPlank":
                 case "normalPlank":
                 case "autumnPlank":
+                case "boat":
+                case "craftingTable":
 
                     miningObject = true;
                     miningX = playerPositionX;
@@ -1212,7 +1300,6 @@ public class HelloController {
                         if(!Objects.equals(biomeNameList.get(randNum), "stone")&&!Objects.equals(biomeNameList.get(randNum), "water")){
                             if (map[i][j].equals("stone")||map[i][j].equals("water")) {
                                 valid = false;
-//                                System.out.println("not grass when tree");
                             }
                         }else if(biomeNameList.get(randNum).equals("stone")){
                             if (!map[i][j].equals("stone")&&!map[i][j].equals("grass")){
@@ -1224,7 +1311,7 @@ public class HelloController {
                                 valid = false;
                                 System.out.println("not grass when water");
                             }
-                            if(startX>=96&&startX+lengthX<=105&&startY>=160&&startY+lengthY<=165){
+                            if(i==99&&j==163){
                                 valid = false;
                             }
                         }
