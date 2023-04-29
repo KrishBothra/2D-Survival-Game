@@ -283,11 +283,11 @@ public class HelloController {
         inventoryLabels[3][2] = four3;
         inventoryLabels[3][3] = four4;
         inventoryLabels[3][4] = four5;
-        for (int i = 0; i<inventoryLabels.length; i++) {
-            for (int j = 0; j < inventoryLabels[0].length; j++) {
-                inventoryLabels[i][j].setVisible(false);
-            }
-        }
+//        for (int i = 0; i<inventoryLabels.length; i++) {
+//            for (int j = 0; j < inventoryLabels[0].length; j++) {
+//                inventoryLabels[i][j].setVisible(false);
+//            }
+//        }
 
 
 
@@ -670,6 +670,34 @@ public class HelloController {
 
 
 
+            if(inventoryA[0][9].getAmount()!=0&&inventoryA[0][9].getAmount()!=1){
+                three1cv.setText(Integer.toString(inventoryA[0][9].getAmount()));
+            }else{
+                three1cv.setText("");
+            }
+            if(inventoryA[0][10].getAmount()!=0&&inventoryA[0][10].getAmount()!=1){
+                three2cv.setText(Integer.toString(inventoryA[0][10].getAmount()));
+            }else{
+                three2cv.setText("");
+            }
+            if(inventoryA[0][11].getAmount()!=0&&inventoryA[0][11].getAmount()!=1){
+                three3cv.setText(Integer.toString(inventoryA[0][11].getAmount()));
+            }else{
+                three3cv.setText("");
+            }
+            if(inventoryA[1][11].getAmount()!=0&&inventoryA[1][11].getAmount()!=1){
+                one3cv.setText(Integer.toString(inventoryA[1][11].getAmount()));
+            }else{
+                one3cv.setText("");
+            }
+            if(inventoryA[2][11].getAmount()!=0&&inventoryA[2][11].getAmount()!=1){
+                two3cv.setText(Integer.toString(inventoryA[2][11].getAmount()));
+            }else{
+                two3cv.setText("");
+            }
+
+
+
 
         }
         //System.out.println(inventoryA[4][selected].getName());
@@ -797,89 +825,275 @@ public class HelloController {
         inventoryItems bl = inventoryA[2][9];
         inventoryItems br = inventoryA[2][10];
 
-        //NORMAL WOOD PLANKS
-        if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("normalPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("normalWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("normalPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("normalWood")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("normalPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("normalWood")){
-            inventoryA[4][9] = new Resources("normalPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }
+        inventoryItems tlc = inventoryA[0][9];
+        inventoryItems tmc = inventoryA[0][10];
+        inventoryItems trc = inventoryA[0][11];
+        inventoryItems mrc = inventoryA[1][11];
+        inventoryItems brc = inventoryA[2][11];
 
-        /////////////////////FRUIT PLANKS
-        else if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("fruitPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("fruitPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("fruitWood")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("fruitPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("fruitWood")){
-            inventoryA[4][9] = new Resources("fruitPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }
 
-        /////////////////////AUTUMN PLANKS
-        else if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("autumnPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("autumnPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("autumnWood")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new Resources("autumnPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("autumnWood")){
-            inventoryA[4][9] = new Resources("autumnPlank","axe");
-            inventoryA[4][9].setAmount(4);
-        }
+        if(!craftingShowing){
+            /////////////////////NORMAL PLANKS
+            if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("normalWood")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("normalWood")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }
 
-        /////////////////////STICKS
-        else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("stick");
-            inventoryA[4][9].setAmount(4);
-        } else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("autumnPlank")){
-            inventoryA[4][9] = new inventoryItems("stick");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("stick");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")){
-            inventoryA[4][9] = new inventoryItems("stick");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")){
-            inventoryA[4][9] = new inventoryItems("stick");
-            inventoryA[4][9].setAmount(4);
-        }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("fruitPlank")){
-            inventoryA[4][9] = new inventoryItems("stick");
-            inventoryA[4][9].setAmount(4);
-        }
+            /////////////////////FRUIT PLANKS
+            else if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("fruitWood")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("fruitWood")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }
 
-        /////////////////////CRAFTING TABLE
-        else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("fruitPlank")&&br.getName().equals("fruitPlank")){
-            inventoryA[4][9] = new Resources("craftingTable","axe");
-            inventoryA[4][9].setAmount(1);
-        }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("autumnPlank")&&br.getName().equals("autumnPlank")){
-            inventoryA[4][9] = new Resources("craftingTable","axe");
-            inventoryA[4][9].setAmount(1);
-        }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")){
-            inventoryA[4][9] = new Resources("craftingTable","axe");
-            inventoryA[4][9].setAmount(1);
+            /////////////////////AUTUMN PLANKS
+            else if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("autumnWood")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("autumnWood")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }
+
+            /////////////////////STICKS
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            } else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }
+
+            /////////////////////CRAFTING TABLE
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("fruitPlank")&&br.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("autumnPlank")&&br.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }
+
+
+            else{
+                inventoryA[4][9] = new inventoryItems("empty");
+                inventoryA[4][9].setAmount(0);
+            }
         }
 
 
         else{
-            inventoryA[4][9] = new inventoryItems("empty");
-            inventoryA[4][9].setAmount(0);
+            /////////////////////NORMAL PLANKS
+            if(tl.getName().equals("normalWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("normalWood")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("normalWood")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalWood")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("normalWood")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("normalWood")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalWood")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("normalWood")){
+                inventoryA[4][9] = new Resources("normalPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }
+
+            /////////////////////AUUTUMN PLANKS
+            if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("autumnWood")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("autumnWood")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("autumnWood")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("autumnWood")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("autumnWood")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("autumnWood")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("autumnWood")){
+                inventoryA[4][9] = new Resources("autumnPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }
+
+            /////////////////////FRUIT PLANKS
+            if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("fruitWood")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("fruitWood")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("fruitWood")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("fruitWood")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("fruitWood")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("fruitWood")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("fruitWood")){
+                inventoryA[4][9] = new Resources("fruitPlank","axe");
+                inventoryA[4][9].setAmount(4);
+            }
+
+            /////////////////////STICKS
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            } else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("autumnPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            } else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("fruitPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }
+
+            ////////////////CRAFTING TABLE
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("stick");
+                inventoryA[4][9].setAmount(4);
+            }
+            
+            
+
+            else{
+                inventoryA[4][9] = new inventoryItems("empty");
+                inventoryA[4][9].setAmount(0);
+            }
         }
+
+
+
+
+
 
         updateScreen();
     }
@@ -900,52 +1114,37 @@ public class HelloController {
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     craftingShowing = false;
-                    for (int i = 0; i < inventoryLabels.length; i++) {
-                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-                            inventoryLabels[i][j].setVisible(false);
-                            one1c.setVisible(false);
-                            one2c.setVisible(false);
-                            one3cv.setVisible(false);
-                            two1c.setVisible(false);
-                            two2c.setVisible(false);
-                            two3cv.setVisible(false);
-                            three1cv.setVisible(false);
-                            three2cv.setVisible(false);
-                            three3cv.setVisible(false);
-                            result.setVisible(false);
-                        }
-                    }
+                    
+                    
                     inventoryImg[0][9].setImage(blackBack);
                     inventoryImg[0][10].setImage(blackBack);
                     inventoryImg[0][11].setImage(blackBack);
                     inventoryImg[1][11].setImage(blackBack);
                     inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[0][9] = new inventoryItems("nothing");
+                    inventoryA[0][10]= new inventoryItems("nothing");
+                    inventoryA[0][11]= new inventoryItems("nothing");
+                    inventoryA[1][11]= new inventoryItems("nothing");
+                    inventoryA[2][11]= new inventoryItems("nothing");
                 } else {
                     gPane.setVisible(false);
                     hotbarG.setVisible(false);
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     craftingShowing = true;
-                    for (int i = 0; i < inventoryLabels.length; i++) {
-                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-                            inventoryLabels[i][j].setVisible(true);
-                            one1c.setVisible(true);
-                            one2c.setVisible(true);
-                            one3cv.setVisible(true);
-                            two1c.setVisible(true);
-                            two2c.setVisible(true);
-                            two3cv.setVisible(true);
-                            three1cv.setVisible(true);
-                            three2cv.setVisible(true);
-                            three3cv.setVisible(true);
-                            result.setVisible(true);
-                        }
-                    }
+
                     inventoryImg[0][9].setImage(grayBack);
                     inventoryImg[0][10].setImage(grayBack);
                     inventoryImg[0][11].setImage(grayBack);
                     inventoryImg[1][11].setImage(grayBack);
                     inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[0][9] = new inventoryItems("empty");
+                    inventoryA[0][10]= new inventoryItems("empty");
+                    inventoryA[0][11]= new inventoryItems("empty");
+                    inventoryA[1][11]= new inventoryItems("empty");
+                    inventoryA[2][11]= new inventoryItems("empty");
                 }
             }
 
@@ -958,52 +1157,36 @@ public class HelloController {
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     craftingShowing = false;
-                    for (int i = 0; i < inventoryLabels.length; i++) {
-                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-                            inventoryLabels[i][j].setVisible(false);
-                            one1c.setVisible(false);
-                            one2c.setVisible(false);
-                            one3cv.setVisible(false);
-                            two1c.setVisible(false);
-                            two2c.setVisible(false);
-                            two3cv.setVisible(false);
-                            three1cv.setVisible(false);
-                            three2cv.setVisible(false);
-                            three3cv.setVisible(false);
-                            result.setVisible(false);
-                        }
-                    }
+
                     inventoryImg[0][9].setImage(blackBack);
                     inventoryImg[0][10].setImage(blackBack);
                     inventoryImg[0][11].setImage(blackBack);
                     inventoryImg[1][11].setImage(blackBack);
                     inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[0][9] = new inventoryItems("nothing");
+                    inventoryA[0][10]= new inventoryItems("nothing");
+                    inventoryA[0][11]= new inventoryItems("nothing");
+                    inventoryA[1][11]= new inventoryItems("nothing");
+                    inventoryA[2][11]= new inventoryItems("nothing");
                 } else {
                     gPane.setVisible(false);
                     hotbarG.setVisible(false);
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     craftingShowing = true;
-                    for (int i = 0; i < inventoryLabels.length; i++) {
-                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-                            inventoryLabels[i][j].setVisible(true);
-                            one1c.setVisible(true);
-                            one2c.setVisible(true);
-                            one3cv.setVisible(true);
-                            two1c.setVisible(true);
-                            two2c.setVisible(true);
-                            two3cv.setVisible(true);
-                            three1cv.setVisible(true);
-                            three2cv.setVisible(true);
-                            three3cv.setVisible(true);
-                            result.setVisible(true);
-                        }
-                    }
+
                     inventoryImg[0][9].setImage(grayBack);
                     inventoryImg[0][10].setImage(grayBack);
                     inventoryImg[0][11].setImage(grayBack);
                     inventoryImg[1][11].setImage(grayBack);
                     inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[0][9] = new inventoryItems("empty");
+                    inventoryA[0][10]= new inventoryItems("empty");
+                    inventoryA[0][11]= new inventoryItems("empty");
+                    inventoryA[1][11]= new inventoryItems("empty");
+                    inventoryA[2][11]= new inventoryItems("empty");
                 }
             }
         }
@@ -1046,36 +1229,38 @@ public class HelloController {
             if (keyEvent.getText().equalsIgnoreCase("r")) {
                 interactTwo();
             }
-            if (keyEvent.getText().equalsIgnoreCase("q")) {
-                if (inventoryShowing) {
-                    gPane.setVisible(true);
-                    hotbarG.setVisible(true);
-                    inventoryPane.setVisible(false);
-                    inventoryShowing = false;
-                    for (int i = 0; i < inventoryLabels.length; i++) {
-                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-                            inventoryLabels[i][j].setVisible(false);
-                            one1c.setVisible(false);
-                            one2c.setVisible(false);
-                            two1c.setVisible(false);
-                            two2c.setVisible(false);
-                            result.setVisible(false);
-                        }
-                    }
-                } else {
-                    gPane.setVisible(false);
-                    hotbarG.setVisible(false);
-                    inventoryPane.setVisible(true);
-                    inventoryShowing = true;
-                    for (int i = 0; i < inventoryLabels.length; i++) {
-                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-                            inventoryLabels[i][j].setVisible(true);
-                            one1c.setVisible(true);
-                            one2c.setVisible(true);
-                            two1c.setVisible(true);
-                            two2c.setVisible(true);
-                            result.setVisible(true);
-                        }
+            if(!craftingShowing) {
+                if (keyEvent.getText().equalsIgnoreCase("q")) {
+                    if (inventoryShowing) {
+                        gPane.setVisible(true);
+                        hotbarG.setVisible(true);
+                        inventoryPane.setVisible(false);
+                        inventoryShowing = false;
+//                    for (int i = 0; i < inventoryLabels.length; i++) {
+//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+//                            inventoryLabels[i][j].setVisible(false);
+//                            one1c.setVisible(false);
+//                            one2c.setVisible(false);
+//                            two1c.setVisible(false);
+//                            two2c.setVisible(false);
+//                            result.setVisible(false);
+//                        }
+//                    }
+                    } else {
+                        gPane.setVisible(false);
+                        hotbarG.setVisible(false);
+                        inventoryPane.setVisible(true);
+                        inventoryShowing = true;
+//                    for (int i = 0; i < inventoryLabels.length; i++) {
+//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+//                            inventoryLabels[i][j].setVisible(true);
+//                            one1c.setVisible(true);
+//                            one2c.setVisible(true);
+//                            two1c.setVisible(true);
+//                            two2c.setVisible(true);
+//                            result.setVisible(true);
+//                        }
+//                    }
                     }
                 }
             }
