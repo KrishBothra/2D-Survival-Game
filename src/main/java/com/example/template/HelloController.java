@@ -893,118 +893,122 @@ public class HelloController {
             default -> 0;
         };
         if (directionInter.equals("up") || directionInter.equals("down")) {
-            if (inventoryShowing) {
-                gPane.setVisible(true);
-                hotbarG.setVisible(true);
-                inventoryPane.setVisible(false);
-                inventoryShowing = false;
-                craftingShowing = false;
-                for (int i = 0; i < inventoryLabels.length; i++) {
-                    for (int j = 0; j < inventoryLabels[0].length; j++) {
-                        inventoryLabels[i][j].setVisible(false);
-                        one1c.setVisible(false);
-                        one2c.setVisible(false);
-                        one3cv.setVisible(false);
-                        two1c.setVisible(false);
-                        two2c.setVisible(false);
-                        two3cv.setVisible(false);
-                        three1cv.setVisible(false);
-                        three2cv.setVisible(false);
-                        three3cv.setVisible(false);
-                        result.setVisible(false);
+            if ("craftingTable".equals(map[playerPositionX + directionChange][playerPositionY])) {
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    craftingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            one3cv.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                            three1cv.setVisible(false);
+                            three2cv.setVisible(false);
+                            three3cv.setVisible(false);
+                            result.setVisible(false);
+                        }
                     }
-                }
-                inventoryImg[0][9].setImage(blackBack);
-                inventoryImg[0][10].setImage(blackBack);
-                inventoryImg[0][11].setImage(blackBack);
-                inventoryImg[1][11].setImage(blackBack);
-                inventoryImg[2][11].setImage(blackBack);
-            } else {
-                gPane.setVisible(false);
-                hotbarG.setVisible(false);
-                inventoryPane.setVisible(true);
-                inventoryShowing = true;
-                craftingShowing = true;
-                for (int i = 0; i < inventoryLabels.length; i++) {
-                    for (int j = 0; j < inventoryLabels[0].length; j++) {
-                        inventoryLabels[i][j].setVisible(true);
-                        one1c.setVisible(true);
-                        one2c.setVisible(true);
-                        one3cv.setVisible(true);
-                        two1c.setVisible(true);
-                        two2c.setVisible(true);
-                        two3cv.setVisible(true);
-                        three1cv.setVisible(true);
-                        three2cv.setVisible(true);
-                        three3cv.setVisible(true);
-                        result.setVisible(true);
+                    inventoryImg[0][9].setImage(blackBack);
+                    inventoryImg[0][10].setImage(blackBack);
+                    inventoryImg[0][11].setImage(blackBack);
+                    inventoryImg[1][11].setImage(blackBack);
+                    inventoryImg[2][11].setImage(blackBack);
+                } else {
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    craftingShowing = true;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            one3cv.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                            three1cv.setVisible(true);
+                            three2cv.setVisible(true);
+                            three3cv.setVisible(true);
+                            result.setVisible(true);
+                        }
                     }
+                    inventoryImg[0][9].setImage(grayBack);
+                    inventoryImg[0][10].setImage(grayBack);
+                    inventoryImg[0][11].setImage(grayBack);
+                    inventoryImg[1][11].setImage(grayBack);
+                    inventoryImg[2][11].setImage(grayBack);
                 }
-                inventoryImg[0][9].setImage(grayBack);
-                inventoryImg[0][10].setImage(grayBack);
-                inventoryImg[0][11].setImage(grayBack);
-                inventoryImg[1][11].setImage(grayBack);
-                inventoryImg[2][11].setImage(grayBack);
             }
 
         }
         else {
-            if (inventoryShowing) {
-                gPane.setVisible(true);
-                hotbarG.setVisible(true);
-                inventoryPane.setVisible(false);
-                inventoryShowing = false;
-                craftingShowing = false;
-                for (int i = 0; i < inventoryLabels.length; i++) {
-                    for (int j = 0; j < inventoryLabels[0].length; j++) {
-                        inventoryLabels[i][j].setVisible(false);
-                        one1c.setVisible(false);
-                        one2c.setVisible(false);
-                        one3cv.setVisible(false);
-                        two1c.setVisible(false);
-                        two2c.setVisible(false);
-                        two3cv.setVisible(false);
-                        three1cv.setVisible(false);
-                        three2cv.setVisible(false);
-                        three3cv.setVisible(false);
-                        result.setVisible(false);
+            if ("craftingTable".equals(map[playerPositionX][playerPositionY + directionChange])) {
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    craftingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            one3cv.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                            three1cv.setVisible(false);
+                            three2cv.setVisible(false);
+                            three3cv.setVisible(false);
+                            result.setVisible(false);
+                        }
                     }
-                }
-                inventoryImg[0][9].setImage(blackBack);
-                inventoryImg[0][10].setImage(blackBack);
-                inventoryImg[0][11].setImage(blackBack);
-                inventoryImg[1][11].setImage(blackBack);
-                inventoryImg[2][11].setImage(blackBack);
-            } else {
-                gPane.setVisible(false);
-                hotbarG.setVisible(false);
-                inventoryPane.setVisible(true);
-                inventoryShowing = true;
-                craftingShowing = true;
-                for (int i = 0; i < inventoryLabels.length; i++) {
-                    for (int j = 0; j < inventoryLabels[0].length; j++) {
-                        inventoryLabels[i][j].setVisible(true);
-                        one1c.setVisible(true);
-                        one2c.setVisible(true);
-                        one3cv.setVisible(true);
-                        two1c.setVisible(true);
-                        two2c.setVisible(true);
-                        two3cv.setVisible(true);
-                        three1cv.setVisible(true);
-                        three2cv.setVisible(true);
-                        three3cv.setVisible(true);
-                        result.setVisible(true);
+                    inventoryImg[0][9].setImage(blackBack);
+                    inventoryImg[0][10].setImage(blackBack);
+                    inventoryImg[0][11].setImage(blackBack);
+                    inventoryImg[1][11].setImage(blackBack);
+                    inventoryImg[2][11].setImage(blackBack);
+                } else {
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    craftingShowing = true;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            one3cv.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                            three1cv.setVisible(true);
+                            three2cv.setVisible(true);
+                            three3cv.setVisible(true);
+                            result.setVisible(true);
+                        }
                     }
+                    inventoryImg[0][9].setImage(grayBack);
+                    inventoryImg[0][10].setImage(grayBack);
+                    inventoryImg[0][11].setImage(grayBack);
+                    inventoryImg[1][11].setImage(grayBack);
+                    inventoryImg[2][11].setImage(grayBack);
                 }
-                inventoryImg[0][9].setImage(grayBack);
-                inventoryImg[0][10].setImage(grayBack);
-                inventoryImg[0][11].setImage(grayBack);
-                inventoryImg[1][11].setImage(grayBack);
-                inventoryImg[2][11].setImage(grayBack);
             }
         }
 
-    }
+        }
 
 
     public void onKeyPressed(KeyEvent keyEvent) {
@@ -1021,8 +1025,6 @@ public class HelloController {
                     movePlayer("y", 1);
                 } else if (keyEvent.getText().equalsIgnoreCase("e")) {
                     interact();
-                }else if (keyEvent.getText().equalsIgnoreCase("r")) {
-                    interactTwo();
                 } else if (keyEvent.getText().equalsIgnoreCase("i")) {
                     directionInter = "up";
                     arrowImg.setImage(arrow);
@@ -1167,7 +1169,7 @@ public class HelloController {
                             mineObjectsOnMap.remove(tempMine);
                             breakB = false;
                             for (int i = 4; i >=1; i--) {
-                                for (int j = 3; j <=7; j++) {
+                                for (int j = 1; j <=5; j++) {
                                     if(inventoryA[i][j].getName().equals(tempMine.getResourceDrop().getName())){
                                         System.out.println("hi");
                                         inventoryA[i][j].changeAmount(tempMine.getAmountDrop());
@@ -1367,12 +1369,12 @@ public class HelloController {
                                 map[playerPositionX+directionChange][playerPositionY] = "grass";
                                 breakB = false;
                                 for (int i = 4; i >=1; i--) {
-                                    for (int j = 3; j <=7; j++) {
+                                    for (int j = 1; j <=5; j++) {
                                         if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
                                             System.out.println("hi");
                                             inventoryA[i][j].changeAmount(animal.getAmountDrop());
                                             breakB = true;
-                                            break;
+                                            break; 
                                         }
                                     }
                                     if(breakB){
@@ -1388,7 +1390,7 @@ public class HelloController {
                                         breakB = false;
                                         break;
                                     }
-                                    for (int j = 3; j <=7; j++) {
+                                    for (int j = 1; j <=5; j++) {
                                         if(inventoryA[i][j].getName().equals("empty")){
                                             inventoryA[i][j] = animal.getResourceDrop();
                                             inventoryA[i][j].setAmount(animal.getAmountDrop());
