@@ -22,125 +22,153 @@
       <GridPane fx:id="craftingPane" layoutX="10.0" layoutY="30.0" />
       <GridPane fx:id="hotbarG" layoutX="1700.0" layoutY="25.0" />
       <Label fx:id="coordsLabel" layoutX="1803.0" layoutY="253.0" text="Label" />
-      <Label fx:id="one2" layoutX="768.0" layoutY="310.0" text="22">
+      <Label fx:id="one2" layoutX="452.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
-      </Label><Label fx:id="one1" layoutX="610.0" layoutY="310.0" text="22">
+      </Label><Label fx:id="one1" layoutX="294.0" layoutY="310.0" text="22">
       <font>
          <Font name="Comic Sans MS" size="23.0" />
       </font>
    </Label>
-      <Label fx:id="one3" layoutX="926.0" layoutY="310.0" text="22">
+      <Label fx:id="one3" layoutX="610.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="one4" layoutX="1084.0" layoutY="310.0" text="22">
+      <Label fx:id="one4" layoutX="768.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="one5" layoutX="1242.0" layoutY="310.0" text="22">
+      <Label fx:id="one5" layoutX="926.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two2" layoutX="768.0" layoutY="468.0" text="22">
+      <Label fx:id="two2" layoutX="452.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
-      </Label><Label fx:id="two1" layoutX="610.0" layoutY="468.0" text="22">
+      </Label><Label fx:id="two1" layoutX="294.0" layoutY="468.0" text="22">
       <font>
          <Font name="Comic Sans MS" size="23.0" />
       </font>
    </Label>
-      <Label fx:id="two3" layoutX="926.0" layoutY="468.0" text="22">
+      <Label fx:id="two3" layoutX="610.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two4" layoutX="1084.0" layoutY="468.0" text="22">
+      <Label fx:id="two4" layoutX="768.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two5" layoutX="1242.0" layoutY="468.0" text="22">
+      <Label fx:id="two5" layoutX="926.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="three2" layoutX="768.0" layoutY="626.0" text="22">
+      <Label fx:id="three2" layoutX="452.0" layoutY="626.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
-      </Label><Label fx:id="three1" layoutX="610.0" layoutY="626.0" text="22">
+      </Label><Label fx:id="three1" layoutX="294.0" layoutY="626.0" text="22">
       <font>
          <Font name="Comic Sans MS" size="23.0" />
       </font>
    </Label>
-      <Label fx:id="three3" layoutX="926.0" layoutY="626.0" text="22">
+      <Label fx:id="three3" layoutX="610.0" layoutY="626.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="three4" layoutX="1084.0" layoutY="626.0" text="22">
+      <Label fx:id="three4" layoutX="768.0" layoutY="626.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="three5" layoutX="1242.0" layoutY="626.0" text="22">
+      <Label fx:id="three5" layoutX="926.0" layoutY="626.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="four2" layoutX="768.0" layoutY="784.0" text="22">
+      <Label fx:id="four2" layoutX="452.0" layoutY="784.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
-      </Label><Label fx:id="four1" layoutX="610.0" layoutY="784.0" text="22">
+      </Label><Label fx:id="four1" layoutX="294.0" layoutY="784.0" text="22">
       <font>
          <Font name="Comic Sans MS" size="23.0" />
       </font>
    </Label>
-      <Label fx:id="four3" layoutX="926.0" layoutY="784.0" text="22">
+      <Label fx:id="four3" layoutX="610.0" layoutY="784.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="four4" layoutX="1084.0" layoutY="784.0" text="22">
+      <Label fx:id="four4" layoutX="768.0" layoutY="784.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="four5" layoutX="1242.0" layoutY="784.0" text="22">
+      <Label fx:id="four5" layoutX="926.0" layoutY="784.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
 
 
-      <Label fx:id="one1c" layoutX="1556.0" layoutY="310.0" text="22">
+      <Label fx:id="one1c" layoutX="1240.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two1c" layoutX="1556.0" layoutY="468.0" text="22">
+      <Label fx:id="one2c" layoutX="1240.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="one2c" layoutX="1714.0" layoutY="310.0" text="22">
+      <Label fx:id="one3cv" layoutX="1240.0" layoutY="626.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two2c" layoutX="1714.0" layoutY="468.0" text="22">
+      <Label fx:id="two1c" layoutX="1398.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="result" layoutX="1556.0" layoutY="784.0" text="22">
+      <Label fx:id="two2c" layoutX="1398.0" layoutY="468.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="two3cv" layoutX="1398.0" layoutY="626.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+
+      <Label fx:id="three1cv" layoutX="1556.0" layoutY="310.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three2cv" layoutX="1556.0" layoutY="468.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three3cv" layoutX="1556.0" layoutY="626.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+
+
+      <Label fx:id="result" layoutX="1872.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
@@ -152,164 +180,12 @@
       <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"/>
 
 
-      <Label fx:id="one2v" layoutX="452.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label><Label fx:id="one1v" layoutX="294.0" layoutY="626.0" text="22">
-      <font>
-         <Font name="Comic Sans MS" size="23.0" />
-      </font>
-   </Label>
-      <Label fx:id="one3v" layoutX="610.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="one4v" layoutX="768.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="one5v" layoutX="926.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="two2v" layoutX="452.0" layoutY="784.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label><Label fx:id="two1v" layoutX="294.0" layoutY="784.0" text="22">
-      <font>
-         <Font name="Comic Sans MS" size="23.0" />
-      </font>
-   </Label>
-      <Label fx:id="two3v" layoutX="610.0" layoutY="784.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="two4v" layoutX="768.0" layoutY="784.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="two5v" layoutX="926.0" layoutY="784.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
 
-
-      
-      <Label fx:id="three2v" layoutX="452.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label><Label fx:id="three1v" layoutX="294.0" layoutY="310.0" text="22">
-      <font>
-         <Font name="Comic Sans MS" size="23.0" />
-      </font>
-   </Label>
-      <Label fx:id="three3v" layoutX="610.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="three4v" layoutX="768.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="three5v" layoutX="926.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="four2v" layoutX="452.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label><Label fx:id="four1v" layoutX="294.0" layoutY="468.0" text="22">
-      <font>
-         <Font name="Comic Sans MS" size="23.0" />
-      </font>
-   </Label>
-      <Label fx:id="four3v" layoutX="610.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="four4v" layoutX="768.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="four5v" layoutX="926.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
       
       
       
       
-      <Label fx:id="one1vc" layoutX="1240.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="one2vc" layoutX="1240.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="one3vc" layoutX="1240.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
 
-
-      <Label fx:id="two1vc" layoutX="1398.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="two2vc" layoutX="1398.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="two3vc" layoutX="1398.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-
-      <Label fx:id="three1vc" layoutX="1556.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="three2vc" layoutX="1556.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="three3vc" layoutX="1556.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-
-
-      <Label fx:id="resultvc" layoutX="1872.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
 
 
 
