@@ -11,7 +11,9 @@ public class Animals {
 
     long startTime;
 
-    public Animals(String name,int health,inventoryItems resourceDrop,int amount,int x,int y){
+    double movementTime;
+
+    public Animals(String name,int health,inventoryItems resourceDrop,double movementTime,int amount,int x,int y){
         this.name = name;
         this.health = health;
         this.resourceDrop = resourceDrop;
@@ -19,11 +21,20 @@ public class Animals {
         this.y = y;
         this.startTime = System.nanoTime();
         this.amount  = amount;
+        this.movementTime = movementTime;
 
     }
 
     public int getAmountDrop() {
         return amount;
+    }
+
+    public double getMovementTime() {
+        return movementTime;
+    }
+
+    public void changeMovementTime(int change){
+        movementTime+= change;
     }
 
     public long getStartTime() {
@@ -56,7 +67,8 @@ public class Animals {
 
     public void changeLoc(String[][] map){
         boolean check = false;
-        while(!check){
+        int timeout = 0;
+        while(!check&&timeout<1000){
             int tempx = x;
             int tempy = y;
             if(Math.random()>.5){
@@ -76,6 +88,7 @@ public class Animals {
                 x=tempx;
                 y=tempy;
             }
+            timeout++;
         }
 
 //          System.out.println("x: " + x);

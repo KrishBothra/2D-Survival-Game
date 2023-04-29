@@ -109,10 +109,12 @@ public class HelloController {
 
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
-            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt;
+            sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
+            ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
-            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat;
+            ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
+            rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv;
     private boolean miningObject = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
@@ -179,12 +181,22 @@ public class HelloController {
             woodSworddInv = new FileInputStream("src/main/resources/InventoryItems/woodSword.png");
             stickkInv = new FileInputStream("src/main/resources/InventoryItems/stick.png");
             boattInv = new FileInputStream("src/main/resources/InventoryItems/boat.png");
+            rawMuttonInvv = new FileInputStream("src/main/resources/InventoryItems/rawMutton.png");
+            rawPorkInvv = new FileInputStream("src/main/resources/InventoryItems/rawPork.png");
+            rawBeefInvv = new FileInputStream("src/main/resources/InventoryItems/rawBeef.png");
+            coww = new FileInputStream("src/main/resources/Animals/cow.png");
+            pigg = new FileInputStream("src/main/resources/Animals/pig.png");
 
 
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
+            cow = new Image(coww);
+            pig = new Image(pigg);
+            rawMuttonInv = new Image(rawMuttonInvv);
+            rawBeefInv = new Image(rawBeefInvv);
+            rawPorkInv = new Image(rawPorkInvv);
             fruitPlank = new Image(fruitPlankk);
             autumnPlank = new Image(autumnPlankk);
             normalPlank = new Image(normalPlankk);
@@ -249,7 +261,7 @@ public class HelloController {
         biomeNameList.add("stone");
         biomeNameList.add("water");
 //        hotbar[0] = new Resources("diamond");
-        animalsOnMap.add(new Animals("sheep",15,new Food("raw mutton"),(int)(Math.random()*3)+1,100,163));
+//        animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton"),(int) (Math.random()*4),(int)(Math.random()*3)+1,100,163));
 
         inventoryLabels[0][0] = one1;
         inventoryLabels[0][1] = one2;
@@ -544,6 +556,10 @@ public class HelloController {
                         img[i][j].setImage(craftingTable);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("boat")) {
                         img[i][j].setImage(boat);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("cow")) {
+                        img[i][j].setImage(cow);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("pig")) {
+                        img[i][j].setImage(pig);
                     }
                 }
             }
@@ -607,6 +623,10 @@ public class HelloController {
                         img[i][j].setImage(craftingTable); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("boat")) {
                         img[i][j].setImage(boat); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("cow")) {
+                        img[i][j].setImage(cow); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("pig")) {
+                        img[i][j].setImage(pig); //steve
                     }
                 }
             }
@@ -692,6 +712,12 @@ public class HelloController {
                 hotbarImg[i][0].setImage(woodSwordInv);
             }else if(hotbar[i].getName().equals("woodPickaxe")) {
                 hotbarImg[i][0].setImage(woodPickaxeInv);
+            }else if(hotbar[i].getName().equals("rawMutton")) {
+                hotbarImg[i][0].setImage(rawMuttonInv);
+            }else if(hotbar[i].getName().equals("rawPork")) {
+                hotbarImg[i][0].setImage(rawPorkInv);
+            }else if(hotbar[i].getName().equals("rawBeef")) {
+                hotbarImg[i][0].setImage(rawBeefInv);
             }
 
 
@@ -736,6 +762,12 @@ public class HelloController {
                     inventoryImg[i][j].setImage(woodSwordInv);
                 }else if(inventoryA[i][j].getName().equals("woodPickaxe")) {
                     inventoryImg[i][j].setImage(woodPickaxeInv);
+                }else if(inventoryA[i][j].getName().equals("rawMutton")) {
+                    inventoryImg[i][j].setImage(rawMuttonInv);
+                }else if(inventoryA[i][j].getName().equals("rawBeef")) {
+                    inventoryImg[i][j].setImage(rawBeefInv);
+                }else if(inventoryA[i][j].getName().equals("rawPork")) {
+                    inventoryImg[i][j].setImage(rawPorkInv);
                 }
 
 
@@ -989,6 +1021,8 @@ public class HelloController {
                     movePlayer("y", 1);
                 } else if (keyEvent.getText().equalsIgnoreCase("e")) {
                     interact();
+                }else if (keyEvent.getText().equalsIgnoreCase("r")) {
+                    interactTwo();
                 } else if (keyEvent.getText().equalsIgnoreCase("i")) {
                     directionInter = "up";
                     arrowImg.setImage(arrow);
@@ -1131,6 +1165,7 @@ public class HelloController {
                             miningBar.setVisible(false);
                             first = false;
                             mineObjectsOnMap.remove(tempMine);
+                            breakB = false;
                             for (int i = 4; i >=1; i--) {
                                 for (int j = 3; j <=7; j++) {
                                     if(inventoryA[i][j].getName().equals(tempMine.getResourceDrop().getName())){
@@ -1246,11 +1281,17 @@ public class HelloController {
                 if(animalsOnMap.size()>0){
                     for(Animals animal:animalsOnMap){
                         if(now - animal.getStartTime() > 1000000000.0 * 1.5){
-                            animal.changeLoc(map);
-                            animal.resetStartTime();
-                            updateScreen();
+                            if(animal.getMovementTime()<0){
+                                animal.changeLoc(map);
+                                animal.resetStartTime();
+                            }else{
+                                animal.changeMovementTime(-1);
+                            }
+
+
                         }
                     }
+                    updateScreen();
                 }
 
             }
@@ -1314,8 +1355,62 @@ public class HelloController {
                         }
                     }
 
-                case "sheep":
+                case "sheep","cow","pig":
+                    int damage = 1;
+                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
+                        damage = equipped.getDamage();
+                    }
+                    for(Animals animal:animalsOnMap){
+                        if(animal.getX()==playerPositionX+directionChange&&animal.getY()==playerPositionY){
+                            animal.changeHealth(-(damage));
+                            if(animal.getHealth()<=0){
+                                map[playerPositionX+directionChange][playerPositionY] = "grass";
+                                breakB = false;
+                                for (int i = 4; i >=1; i--) {
+                                    for (int j = 3; j <=7; j++) {
+                                        if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
+                                            System.out.println("hi");
+                                            inventoryA[i][j].changeAmount(animal.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        break;
+                                    }
+                                }
 
+
+
+
+                                for (int i = 4; i >=1; i--) {
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                    for (int j = 3; j <=7; j++) {
+                                        if(inventoryA[i][j].getName().equals("empty")){
+                                            inventoryA[i][j] = animal.getResourceDrop();
+                                            inventoryA[i][j].setAmount(animal.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                }
+
+
+                                animalsOnMap.remove(animal);
+                                break;
+                            }else{
+                                animal.changeLoc(map);
+                                updateScreen();
+                            }
+                        }
+                    }
 
                     break;
             }
@@ -1369,16 +1464,18 @@ public class HelloController {
                         }
                     }
 
-                case "sheep":
+                case "sheep","cow","pig":
                     int damage = 1;
                     if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
                         damage = equipped.getDamage();
                     }
                     for(Animals animal:animalsOnMap){
                         if(animal.getX()==playerPositionX&&animal.getY()==playerPositionY+directionChange){
+
                             animal.changeHealth(-(damage));
                             if(animal.getHealth()<=0){
-
+                                map[playerPositionX][playerPositionY+directionChange] = "grass";
+                                breakB = false;
                                 for (int i = 4; i >=1; i--) {
                                     for (int j = 1; j <=5; j++) {
                                         if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
@@ -1397,6 +1494,10 @@ public class HelloController {
 
 
                                 for (int i = 4; i >=1; i--) {
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
                                     for (int j = 1; j <=5; j++) {
                                         if(inventoryA[i][j].getName().equals("empty")){
                                             inventoryA[i][j] = animal.getResourceDrop();
@@ -1414,6 +1515,9 @@ public class HelloController {
 
                                 animalsOnMap.remove(animal);
                                 break;
+                            }else{
+                                animal.changeLoc(map);
+                                updateScreen();
                             }
                         }
                     }
@@ -1536,12 +1640,14 @@ public class HelloController {
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
 //                            mapBackground[i][j] = "grass";
-                            int random = (int) (Math.random() * 8);
-                            if (random == 0) {
+                            int random = (int) (Math.random() * 600);
+                            if (random <61) {
                                 if (map[i][j].equals("grass")) {
                                     mineObjectsOnMap.add(new mineObjects("normalTree","axe", (int) (Math.random() * 5) + 5, new Resources("normalWood","axe"), (int) (Math.random() * 2) + 3, i, j));
                                     map[i][j] = "normalTree";
                                 }
+                            } else if (random<62) {
+                                animalsOnMap.add(new Animals("cow",20,new Food("rawBeef"), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -1557,12 +1663,14 @@ public class HelloController {
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
 //                            mapBackground[i][j] = "grass";
-                            int random = (int) (Math.random() * 8);
-                            if (random == 0) {
+                            int random = (int) (Math.random() * 600);
+                            if (random <61) {
                                 if (map[i][j].equals("grass")) {
                                     mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood","axe"), (int) (Math.random() * 2) + 3,new Food("apples"),(int) (Math.random() * 3) + 1, i, j));
                                     map[i][j] = "fruitTree";
                                 }
+                            }else if (random<62) {
+                                animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton"),(Math.random()*6),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -1578,13 +1686,15 @@ public class HelloController {
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
 //                            mapBackground[i][j] = "grass";
-                            int random = (int) (Math.random() * 8);
-                            if (random == 0) {
+                            int random = (int) (Math.random() * 600);
+                            if (random <61) {
                                 if (map[i][j].equals("grass")) {
                                     map[i][j] = "autumnTree";
                                     mineObjectsOnMap.add(new mineObjects("autumnTree","axe", (int) (Math.random() * 5) + 5, new Resources("autumnWood","axe"), (int) (Math.random() * 2) + 3, i, j));
 
                                 }
+                            }else if (random<62) {
+                                animalsOnMap.add(new Animals("pig",15,new Food("rawPork"), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
