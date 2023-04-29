@@ -1367,7 +1367,7 @@ public class HelloController {
                                 map[playerPositionX+directionChange][playerPositionY] = "grass";
                                 breakB = false;
                                 for (int i = 4; i >=1; i--) {
-                                    for (int j = 3; j <=5; j++) {
+                                    for (int j = 1; j <=5; j++) {
                                         if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
                                             System.out.println("hi");
                                             inventoryA[i][j].changeAmount(animal.getAmountDrop());
