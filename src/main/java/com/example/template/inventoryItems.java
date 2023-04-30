@@ -6,6 +6,9 @@ public class inventoryItems {
     int amount;
     int amountSecond;
 
+    boolean eatable = false;
+    int hungerGain;
+
     int damage;
     int durbality;
     int tier = 0;
@@ -76,4 +79,36 @@ public class inventoryItems {
     public int getDamage() {
         return damage;
     }
+
+    public boolean isEatable() {
+        return eatable;
+    }
+
+    public int getHungerGain() {
+        return hungerGain;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

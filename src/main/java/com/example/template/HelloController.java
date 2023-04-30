@@ -37,7 +37,7 @@ public class HelloController {
     private ImageView arrowImg;
 
     @FXML
-    private ProgressBar miningBar;
+    private ProgressBar miningBar, healthBar, hungerBar;
 
     @FXML
     private Rectangle slot1,slot2,slot3,slot4,slot5;
@@ -47,6 +47,7 @@ public class HelloController {
     private int y = 41;
 
     private long miningTime = System.nanoTime();
+    private long eatingTime = System.nanoTime();
 
     ImageView[][] img = new ImageView[x][y];
 
@@ -95,7 +96,13 @@ public class HelloController {
     int playerPositionX = 99;//-1
     int playerPositionY = 163;//-1
 
-    boolean first = false;
+    double totalHealth = 100;
+    double tempHealth = 100;
+
+    double totalHunger = 100;
+    double tempHunger = 50;
+
+    boolean firstMine = false;
 
     int tempPlayerPositionX;//-1
     int tempPlayerPositionY;//-1
@@ -110,12 +117,13 @@ public class HelloController {
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
             sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
-            ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv;
+            ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv,furnacee,furnaceInvv, stonePickaxeInvv,villagerr;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
             ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
-            rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv;
+            rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv,furnace,furnaceInv,stonePickaxeInv,villager;
     private boolean miningObject = false;
+    private boolean eatingFood = false;
     private int tempMineTime;
     private boolean inventoryShowing = false;
     private boolean craftingShowing = false;
@@ -124,6 +132,7 @@ public class HelloController {
     int amountChange = 0;
     private boolean clickedP  = false;
     private double toolBoost =1;
+    private int eatingCount =6;
 
     public HelloController() {
         fruitQuest = false;
@@ -173,7 +182,7 @@ public class HelloController {
             fruitPlankk = new FileInputStream("src/main/resources/junglePlank.png");
             autumnPlankk = new FileInputStream("src/main/resources/acaciaPlank.jpg");
             normalPlankk = new FileInputStream("src/main/resources/oakPlank.png");
-
+            villagerr = new FileInputStream("src/main/resources/Animals/villager.png");
             craftingTablee = new FileInputStream("src/main/resources/craftingTable.jpg");
             boatt = new FileInputStream("src/main/resources/boatOverWater.png");
             craftingTableeInv = new FileInputStream("src/main/resources/InventoryItems/craftingTable.png");
@@ -186,12 +195,19 @@ public class HelloController {
             rawBeefInvv = new FileInputStream("src/main/resources/InventoryItems/rawBeef.png");
             coww = new FileInputStream("src/main/resources/Animals/cow.png");
             pigg = new FileInputStream("src/main/resources/Animals/pig.png");
+            furnacee = new FileInputStream("src/main/resources/furnaceUnlit.png");
+            furnaceInvv = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
+            stonePickaxeInvv = new FileInputStream("src/main/resources/InventoryItems/stonePickaxe.png");
 
 
 
 
 //            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
 //            mediaPlayer = new MediaPlayer(sound);
+            villager= new Image(villagerr);
+            stonePickaxeInv = new Image(stonePickaxeInvv);
+            furnace = new Image(furnacee);
+            furnaceInv = new Image(furnaceInvv);
             cow = new Image(coww);
             pig = new Image(pigg);
             rawMuttonInv = new Image(rawMuttonInvv);
@@ -254,6 +270,10 @@ public class HelloController {
 
     @FXML
     private void onClick() {
+        healthBar.setProgress(tempHealth/totalHealth);
+        healthBar.setStyle(" -fx-accent: #FF0000; ");
+        hungerBar.setProgress(tempHunger/totalHunger);
+        hungerBar.setStyle(" -fx-accent: #987554; ");
 //        mediaPlayer.play();
         biomeNameList.add("fruitTree");
         biomeNameList.add("normalTree");
@@ -465,7 +485,7 @@ public class HelloController {
 
 
 //        img[12][20].setImage(null);
-        map[98][160] = "null";
+//        map[98][160] = "null";
         map[99][163] = "playerOverGrass";
 //        map[30][160] = "normalTree";
         createBiomes();
@@ -560,6 +580,10 @@ public class HelloController {
                         img[i][j].setImage(cow);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("pig")) {
                         img[i][j].setImage(pig);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("furnace")) {
+                        img[i][j].setImage(furnace);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("villager")) {
+                        img[i][j].setImage(villager);
                     }
                 }
             }
@@ -627,6 +651,10 @@ public class HelloController {
                         img[i][j].setImage(cow); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("pig")) {
                         img[i][j].setImage(pig); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("furnace")) {
+                        img[i][j].setImage(furnace); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("villager")) {
+                        img[i][j].setImage(villager); //steve
                     }
                 }
             }
@@ -746,6 +774,10 @@ public class HelloController {
                 hotbarImg[i][0].setImage(rawPorkInv);
             }else if(hotbar[i].getName().equals("rawBeef")) {
                 hotbarImg[i][0].setImage(rawBeefInv);
+            }else if(hotbar[i].getName().equals("furnace")) {
+                hotbarImg[i][0].setImage(furnaceInv);
+            }else if(hotbar[i].getName().equals("stonePickaxe")) {
+                hotbarImg[i][0].setImage(stonePickaxeInv);
             }
 
 
@@ -796,6 +828,10 @@ public class HelloController {
                     inventoryImg[i][j].setImage(rawBeefInv);
                 }else if(inventoryA[i][j].getName().equals("rawPork")) {
                     inventoryImg[i][j].setImage(rawPorkInv);
+                }else if(inventoryA[i][j].getName().equals("furnace")) {
+                    inventoryImg[i][j].setImage(furnaceInv);
+                }else if(inventoryA[i][j].getName().equals("stonePickaxe")) {
+                    inventoryImg[i][j].setImage(stonePickaxeInv);
                 }
 
 
@@ -910,7 +946,8 @@ public class HelloController {
                 inventoryA[4][9] = new Resources("craftingTable","axe");
                 inventoryA[4][9].setAmount(1);
             }
-
+            
+            
 
             else{
                 inventoryA[4][9] = new inventoryItems("empty");
@@ -1082,7 +1119,31 @@ public class HelloController {
                 inventoryA[4][9].setAmount(4);
             }
             
-            
+            //WOODEN PICK
+
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodPickaxe",1,"pickaxe",2,20);
+//                inventoryA[4][9].setAmount(4);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodPickaxe",1,"pickaxe",2,20);
+//                inventoryA[4][9].setAmount(4);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodPickaxe",1,"pickaxe",2,20);
+//                inventoryA[4][9].setAmount(4);
+            }
+            //stone pick
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("cobblestone")&&tmc.getName().equals("cobblestone")&&trc.getName().equals("cobblestone")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("stonePickaxe",2,"pickaxe",2,30);
+//                inventoryA[4][9].setAmount(4);
+            }
+
+            //furnace
+            else if(tl.getName().equals("cobblestone")&&tr.getName().equals("empty")&&bl.getName().equals("cobblestone")&&br.getName().equals("cobblestone")&&tlc.getName().equals("cobblestone")&&tmc.getName().equals("cobblestone")&&trc.getName().equals("cobblestone")&&mrc.getName().equals("cobblestone")&&brc.getName().equals("cobblestone")){
+                inventoryA[4][9] = new Resources("furnace","pickaxe");
+//                inventoryA[4][9].setAmount(4);
+            }
 
             else{
                 inventoryA[4][9] = new inventoryItems("empty");
@@ -1196,7 +1257,7 @@ public class HelloController {
 
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
-        if(!miningObject) {
+        if(!miningObject&&!eatingFood) {
             if (!inventoryShowing) {
                 if (keyEvent.getText().equalsIgnoreCase("w")) {
                     movePlayer("x", -1);
@@ -1313,36 +1374,37 @@ public class HelloController {
             public void handle(long now) {
                 if(miningObject){
                     //1000000000.0
-                    if(!first) {
-                        miningBar.setVisible(true);
-                        for (mineObjects m : mineObjectsOnMap) {
-                            if (miningX == m.getX() && miningY == m.getY()) {
-                                tempMine = m;
-                                System.out.println(m.getX());
-                                System.out.println(m.getY());
-                            }
-                        }
-                        tempMineTime = tempMine.getMineTime();
-                        System.out.println("MINE TIME "+tempMineTime);
-                        miningBar.setProgress(1.0);
-                        first = true;
-                        System.out.println(equipped.getName());
-                        System.out.println(equipped.getTier());
-                        if(equipped.getTier()>0){
-                            System.out.println(tempMine.getType());
-                            if(tempMine.getType().equals(equipped.getType())){
-                                toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
-                                System.out.println(toolBoost);
-                            }
-                        }
-                    }
+//                    if(!firstMine) {
+//                        miningBar.setVisible(true);
+//                        for (mineObjects m : mineObjectsOnMap) {
+//                            if (miningX == m.getX() && miningY == m.getY()) {
+//                                tempMine = m;
+//                                System.out.println(m.getX());
+//                                System.out.println(m.getY());
+//                            }
+//                        }
+//                        tempMineTime = tempMine.getMineTime();
+//                        System.out.println("MINE TIME "+tempMineTime);
+//                        miningBar.setProgress(1.0);
+//                        firstMine = true;
+//                        System.out.println(equipped.getName());
+//                        System.out.println(equipped.getTier());
+//                        if(equipped.getTier()>0){
+//                            System.out.println(tempMine.getType());
+//                            if(tempMine.getType().equals(equipped.getType())){
+//                                toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+//                                System.out.println(toolBoost);
+//                            }
+//                        }
+//                    }
                     if(now-miningTime>1000000000.0/toolBoost){
                         miningTime = System.nanoTime();
                         tempMineTime--;
                         miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
                         if(tempMineTime < 1)   {
+                            toolBoost =1 ;
                             ///////TEMPORARY not anymore?
-                            if(mapBackground[miningX][miningY].equals("grass")) {
+                            if(mapBackground[miningX][miningY].equals("grass")||mapBackground[miningX][miningY].equals("normal")||mapBackground[miningX][miningY].equals("fruit")||mapBackground[miningX][miningY].equals("autumn")) {
                                 map[miningX][miningY] = "grass";
                             }else{
                                 System.out.println(tempMine.getName());
@@ -1350,7 +1412,7 @@ public class HelloController {
                             }
                             miningObject = false;
                             miningBar.setVisible(false);
-                            first = false;
+                            firstMine = false;
                             mineObjectsOnMap.remove(tempMine);
                             breakB = false;
                             for (int i = 4; i >=1; i--) {
@@ -1465,6 +1527,35 @@ public class HelloController {
 
                 }
 
+                if(eatingFood){
+                    if(now-eatingTime>1000000000.0/2){
+                        eatingTime = System.nanoTime();
+                        eatingCount--;
+                        miningBar.setProgress((double) eatingCount/6);
+
+                        if(eatingCount<=0){
+                            eatingCount = 6;
+                            miningBar.setVisible(false);
+                            eatingFood = false;
+
+                            tempHunger+= equipped.getHungerGain();
+                            if(tempHunger>100){
+                                tempHunger = 100;
+                            }
+                            if(equipped.getAmount()>1){
+                                equipped.changeAmount(-1);
+                            }else{
+                                inventoryA[4][selected+1] = new inventoryItems("empty");
+                                System.out.println(inventoryA[4][selected+1].getName());
+                                updateScreen();
+                                System.out.println(hotbar[selected].getName());
+                                System.out.println(equipped.getName());
+                            }
+                            hungerBar.setProgress(tempHunger/totalHunger);
+                        }
+                    }
+                }
+
                 if(animalsOnMap.size()>0){
                     for(Animals animal:animalsOnMap){
                         if(now - animal.getStartTime() > 1000000000.0 * 1.5){
@@ -1511,9 +1602,33 @@ public class HelloController {
                 case "autumnPlank":
                 case "boat":
                 case "craftingTable":
+                case "furnace":
+
+
                     miningObject = true;
                     miningX = playerPositionX + directionChange;
                     miningY = playerPositionY;
+                    miningBar.setVisible(true);
+                    for (mineObjects m : mineObjectsOnMap) {
+                        if (miningX == m.getX() && miningY == m.getY()) {
+                            tempMine = m;
+                            System.out.println(m.getX());
+                            System.out.println(m.getY());
+                        }
+                    }
+                    tempMineTime = tempMine.getMineTime();
+                    System.out.println("MINE TIME "+tempMineTime);
+                    miningBar.setProgress(1.0);
+//                    firstMine = true;
+                    System.out.println(equipped.getName());
+                    System.out.println(equipped.getTier());
+                    if(equipped.getTier()>0){
+                        System.out.println(tempMine.getType());
+                        if(tempMine.getType().equals(equipped.getType())){
+                            toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            System.out.println(toolBoost);
+                        }
+                    }
 //                    map[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "grass", "stone":
@@ -1540,6 +1655,10 @@ public class HelloController {
                             System.out.println(hotbar[selected].getName());
                             System.out.println(equipped.getName());
                         }
+                    } else if (equipped.isEatable()) {
+                        eatingFood = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
                     }
 
                 case "sheep","cow","pig":
@@ -1598,6 +1717,8 @@ public class HelloController {
                             }
                         }
                     }
+                    
+                    
 
                     break;
             }
@@ -1619,10 +1740,33 @@ public class HelloController {
                 case "autumnPlank":
                 case "boat":
                 case "craftingTable":
+                case "furnace":
+
 
                     miningObject = true;
                     miningX = playerPositionX;
                     miningY = playerPositionY + directionChange;
+                    miningBar.setVisible(true);
+                    for (mineObjects m : mineObjectsOnMap) {
+                        if (miningX == m.getX() && miningY == m.getY()) {
+                            tempMine = m;
+                            System.out.println(m.getX());
+                            System.out.println(m.getY());
+                        }
+                    }
+                    tempMineTime = tempMine.getMineTime();
+                    System.out.println("MINE TIME "+tempMineTime);
+                    miningBar.setProgress(1.0);
+//                    firstMine = true;
+                    System.out.println(equipped.getName());
+                    System.out.println(equipped.getTier());
+                    if(equipped.getTier()>0){
+                        System.out.println(tempMine.getType());
+                        if(tempMine.getType().equals(equipped.getType())){
+                            toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            System.out.println(toolBoost);
+                        }
+                    }
 //                    map[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "grass", "stone":
@@ -1649,6 +1793,10 @@ public class HelloController {
                             System.out.println(hotbar[selected].getName());
                             System.out.println(equipped.getName());
                         }
+                    }else if (equipped.isEatable()) {
+                        eatingFood = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
                     }
 
                 case "sheep","cow","pig":
@@ -1826,7 +1974,7 @@ public class HelloController {
                     biomeNameList.remove("normalTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
-//                            mapBackground[i][j] = "grass";
+                            mapBackground[i][j] = "normal";
                             int random = (int) (Math.random() * 600);
                             if (random <61) {
                                 if (map[i][j].equals("grass")) {
@@ -1834,7 +1982,7 @@ public class HelloController {
                                     map[i][j] = "normalTree";
                                 }
                             } else if (random<62) {
-                                animalsOnMap.add(new Animals("cow",20,new Food("rawBeef"), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
+                                animalsOnMap.add(new Animals("cow",20,new Food("rawBeef",20), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -1849,15 +1997,15 @@ public class HelloController {
                     biomeNameList.remove("fruitTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
-//                            mapBackground[i][j] = "grass";
+                            mapBackground[i][j] = "fruit";
                             int random = (int) (Math.random() * 600);
                             if (random <61) {
                                 if (map[i][j].equals("grass")) {
-                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood","axe"), (int) (Math.random() * 2) + 3,new Food("apples"),(int) (Math.random() * 3) + 1, i, j));
+                                    mineObjectsOnMap.add(new mineObjects("fruitTree", "axe",(int) (Math.random() * 5) + 5, new Resources("fruitWood","axe"), (int) (Math.random() * 2) + 3,new Food("apples",15),(int) (Math.random() * 3) + 1, i, j));
                                     map[i][j] = "fruitTree";
                                 }
                             }else if (random<62) {
-                                animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton"),(Math.random()*6),(int)(Math.random()*3)+1,i,j));
+                                animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton",10),(Math.random()*6),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -1872,7 +2020,7 @@ public class HelloController {
                     biomeNameList.remove("autumnTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
-//                            mapBackground[i][j] = "grass";
+                            mapBackground[i][j] = "autumn";
                             int random = (int) (Math.random() * 600);
                             if (random <61) {
                                 if (map[i][j].equals("grass")) {
@@ -1881,7 +2029,7 @@ public class HelloController {
 
                                 }
                             }else if (random<62) {
-                                animalsOnMap.add(new Animals("pig",15,new Food("rawPork"), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
+                                animalsOnMap.add(new Animals("pig",15,new Food("rawPork",15), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -1910,7 +2058,7 @@ public class HelloController {
                                     mapBackground[i][j] = "stone";
                                     if (mineralRand < 4) {
                                         map[i][j] = "rock";
-                                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 1, i, j));
+                                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
 
                                     } else if (mineralRand < 6) {
                                         map[i][j] = "goldOre";

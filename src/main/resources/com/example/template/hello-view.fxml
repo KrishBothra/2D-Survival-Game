@@ -174,10 +174,14 @@
          </font>
       </Label>
       <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
-      <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false" />
-      <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"  />
-      <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"/>
-      <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"/>
+      <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <ProgressBar fx:id="healthBar" layoutX="58.0" layoutY="30.0" prefWidth="200.0" progress="0.0" />
+      <ProgressBar fx:id="hungerBar" layoutX="294.0" layoutY="30.0" prefWidth="200.0" progress="0.0" />
+      <Label layoutX="144.0" layoutY="6.0" text="Health" />
+      <Label layoutX="372.0" layoutY="6.0" text="Hunger" />
 
 
 

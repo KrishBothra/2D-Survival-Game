@@ -120,71 +120,75 @@
       </Label>
 
 
-      <Label fx:id="one1c" layoutX="1240.0" layoutY="310.0" text="22">
+      <Label fx:id="one1c" layoutX="1556.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="one2c" layoutX="1240.0" layoutY="468.0" text="22">
+      <Label fx:id="one2c" layoutX="1714.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="one3cv" layoutX="1240.0" layoutY="626.0" text="22">
+      <Label fx:id="one3cv" layoutX="1872.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two1c" layoutX="1398.0" layoutY="310.0" text="22">
+      <Label fx:id="two1c" layoutX="1556.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two2c" layoutX="1398.0" layoutY="468.0" text="22">
+      <Label fx:id="two2c" layoutX="1714.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="two3cv" layoutX="1398.0" layoutY="626.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-
-      <Label fx:id="three1cv" layoutX="1556.0" layoutY="310.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="three2cv" layoutX="1556.0" layoutY="468.0" text="22">
-         <font>
-            <Font name="Comic Sans MS" size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="three3cv" layoutX="1556.0" layoutY="626.0" text="22">
+      <Label fx:id="two3cv" layoutX="1872.0" layoutY="468.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
 
+      <Label fx:id="three1cv" layoutX="1556.0" layoutY="152.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three2cv" layoutX="1714.0" layoutY="152.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="three3cv" layoutX="1872.0" layoutY="152.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
 
-      <Label fx:id="result" layoutX="1872.0" layoutY="468.0" text="22">
+
+      <Label fx:id="result" layoutX="1556.0" layoutY="784.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
       <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
-      <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false" />
-      <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"  />
-      <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"/>
-      <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" width="30.0" visible="false"/>
+      <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <ProgressBar fx:id="healthBar" layoutX="58.0" layoutY="30.0" prefWidth="200.0" progress="0.0" />
+      <ProgressBar fx:id="hungerBar" layoutX="294.0" layoutY="30.0" prefWidth="200.0" progress="0.0" />
+      <Label layoutX="144.0" layoutY="6.0" text="Health" />
+      <Label layoutX="372.0" layoutY="6.0" text="Hunger" />
 
 
 
-      
-      
-      
-      
+
+
+
+
 
 
 
