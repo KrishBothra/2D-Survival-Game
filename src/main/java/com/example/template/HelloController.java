@@ -117,11 +117,15 @@ public class HelloController {
     FileInputStream grasss, playerr, playerOverGrasss, playerOverStonee, autumnTreee, fruitTreee, normalTreee, grassWXx, arroww, stonee, rockk, diamondOree, rubyOree, goldOree, waterr, chestWaterr, mailboxGrasss, mailboxStonee
             , grayBackk, blackBackk, yellowBackk, rubyInvv,goldIngotInvv,diamondInvv, normalWoodd,normalWooddInv,autumnWooddInv,fruitWooddInv,appleeInv,cobblestoneInvv,woodAxeInvv,autumnWoodd,jungleWoodd,
             sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
-            ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv,furnacee,furnaceInvv, stonePickaxeInvv,villagerr;
+            ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
+            ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
+            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
             ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
-            rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv,furnace,furnaceInv,stonePickaxeInv,villager;
+            rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
+            ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
+            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -195,19 +199,71 @@ public class HelloController {
             rawBeefInvv = new FileInputStream("src/main/resources/InventoryItems/rawBeef.png");
             coww = new FileInputStream("src/main/resources/Animals/cow.png");
             pigg = new FileInputStream("src/main/resources/Animals/pig.png");
-            furnacee = new FileInputStream("src/main/resources/furnaceUnlit.png");
-            furnaceInvv = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
-            stonePickaxeInvv = new FileInputStream("src/main/resources/InventoryItems/stonePickaxe.png");
+
+            furnaceeInv = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
+            furnacee = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
+            stoneSworddInv = new FileInputStream("src/main/resources/InventoryItems/stoneSword.png");
+            rubySworddInv = new FileInputStream("src/main/resources/InventoryItems/rubySword.png");
+            goldSworddInv = new FileInputStream("src/main/resources/InventoryItems/goldSword.png");
+            diamondSworddInv = new FileInputStream("src/main/resources/InventoryItems/diamondSword.png");
+            stoneAxeeInv = new FileInputStream("src/main/resources/InventoryItems/stoneAxe.png");
+            rubyAxeeInv = new FileInputStream("src/main/resources/InventoryItems/rubyAxe.png");
+            goldAxeeInv = new FileInputStream("src/main/resources/InventoryItems/goldAxe.png");
+            diamondAxeeInv = new FileInputStream("src/main/resources/InventoryItems/diamondAxe.png");
+            stonePickaxeeInv = new FileInputStream("src/main/resources/InventoryItems/stonePickaxe.png");
+            rubyPickaxeeInv = new FileInputStream("src/main/resources/InventoryItems/rubyPickaxe.png");
+            goldPickaxeeInv = new FileInputStream("src/main/resources/InventoryItems/goldPickaxe.png");
+            diamondPickaxeeInv = new FileInputStream("src/main/resources/InventoryItems/diamondPickaxe.png");
+            woodHelmettInv = new FileInputStream("src/main/resources/InventoryItems/woodHelmet.png");
+            woodChestplateeInv = new FileInputStream("src/main/resources/InventoryItems/woodChest.png");
+            woodLeggingssInv = new FileInputStream("src/main/resources/InventoryItems/woodLeggings.png");
+            woodBootssInv = new FileInputStream("src/main/resources/InventoryItems/woodBoots.png");
+            rubyHelmettInv = new FileInputStream("src/main/resources/InventoryItems/rubyHelmet.png");
+            rubyChestplateeInv = new FileInputStream("src/main/resources/InventoryItems/rubyChest.png");
+            rubyLeggingssInv = new FileInputStream("src/main/resources/InventoryItems/rubyLeggings.png");
+            rubyBootssInv = new FileInputStream("src/main/resources/InventoryItems/rubyBoots.png");
+            goldHelmettInv = new FileInputStream("src/main/resources/InventoryItems/goldHelmet.png");
+            goldChestplateeInv = new FileInputStream("src/main/resources/InventoryItems/goldChest.png");
+            goldLeggingssInv = new FileInputStream("src/main/resources/InventoryItems/goldLeggings.png");
+            goldBootssInv = new FileInputStream("src/main/resources/InventoryItems/goldBoots.png");
+            diamondHelmettInv = new FileInputStream("src/main/resources/InventoryItems/diamondHelmet.png");
+            diamondChestplateeInv = new FileInputStream("src/main/resources/InventoryItems/diamondChest.png");
+            diamondLeggingssInv = new FileInputStream("src/main/resources/InventoryItems/diamondLeggings.png");
+            diamondBootssInv = new FileInputStream("src/main/resources/InventoryItems/diamondBoots.png");
 
 
 
-
-//            sound = new Media(new File("src/main/resources/goofy2.mp3").toURI().toString());
-//            mediaPlayer = new MediaPlayer(sound);
-            villager= new Image(villagerr);
-            stonePickaxeInv = new Image(stonePickaxeInvv);
+            furnaceInv = new Image(furnaceeInv);
             furnace = new Image(furnacee);
-            furnaceInv = new Image(furnaceInvv);
+            stoneSwordInv = new Image(stoneSworddInv);
+            rubySwordInv = new Image(rubySworddInv);
+            goldSwordInv = new Image(goldSworddInv);
+            diamondSwordInv = new Image(diamondSworddInv);
+            stoneAxeInv = new Image(stoneAxeeInv);
+            rubyAxeInv = new Image(rubyAxeeInv);
+            goldAxeInv = new Image(goldAxeeInv);
+            diamondAxeInv = new Image(diamondAxeeInv);
+            stonePickaxeInv = new Image(stonePickaxeeInv);
+            rubyPickaxeInv = new Image(rubyPickaxeeInv);
+            goldPickaxeInv = new Image(goldPickaxeeInv);
+            diamondPickaxeInv = new Image(diamondPickaxeeInv);
+            woodHelmetInv = new Image(woodHelmettInv);
+            woodChestplateInv = new Image(woodChestplateeInv);
+            woodLeggingsInv = new Image(woodLeggingssInv);
+            woodBootsInv = new Image(woodBootssInv);
+            rubyHelmetInv = new Image(rubyHelmettInv);
+            rubyChestplateInv = new Image(rubyChestplateeInv);
+            rubyLeggingsInv = new Image(rubyLeggingssInv);
+            rubyBootsInv = new Image(rubyBootssInv);
+            goldHelmetInv = new Image(goldHelmettInv);
+            goldChestplateInv = new Image(goldChestplateeInv);
+            goldLeggingsInv = new Image(goldLeggingssInv);
+            goldBootsInv = new Image(goldBootssInv);
+            diamondHelmetInv = new Image(diamondHelmettInv);
+            diamondChestplateInv = new Image(diamondChestplateeInv);
+            diamondLeggingsInv = new Image(diamondLeggingssInv);
+            diamondBootsInv = new Image(diamondBootssInv);
+            villager= new Image(villagerr);
             cow = new Image(coww);
             pig = new Image(pigg);
             rawMuttonInv = new Image(rawMuttonInvv);
@@ -303,11 +359,21 @@ public class HelloController {
         inventoryLabels[3][2] = four3;
         inventoryLabels[3][3] = four4;
         inventoryLabels[3][4] = four5;
-//        for (int i = 0; i<inventoryLabels.length; i++) {
-//            for (int j = 0; j < inventoryLabels[0].length; j++) {
-//                inventoryLabels[i][j].setVisible(false);
-//            }
-//        }
+        for (int i = 0; i < inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                inventoryLabels[i][j].setVisible(false);
+                one1c.setVisible(false);
+                one2c.setVisible(false);
+                one3cv.setVisible(false);
+                two1c.setVisible(false);
+                two2c.setVisible(false);
+                two3cv.setVisible(false);
+                three1cv.setVisible(false);
+                three2cv.setVisible(false);
+                three3cv.setVisible(false);
+                result.setVisible(false);
+            }
+        }
 
 
 
@@ -403,12 +469,24 @@ public class HelloController {
                 checkCrafts();
                 if(row==4&&col==9){
                     if(!inventoryA[4][9].getName().equals("empty")){
-                        for (int i = 1; i < 3; i++) {
-                            for (int j = 9; j < 11; j++) {
-                                if(inventoryA[i][j].getAmount()>1){
-                                    inventoryA[i][j].setAmount(inventoryA[i][j].getAmount()-1);
-                                }else{
-                                    inventoryA[i][j] = new inventoryItems("empty");
+                        if(!craftingShowing){
+                            for (int i = 1; i < 3; i++) {
+                                for (int j = 9; j < 11; j++) {
+                                    if(inventoryA[i][j].getAmount()>1){
+                                        inventoryA[i][j].setAmount(inventoryA[i][j].getAmount()-1);
+                                    }else{
+                                        inventoryA[i][j] = new inventoryItems("empty");
+                                    }
+                                }
+                            }
+                        }else{
+                            for (int i = 0; i < 3; i++) {
+                                for (int j = 9; j < 12; j++) {
+                                    if(inventoryA[i][j].getAmount()>1){
+                                        inventoryA[i][j].setAmount(inventoryA[i][j].getAmount()-1);
+                                    }else{
+                                        inventoryA[i][j] = new inventoryItems("empty");
+                                    }
                                 }
                             }
                         }
@@ -509,6 +587,24 @@ public class HelloController {
         }
 
         inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
+        inventoryA[4][2] = new Resources("craftingTable", "axe");
+
+        inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
+        inventoryA[1][1].setAmount(99);
+        inventoryA[1][2] = new Resources("normalWood", "axe");
+        inventoryA[1][2].setAmount(99);
+        inventoryA[1][3] = new Resources("autumnWood", "axe");
+        inventoryA[1][3].setAmount(99);
+        inventoryA[2][1] = new Resources("fruitWood", "axe");
+        inventoryA[2][1].setAmount(99);
+        inventoryA[2][2] = new inventoryItems("ruby");
+        inventoryA[2][2].setAmount(99);
+        inventoryA[2][3] = new inventoryItems("goldIngot");
+        inventoryA[2][3].setAmount(99);
+        inventoryA[3][1] = new inventoryItems("diamond");
+        inventoryA[3][1].setAmount(99);
+        inventoryA[3][2] = new inventoryItems("stick");
+        inventoryA[3][2].setAmount(99);
 
         updateScreen();
         start();
@@ -776,8 +872,62 @@ public class HelloController {
                 hotbarImg[i][0].setImage(rawBeefInv);
             }else if(hotbar[i].getName().equals("furnace")) {
                 hotbarImg[i][0].setImage(furnaceInv);
+            }else if(hotbar[i].getName().equals("stoneSword")) {
+                hotbarImg[i][0].setImage(stoneSwordInv);
+            }else if(hotbar[i].getName().equals("rubySword")) {
+                hotbarImg[i][0].setImage(rubySwordInv);
+            }else if(hotbar[i].getName().equals("goldSword")) {
+                hotbarImg[i][0].setImage(goldSwordInv);
+            }else if(hotbar[i].getName().equals("diamondSword")) {
+                hotbarImg[i][0].setImage(diamondSwordInv);
+            }else if(hotbar[i].getName().equals("stoneAxe")) {
+                hotbarImg[i][0].setImage(stoneAxeInv);
+            }else if(hotbar[i].getName().equals("rubyAxe")) {
+                hotbarImg[i][0].setImage(rubyAxeInv);
+            }else if(hotbar[i].getName().equals("goldAxe")) {
+                hotbarImg[i][0].setImage(goldAxeInv);
+            }else if(hotbar[i].getName().equals("diamondAxe")) {
+                hotbarImg[i][0].setImage(diamondAxeInv);
             }else if(hotbar[i].getName().equals("stonePickaxe")) {
                 hotbarImg[i][0].setImage(stonePickaxeInv);
+            }else if(hotbar[i].getName().equals("rubyPickaxe")) {
+                hotbarImg[i][0].setImage(rubyPickaxeInv);
+            }else if(hotbar[i].getName().equals("goldPickaxe")) {
+                hotbarImg[i][0].setImage(goldPickaxeInv);
+            }else if(hotbar[i].getName().equals("diamondPickaxe")) {
+                hotbarImg[i][0].setImage(diamondPickaxeInv);
+            }else if(hotbar[i].getName().equals("woodHelmet")) {
+                hotbarImg[i][0].setImage(woodHelmetInv);
+            }else if(hotbar[i].getName().equals("woodChestplate")) {
+                hotbarImg[i][0].setImage(woodChestplateInv);
+            }else if(hotbar[i].getName().equals("woodLeggings")) {
+                hotbarImg[i][0].setImage(woodLeggingsInv);
+            }else if(hotbar[i].getName().equals("woodBoots")) {
+                hotbarImg[i][0].setImage(woodBootsInv);
+            }else if(hotbar[i].getName().equals("rubyHelmet")) {
+                hotbarImg[i][0].setImage(rubyHelmetInv);
+            }else if(hotbar[i].getName().equals("rubyChestplate")) {
+                hotbarImg[i][0].setImage(rubyChestplateInv);
+            }else if(hotbar[i].getName().equals("rubyLeggings")) {
+                hotbarImg[i][0].setImage(rubyLeggingsInv);
+            }else if(hotbar[i].getName().equals("rubyBoots")) {
+                hotbarImg[i][0].setImage(rubyBootsInv);
+            }else if(hotbar[i].getName().equals("goldHelmet")) {
+                hotbarImg[i][0].setImage(goldHelmetInv);
+            }else if(hotbar[i].getName().equals("goldChestplate")) {
+                hotbarImg[i][0].setImage(goldChestplateInv);
+            }else if(hotbar[i].getName().equals("goldLeggings")) {
+                hotbarImg[i][0].setImage(goldLeggingsInv);
+            }else if(hotbar[i].getName().equals("goldBoots")) {
+                hotbarImg[i][0].setImage(goldBootsInv);
+            }else if(hotbar[i].getName().equals("diamondHelmet")) {
+                hotbarImg[i][0].setImage(diamondHelmetInv);
+            }else if(hotbar[i].getName().equals("diamondChestplate")) {
+                hotbarImg[i][0].setImage(diamondChestplateInv);
+            }else if(hotbar[i].getName().equals("diamondLeggings")) {
+                hotbarImg[i][0].setImage(diamondLeggingsInv);
+            }else if(hotbar[i].getName().equals("diamondBoots")) {
+                hotbarImg[i][0].setImage(diamondBootsInv);
             }
 
 
@@ -830,8 +980,62 @@ public class HelloController {
                     inventoryImg[i][j].setImage(rawPorkInv);
                 }else if(inventoryA[i][j].getName().equals("furnace")) {
                     inventoryImg[i][j].setImage(furnaceInv);
+                }else if(inventoryA[i][j].getName().equals("stoneSword")) {
+                    inventoryImg[i][j].setImage(stoneSwordInv);
+                }else if(inventoryA[i][j].getName().equals("rubySword")) {
+                    inventoryImg[i][j].setImage(rubySwordInv);
+                }else if(inventoryA[i][j].getName().equals("goldSword")) {
+                    inventoryImg[i][j].setImage(goldSwordInv);
+                }else if(inventoryA[i][j].getName().equals("diamondSword")) {
+                    inventoryImg[i][j].setImage(diamondSwordInv);
+                }else if(inventoryA[i][j].getName().equals("stoneAxe")) {
+                    inventoryImg[i][j].setImage(stoneAxeInv);
+                }else if(inventoryA[i][j].getName().equals("rubyAxe")) {
+                    inventoryImg[i][j].setImage(rubyAxeInv);
+                }else if(inventoryA[i][j].getName().equals("goldAxe")) {
+                    inventoryImg[i][j].setImage(goldAxeInv);
+                }else if(inventoryA[i][j].getName().equals("diamondAxe")) {
+                    inventoryImg[i][j].setImage(diamondAxeInv);
                 }else if(inventoryA[i][j].getName().equals("stonePickaxe")) {
                     inventoryImg[i][j].setImage(stonePickaxeInv);
+                }else if(inventoryA[i][j].getName().equals("rubyPickaxe")) {
+                    inventoryImg[i][j].setImage(rubyPickaxeInv);
+                }else if(inventoryA[i][j].getName().equals("goldPickaxe")) {
+                    inventoryImg[i][j].setImage(goldPickaxeInv);
+                }else if(inventoryA[i][j].getName().equals("diamondPickaxe")) {
+                    inventoryImg[i][j].setImage(diamondPickaxeInv);
+                }else if(inventoryA[i][j].getName().equals("woodHelmet")) {
+                    inventoryImg[i][j].setImage(woodHelmetInv);
+                }else if(inventoryA[i][j].getName().equals("woodChestplate")) {
+                    inventoryImg[i][j].setImage(woodChestplateInv);
+                }else if(inventoryA[i][j].getName().equals("woodLeggings")) {
+                    inventoryImg[i][j].setImage(woodLeggingsInv);
+                }else if(inventoryA[i][j].getName().equals("woodBoots")) {
+                    inventoryImg[i][j].setImage(woodBootsInv);
+                }else if(inventoryA[i][j].getName().equals("rubyHelmet")) {
+                    inventoryImg[i][j].setImage(rubyHelmetInv);
+                }else if(inventoryA[i][j].getName().equals("rubyChestplate")) {
+                    inventoryImg[i][j].setImage(rubyChestplateInv);
+                }else if(inventoryA[i][j].getName().equals("rubyLeggings")) {
+                    inventoryImg[i][j].setImage(rubyLeggingsInv);
+                }else if(inventoryA[i][j].getName().equals("rubyBoots")) {
+                    inventoryImg[i][j].setImage(rubyBootsInv);
+                }else if(inventoryA[i][j].getName().equals("goldHelmet")) {
+                    inventoryImg[i][j].setImage(goldHelmetInv);
+                }else if(inventoryA[i][j].getName().equals("goldChestplate")) {
+                    inventoryImg[i][j].setImage(goldChestplateInv);
+                }else if(inventoryA[i][j].getName().equals("goldLeggings")) {
+                    inventoryImg[i][j].setImage(goldLeggingsInv);
+                }else if(inventoryA[i][j].getName().equals("goldBoots")) {
+                    inventoryImg[i][j].setImage(goldBootsInv);
+                }else if(inventoryA[i][j].getName().equals("diamondHelmet")) {
+                    inventoryImg[i][j].setImage(diamondHelmetInv);
+                }else if(inventoryA[i][j].getName().equals("diamondChestplate")) {
+                    inventoryImg[i][j].setImage(diamondChestplateInv);
+                }else if(inventoryA[i][j].getName().equals("diamondLeggings")) {
+                    inventoryImg[i][j].setImage(diamondLeggingsInv);
+                }else if(inventoryA[i][j].getName().equals("diamondBoots")) {
+                    inventoryImg[i][j].setImage(diamondBootsInv);
                 }
 
 
@@ -946,8 +1150,8 @@ public class HelloController {
                 inventoryA[4][9] = new Resources("craftingTable","axe");
                 inventoryA[4][9].setAmount(1);
             }
-            
-            
+
+
 
             else{
                 inventoryA[4][9] = new inventoryItems("empty");
@@ -987,8 +1191,8 @@ public class HelloController {
                 inventoryA[4][9].setAmount(4);
             }
 
-            /////////////////////AUUTUMN PLANKS
-            if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+            /////////////////////AUTUMN PLANKS
+            else if(tl.getName().equals("autumnWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
                 inventoryA[4][9] = new Resources("autumnPlank","axe");
                 inventoryA[4][9].setAmount(4);
             }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
@@ -1018,7 +1222,7 @@ public class HelloController {
             }
 
             /////////////////////FRUIT PLANKS
-            if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+            else if(tl.getName().equals("fruitWood")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
                 inventoryA[4][9] = new Resources("fruitPlank","axe");
                 inventoryA[4][9].setAmount(4);
             }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitWood")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
@@ -1106,44 +1310,338 @@ public class HelloController {
 
             ////////////////CRAFTING TABLE
             else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new inventoryItems("stick");
-                inventoryA[4][9].setAmount(4);
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
             }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new inventoryItems("stick");
-                inventoryA[4][9].setAmount(4);
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
             }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new inventoryItems("stick");
-                inventoryA[4][9].setAmount(4);
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
             }else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("normalPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
-                inventoryA[4][9] = new inventoryItems("stick");
-                inventoryA[4][9].setAmount(4);
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
             }
-            
-            //WOODEN PICK
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("autumnPlank")&&br.getName().equals("autumnPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("autumnPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("fruitPlank")&&br.getName().equals("fruitPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("fruitPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new Resources("craftingTable","axe");
+                inventoryA[4][9].setAmount(1);
+            }
 
-            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new Tools("woodPickaxe",1,"pickaxe",2,20);
-//                inventoryA[4][9].setAmount(4);
+            ////////////////////BOAT
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("boat","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new Resources("boat","axe");
+                inventoryA[4][9].setAmount(1);
             }
-            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new Tools("woodPickaxe",1,"pickaxe",2,20);
-//                inventoryA[4][9].setAmount(4);
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("boat","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("autumnPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new Resources("boat","axe");
+                inventoryA[4][9].setAmount(1);
             }
-            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new Tools("woodPickaxe",1,"pickaxe",2,20);
-//                inventoryA[4][9].setAmount(4);
-            }
-            //stone pick
-            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("cobblestone")&&tmc.getName().equals("cobblestone")&&trc.getName().equals("cobblestone")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
-                inventoryA[4][9] = new Tools("stonePickaxe",2,"pickaxe",2,30);
-//                inventoryA[4][9].setAmount(4);
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("boat","axe");
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("fruitPlank")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new Resources("boat","axe");
+                inventoryA[4][9].setAmount(1);
             }
 
-            //furnace
+            /////////FURNACE
             else if(tl.getName().equals("cobblestone")&&tr.getName().equals("empty")&&bl.getName().equals("cobblestone")&&br.getName().equals("cobblestone")&&tlc.getName().equals("cobblestone")&&tmc.getName().equals("cobblestone")&&trc.getName().equals("cobblestone")&&mrc.getName().equals("cobblestone")&&brc.getName().equals("cobblestone")){
                 inventoryA[4][9] = new Resources("furnace","pickaxe");
-//                inventoryA[4][9].setAmount(4);
+                inventoryA[4][9].setAmount(1);
             }
+
+            /////////SWORDS
+            else if(tl.getName().equals("empty")&&tr.getName().equals("normalPlank")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("woodSword",1, "sword", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("cobblestone")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("cobblestone")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("stoneSword",2, "sword", 4, 30);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("cobblestone")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("cobblestone")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("stoneSword",2, "sword", 4, 30);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("cobblestone")&&mrc.getName().equals("cobblestone")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("stoneSword",2, "sword", 4, 30);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("ruby")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("ruby")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("rubySword",3, "sword", 5, 40);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("ruby")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("rubySword",3, "sword", 5, 40);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("ruby")&&mrc.getName().equals("ruby")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("rubySword",3, "sword", 5, 40);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("goldIngot")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("goldIngot")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("goldSword",4, "sword", 6, 50);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("goldIngot")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("goldIngot")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("goldSword",4, "sword", 6, 50);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("goldIngot")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("goldSword",4, "sword", 6, 50);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("diamond")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("diamond")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("diamondSword",5, "sword", 7, 60);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("diamond")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("diamond")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("diamondSword",5, "sword", 7, 60);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("diamond")&&mrc.getName().equals("diamond")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Tools("diamondSword",5, "sword", 7, 60);
+                inventoryA[4][9].setAmount(1);
+            }
+
+            //////////////////////PICKAXES
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")) {
+                inventoryA[4][9] = new Tools("woodPickaxe", 1, "axe", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            } else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodPickaxe",1, "axe", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("woodPickaxe",1, "axe", 3, 20);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("cobblestone")&&tmc.getName().equals("cobblestone")&&trc.getName().equals("cobblestone")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("stonePickaxe",2, "axe", 4, 30);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("ruby")&&tmc.getName().equals("ruby")&&trc.getName().equals("ruby")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("rubyPickaxe",3, "axe", 5, 40);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("goldIngot")&&tmc.getName().equals("goldIngot")&&trc.getName().equals("goldIngot")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("goldPickaxe",4, "axe", 6, 50);
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("diamond")&&tmc.getName().equals("diamond")&&trc.getName().equals("diamond")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Tools("diamondPickaxe",5, "axe", 7, 60);
+                inventoryA[4][9].setAmount(1);
+            }
+
+            ///////////HELMETS
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("woodHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("woodHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("woodHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new inventoryItems("woodHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("woodHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new inventoryItems("woodHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("ruby")&&tmc.getName().equals("ruby")&&trc.getName().equals("ruby")&&mrc.getName().equals("ruby")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("rubyHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("ruby")&&bl.getName().equals("ruby")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("ruby")&&brc.getName().equals("ruby")){
+                inventoryA[4][9] = new inventoryItems("rubyHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("goldIngot")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("goldIngot")&&tmc.getName().equals("goldIngot")&&trc.getName().equals("goldIngot")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("goldHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("goldIngot")&&tr.getName().equals("goldIngot")&&bl.getName().equals("goldIngot")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("goldIngot")){
+                inventoryA[4][9] = new inventoryItems("goldHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("diamond")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("diamond")&&tmc.getName().equals("diamond")&&trc.getName().equals("diamond")&&mrc.getName().equals("diamond")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("diamondHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("diamond")&&tr.getName().equals("diamond")&&bl.getName().equals("diamond")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("diamond")&&brc.getName().equals("diamond")){
+                inventoryA[4][9] = new inventoryItems("diamondHelmet");
+                inventoryA[4][9].setAmount(1);
+            }
+
+            ////////////CHESTPLATES
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("normalPlank")&&bl.getName().equals("normalPlank")&&br.getName().equals("normalPlank")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("woodChestplate");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("autumnPlank")&&bl.getName().equals("autumnPlank")&&br.getName().equals("autumnPlank")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new inventoryItems("woodChestplate");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("fruitPlank")&&bl.getName().equals("fruitPlank")&&br.getName().equals("fruitPlank")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new inventoryItems("woodChestplate");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("ruby")&&bl.getName().equals("ruby")&&br.getName().equals("ruby")&&tlc.getName().equals("ruby")&&tmc.getName().equals("empty")&&trc.getName().equals("ruby")&&mrc.getName().equals("ruby")&&brc.getName().equals("ruby")){
+                inventoryA[4][9] = new inventoryItems("rubyChestplate");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("goldIngot")&&tr.getName().equals("goldIngot")&&bl.getName().equals("goldIngot")&&br.getName().equals("goldIngot")&&tlc.getName().equals("goldIngot")&&tmc.getName().equals("empty")&&trc.getName().equals("goldIngot")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("goldIngot")){
+                inventoryA[4][9] = new inventoryItems("goldChestplate");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("diamond")&&tr.getName().equals("diamond")&&bl.getName().equals("diamond")&&br.getName().equals("diamond")&&tlc.getName().equals("diamond")&&tmc.getName().equals("empty")&&trc.getName().equals("diamond")&&mrc.getName().equals("diamond")&&brc.getName().equals("diamond")){
+                inventoryA[4][9] = new inventoryItems("diamondChestplate");
+                inventoryA[4][9].setAmount(1);
+            }
+
+            ////////////LEGGINGS
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("normalPlank")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("woodLeggings");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("autumnPlank")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new inventoryItems("woodLeggings");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("fruitPlank")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new inventoryItems("woodLeggings");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("ruby")&&br.getName().equals("empty")&&tlc.getName().equals("ruby")&&tmc.getName().equals("ruby")&&trc.getName().equals("ruby")&&mrc.getName().equals("ruby")&&brc.getName().equals("ruby")){
+                inventoryA[4][9] = new inventoryItems("rubyLeggings");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("goldIngot")&&tr.getName().equals("empty")&&bl.getName().equals("goldIngot")&&br.getName().equals("empty")&&tlc.getName().equals("goldIngot")&&tmc.getName().equals("goldIngot")&&trc.getName().equals("goldIngot")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("goldIngot")){
+                inventoryA[4][9] = new inventoryItems("goldLeggings");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("diamond")&&tr.getName().equals("empty")&&bl.getName().equals("diamond")&&br.getName().equals("empty")&&tlc.getName().equals("diamond")&&tmc.getName().equals("diamond")&&trc.getName().equals("diamond")&&mrc.getName().equals("diamond")&&brc.getName().equals("diamond")){
+                inventoryA[4][9] = new inventoryItems("diamondLeggings");
+                inventoryA[4][9].setAmount(1);
+            }
+
+            ///////////////BOOTS
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("normalPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("normalPlank")){
+                inventoryA[4][9] = new inventoryItems("woodBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("normalPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("normalPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("normalPlank")&&mrc.getName().equals("normalPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("woodBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("autumnPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("autumnPlank")){
+                inventoryA[4][9] = new inventoryItems("woodBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("autumnPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("autumnPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("autumnPlank")&&mrc.getName().equals("autumnPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("woodBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("fruitPlank")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("fruitPlank")){
+                inventoryA[4][9] = new inventoryItems("woodBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("fruitPlank")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("fruitPlank")&&tmc.getName().equals("empty")&&trc.getName().equals("fruitPlank")&&mrc.getName().equals("fruitPlank")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("woodBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("ruby")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("ruby")&&brc.getName().equals("ruby")){
+                inventoryA[4][9] = new inventoryItems("rubyBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("ruby")&&tmc.getName().equals("empty")&&trc.getName().equals("ruby")&&mrc.getName().equals("ruby")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("rubyBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("goldIngot")&&tr.getName().equals("empty")&&bl.getName().equals("goldIngot")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("goldIngot")){
+                inventoryA[4][9] = new inventoryItems("goldBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("goldIngot")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("goldIngot")&&tmc.getName().equals("empty")&&trc.getName().equals("goldIngot")&&mrc.getName().equals("goldIngot")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("goldBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("diamond")&&tr.getName().equals("empty")&&bl.getName().equals("diamond")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("diamond")&&brc.getName().equals("diamond")){
+                inventoryA[4][9] = new inventoryItems("diamondBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+            else if(tl.getName().equals("diamond")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("diamond")&&tmc.getName().equals("empty")&&trc.getName().equals("diamond")&&mrc.getName().equals("diamond")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("diamondBoots");
+                inventoryA[4][9].setAmount(1);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             else{
                 inventoryA[4][9] = new inventoryItems("empty");
@@ -1175,7 +1673,23 @@ public class HelloController {
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     craftingShowing = false;
-                    
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            one3cv.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                            three1cv.setVisible(false);
+                            three2cv.setVisible(false);
+                            three3cv.setVisible(false);
+                            result.setVisible(false);
+                        }
+                    }
+
                     
                     inventoryImg[0][9].setImage(blackBack);
                     inventoryImg[0][10].setImage(blackBack);
@@ -1194,6 +1708,21 @@ public class HelloController {
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     craftingShowing = true;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            one3cv.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                            three1cv.setVisible(true);
+                            three2cv.setVisible(true);
+                            three3cv.setVisible(true);
+                            result.setVisible(true);
+                        }
+                    }
 
                     inventoryImg[0][9].setImage(grayBack);
                     inventoryImg[0][10].setImage(grayBack);
@@ -1219,6 +1748,23 @@ public class HelloController {
                     inventoryShowing = false;
                     craftingShowing = false;
 
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            one3cv.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                            three1cv.setVisible(false);
+                            three2cv.setVisible(false);
+                            three3cv.setVisible(false);
+                            result.setVisible(false);
+                        }
+                    }
+
                     inventoryImg[0][9].setImage(blackBack);
                     inventoryImg[0][10].setImage(blackBack);
                     inventoryImg[0][11].setImage(blackBack);
@@ -1236,6 +1782,21 @@ public class HelloController {
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     craftingShowing = true;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            one3cv.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                            three1cv.setVisible(true);
+                            three2cv.setVisible(true);
+                            three3cv.setVisible(true);
+                            result.setVisible(true);
+                        }
+                    }
 
                     inventoryImg[0][9].setImage(grayBack);
                     inventoryImg[0][10].setImage(grayBack);
@@ -1297,31 +1858,31 @@ public class HelloController {
                         hotbarG.setVisible(true);
                         inventoryPane.setVisible(false);
                         inventoryShowing = false;
-//                    for (int i = 0; i < inventoryLabels.length; i++) {
-//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-//                            inventoryLabels[i][j].setVisible(false);
-//                            one1c.setVisible(false);
-//                            one2c.setVisible(false);
-//                            two1c.setVisible(false);
-//                            two2c.setVisible(false);
-//                            result.setVisible(false);
-//                        }
-//                    }
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            result.setVisible(false);
+                        }
+                    }
                     } else {
                         gPane.setVisible(false);
                         hotbarG.setVisible(false);
                         inventoryPane.setVisible(true);
                         inventoryShowing = true;
-//                    for (int i = 0; i < inventoryLabels.length; i++) {
-//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-//                            inventoryLabels[i][j].setVisible(true);
-//                            one1c.setVisible(true);
-//                            one2c.setVisible(true);
-//                            two1c.setVisible(true);
-//                            two2c.setVisible(true);
-//                            result.setVisible(true);
-//                        }
-//                    }
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            result.setVisible(true);
+                        }
+                    }
                     }
                 }
             }
@@ -1717,8 +2278,8 @@ public class HelloController {
                             }
                         }
                     }
-                    
-                    
+
+
 
                     break;
             }
