@@ -1,6 +1,6 @@
 package com.example.template;
 
-public class Zombies {
+public class mobsNoCreeper {
     private inventoryItems resourceDrop;
     String name;
     int health;
@@ -11,6 +11,7 @@ public class Zombies {
     private int lastY;
     private int last2Y;
     int amount;
+    double speed;
 
     double playerHealth;
 
@@ -19,7 +20,7 @@ public class Zombies {
 
     double movementTime;
 
-    public Zombies(String name, int health, inventoryItems resourceDrop, double movementTime, int amount, int damage, int x, int y) {
+    public mobsNoCreeper(String name, int health, inventoryItems resourceDrop, double movementTime,double speed, int amount, int damage, int x, int y) {
         this.name = name;
         this.health = health;
         this.resourceDrop = resourceDrop;
@@ -33,6 +34,11 @@ public class Zombies {
         this.amount = amount;
         this.movementTime = movementTime;
         this.damage = damage;
+        this.speed = speed;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     public int getAmountDrop() {

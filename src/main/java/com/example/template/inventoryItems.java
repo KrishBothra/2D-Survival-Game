@@ -12,6 +12,7 @@ public class inventoryItems {
     int damage;
     int durbality;
     int tier = 0;
+    int protection;
 
     int durability;
     double boost;
@@ -59,6 +60,9 @@ public class inventoryItems {
         return name;
     }
 
+    public int getProtection() {
+        return protection;
+    }
 
     public int getTier() {
         return tier;

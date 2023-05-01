@@ -176,13 +176,15 @@
          </font>
       </Label>
 
-      <ProgressBar fx:id="healthBar" layoutX="58.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
+      <ProgressBar fx:id="healthBar" layoutX="530.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
+      <ProgressBar fx:id="overHealthBar" layoutX="766.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
       <ProgressBar fx:id="hungerBar" layoutX="294.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
       <ProgressBar fx:id="miningBar" layoutX="1381.0" layoutY="985.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" visible="false" />
-      <ProgressBar fx:id="dayNightBar" layoutX="530.0" layoutY="30.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" />
-      <Label fx:id="dayNightLbl" layoutX="600.0" layoutY="6.0" text="Day Time" />
-      <Label layoutX="144.0" layoutY="6.0" text="Health" />
+      <ProgressBar fx:id="dayNightBar" layoutX="58.0" layoutY="30.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" />
+      <Label fx:id="dayNightLbl" layoutX="144.0" layoutY="6.0" text="Day Time" />
+      <Label layoutX="600.0" layoutY="6.0" text="Health" />
       <Label layoutX="372.0" layoutY="6.0" text="Hunger" />
+      <Label layoutX="828.0" layoutY="6.0" text="Over Health" />
 
 
 
