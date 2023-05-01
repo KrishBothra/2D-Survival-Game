@@ -3,6 +3,7 @@ package com.example.template;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -25,9 +26,12 @@ import java.util.Objects;
 
 public class HelloController {
     @FXML
-    private Label lbl, coordsLabel;
+    private Label lbl, coordsLabel, dayNightLbl;
     @FXML
     private GridPane gPane, inventoryPane, hotbarG, craftingPane;
+
+    @FXML
+    private Button startB;
     @FXML
     private AnchorPane anchor;
 
@@ -37,7 +41,7 @@ public class HelloController {
     private ImageView arrowImg;
 
     @FXML
-    private ProgressBar miningBar, healthBar, hungerBar;
+    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar;
 
     @FXML
     private Rectangle slot1,slot2,slot3,slot4,slot5;
@@ -78,6 +82,8 @@ public class HelloController {
     private int selected = 0;
 
     private ArrayList<Animals> animalsOnMap = new ArrayList<>();
+    private ArrayList<Zombies> zombiesOnMap = new ArrayList<>();
+
 
     private Label[][] inventoryLabels = new Label[4][5];
 
@@ -102,6 +108,14 @@ public class HelloController {
     double totalHunger = 100;
     double tempHunger = 50;
 
+    int dayTime = 120;
+    int nightTime = 60;
+
+    boolean day = true;
+
+    int totalDayTime = 120;
+    int totalNightTime = 60;
+
     boolean firstMine = false;
 
     int tempPlayerPositionX;//-1
@@ -119,13 +133,13 @@ public class HelloController {
             sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
-            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr;
+            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
             ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
-            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager;
+            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -137,6 +151,7 @@ public class HelloController {
     private boolean clickedP  = false;
     private double toolBoost =1;
     private int eatingCount =6;
+    private long dayNightTime = System.nanoTime();
 
     public HelloController() {
         fruitQuest = false;
@@ -199,7 +214,6 @@ public class HelloController {
             rawBeefInvv = new FileInputStream("src/main/resources/InventoryItems/rawBeef.png");
             coww = new FileInputStream("src/main/resources/Animals/cow.png");
             pigg = new FileInputStream("src/main/resources/Animals/pig.png");
-
             furnaceeInv = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
             furnacee = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
             stoneSworddInv = new FileInputStream("src/main/resources/InventoryItems/stoneSword.png");
@@ -230,9 +244,12 @@ public class HelloController {
             diamondChestplateeInv = new FileInputStream("src/main/resources/InventoryItems/diamondChest.png");
             diamondLeggingssInv = new FileInputStream("src/main/resources/InventoryItems/diamondLeggings.png");
             diamondBootssInv = new FileInputStream("src/main/resources/InventoryItems/diamondBoots.png");
+            zombieOverStonee = new FileInputStream("src/main/resources/Animals/zombieOverStone.png");
+            zombieOverGrasss = new FileInputStream("src/main/resources/Animals/zombieOverGrass.png");
 
 
-
+            zombieOverGrass = new Image(zombieOverGrasss);
+            zombieOverStone = new Image(zombieOverStonee);
             furnaceInv = new Image(furnaceeInv);
             furnace = new Image(furnacee);
             stoneSwordInv = new Image(stoneSworddInv);
@@ -326,10 +343,14 @@ public class HelloController {
 
     @FXML
     private void onClick() {
+        System.out.println((false));
+        zombiesOnMap.add(new Zombies("zombieOverGrass",30,new Food("Rotten Flesh",5),(int)(Math.random()*15),(int) (Math.random()*3)+1,10,99,160));
+        startB.setDisable(true);
         healthBar.setProgress(tempHealth/totalHealth);
         healthBar.setStyle(" -fx-accent: #FF0000; ");
         hungerBar.setProgress(tempHunger/totalHunger);
         hungerBar.setStyle(" -fx-accent: #987554; ");
+        dayNightBar.setStyle(" -fx-accent: orange; ");
 //        mediaPlayer.play();
         biomeNameList.add("fruitTree");
         biomeNameList.add("normalTree");
@@ -588,7 +609,6 @@ public class HelloController {
 
         inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
         inventoryA[4][2] = new Resources("craftingTable", "axe");
-
         inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
         inventoryA[1][1].setAmount(99);
         inventoryA[1][2] = new Resources("normalWood", "axe");
@@ -680,6 +700,10 @@ public class HelloController {
                         img[i][j].setImage(furnace);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("villager")) {
                         img[i][j].setImage(villager);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverGrass")) {
+                        img[i][j].setImage(zombieOverGrass);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverStone")) {
+                        img[i][j].setImage(zombieOverStone);
                     }
                 }
             }
@@ -751,6 +775,10 @@ public class HelloController {
                         img[i][j].setImage(furnace); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("villager")) {
                         img[i][j].setImage(villager); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverGrass")) {
+                        img[i][j].setImage(zombieOverGrass); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverStone")) {
+                        img[i][j].setImage(zombieOverStone); //steve
                     }
                 }
             }
@@ -1988,29 +2016,7 @@ public class HelloController {
             public void handle(long now) {
                 if(miningObject){
                     //1000000000.0
-//                    if(!firstMine) {
-//                        miningBar.setVisible(true);
-//                        for (mineObjects m : mineObjectsOnMap) {
-//                            if (miningX == m.getX() && miningY == m.getY()) {
-//                                tempMine = m;
-//                                System.out.println(m.getX());
-//                                System.out.println(m.getY());
-//                            }
-//                        }
-//                        tempMineTime = tempMine.getMineTime();
-//                        System.out.println("MINE TIME "+tempMineTime);
-//                        miningBar.setProgress(1.0);
-//                        firstMine = true;
-//                        System.out.println(equipped.getName());
-//                        System.out.println(equipped.getTier());
-//                        if(equipped.getTier()>0){
-//                            System.out.println(tempMine.getType());
-//                            if(tempMine.getType().equals(equipped.getType())){
-//                                toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
-//                                System.out.println(toolBoost);
-//                            }
-//                        }
-//                    }
+
                     if(now-miningTime>1000000000.0/toolBoost){
                         miningTime = System.nanoTime();
                         tempMineTime--;
@@ -2186,6 +2192,51 @@ public class HelloController {
                     updateScreen();
                 }
 
+
+
+                if(day){
+                    if(now-dayNightTime>1000000000.0) {
+                        dayNightTime = System.nanoTime();
+                        dayTime--;
+                        dayNightBar.setProgress((double) dayTime / totalDayTime);
+                        if (dayTime <= 0) {
+                            day = false;
+                            dayNightBar.setStyle(" -fx-accent: black; ");
+                            dayNightLbl.setText("Night Time");
+                            dayTime = totalDayTime;
+                        }
+                    }
+                }else{
+                    if(now-dayNightTime>1000000000.0) {
+                        dayNightTime = System.nanoTime();
+                        nightTime--;
+                        dayNightBar.setProgress((double) nightTime / totalNightTime);
+                        if (nightTime <= 0) {
+                            dayNightLbl.setText("Day Time");
+                            day = true;
+                            dayNightBar.setStyle(" -fx-accent: orange; ");
+                            nightTime = totalNightTime;
+                        }
+                    }
+                }
+
+                if(zombiesOnMap.size()>0){
+                    for(Zombies zombie:zombiesOnMap){
+                        if(now - zombie.getStartTime() > 1000000000.0 * 1.25){
+                            if(zombie.getMovementTime()<0){
+                                zombie.changeLoc(map,mapBackground,playerPositionX,playerPositionY,tempHealth);
+                                tempHealth  = zombie.getPlayerHealth();
+                                healthBar.setProgress(tempHealth/totalHealth);
+                                zombie.resetStartTime();
+                            }else{
+                                zombie.changeMovementTime(-1);
+                            }
+
+
+                        }
+                    }
+                    updateScreen();
+                }
             }
         }.start();
     }
@@ -2596,7 +2647,7 @@ public class HelloController {
                                     map[i][j] = "normalTree";
                                 }
                             } else if (random<62) {
-                                animalsOnMap.add(new Animals("cow",20,new Food("rawBeef",20), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
+                                animalsOnMap.add(new Animals("cow",20,new Food("rawBeef",20), (Math.random()*15),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -2619,7 +2670,7 @@ public class HelloController {
                                     map[i][j] = "fruitTree";
                                 }
                             }else if (random<62) {
-                                animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton",10),(Math.random()*6),(int)(Math.random()*3)+1,i,j));
+                                animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton",10),(Math.random()*15),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }
@@ -2643,7 +2694,7 @@ public class HelloController {
 
                                 }
                             }else if (random<62) {
-                                animalsOnMap.add(new Animals("pig",15,new Food("rawPork",15), (Math.random()*6),(int)(Math.random()*3)+1,i,j));
+                                animalsOnMap.add(new Animals("pig",15,new Food("rawPork",15), (Math.random()*15),(int)(Math.random()*3)+1,i,j));
                             }
                         }
                     }

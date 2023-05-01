@@ -11,15 +11,17 @@
 
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="1056.0" prefWidth="2022.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
-
-
-      <Button fx:id="start" layoutX="350.0" layoutY="403.0" mnemonicParsing="false" onAction="#onClick" text="Start" />
-      <Button fx:id="start2" layoutX="369.0" layoutY="200.0" mnemonicParsing="false" text="Start" visible="false" />
+      <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
+      <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
+      <Button fx:id="starB" layoutX="350.0" layoutY="403.0" mnemonicParsing="false"  text="Start" />
+      <Button fx:id="startB" layoutX="350.0" layoutY="403.0" mnemonicParsing="false" onAction="#onClick" text="Start" />
       <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="910.0" pickOnBounds="true" preserveRatio="true" />
-      <ProgressBar fx:id="miningBar" layoutX="1381.0" layoutY="985.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" visible="false" />
-      <GridPane fx:id="inventoryPane" layoutX="10.0" layoutY="30.0" />
-      <GridPane fx:id="craftingPane" layoutX="10.0" layoutY="30.0" />
+      <GridPane fx:id="inventoryPane" layoutX="10.0" layoutY="25.0" />
+      <GridPane fx:id="craftingPane" layoutX="10.0" layoutY="25.0" />
       <GridPane fx:id="hotbarG" layoutX="1700.0" layoutY="25.0" />
       <Label fx:id="coordsLabel" layoutX="1803.0" layoutY="253.0" text="Label" />
       <Label fx:id="one2" layoutX="452.0" layoutY="310.0" text="22">
@@ -173,13 +175,12 @@
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
-      <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
-      <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
-      <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
-      <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
-      <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
-      <ProgressBar fx:id="healthBar" layoutX="58.0" layoutY="30.0" prefWidth="200.0" progress="0.0" />
-      <ProgressBar fx:id="hungerBar" layoutX="294.0" layoutY="30.0" prefWidth="200.0" progress="0.0" />
+
+      <ProgressBar fx:id="healthBar" layoutX="58.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
+      <ProgressBar fx:id="hungerBar" layoutX="294.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
+      <ProgressBar fx:id="miningBar" layoutX="1381.0" layoutY="985.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" visible="false" />
+      <ProgressBar fx:id="dayNightBar" layoutX="530.0" layoutY="30.0" prefHeight="19.0" prefWidth="192.0" progress="1.0" />
+      <Label fx:id="dayNightLbl" layoutX="600.0" layoutY="6.0" text="Day Time" />
       <Label layoutX="144.0" layoutY="6.0" text="Health" />
       <Label layoutX="372.0" layoutY="6.0" text="Hunger" />
 
