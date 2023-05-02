@@ -12,7 +12,7 @@ public class inventoryItems {
     int damage;
     int durbality;
     int tier = 0;
-    int protection;
+    int protection = 0;
 
     int durability;
     double boost;

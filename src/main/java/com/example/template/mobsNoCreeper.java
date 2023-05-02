@@ -89,9 +89,10 @@ public class mobsNoCreeper {
         return playerHealth;
     }
 
-    public void changeLoc(String[][] map, String[][] mapBackground, int playerX, int playerY, double healthB) {
+    public void changeLoc(String[][] map, String[][] mapBackground, int playerX, int playerY, double healthB,double playerOverHealth) {
         boolean check = false;
         playerHealth = healthB;
+
         while (!check) {
             boolean left = false;
             boolean right = false;
@@ -114,7 +115,9 @@ public class mobsNoCreeper {
                 left = true;
             }
             if (Math.abs(tempx - playerX) == 0 && Math.abs(tempy - playerY) == 0) {
-                    playerHealth-=damage;
+                playerHealth -= damage - (playerOverHealth*0.05833333333);
+                System.out.println(playerOverHealth);
+                System.out.println( damage - (playerOverHealth*0.05833333333));
 //                tempE.setHealth(-(damage-randNum));
                 break;
             }
@@ -522,6 +525,8 @@ public class mobsNoCreeper {
                 }
             }
         }
+
+
 //          System.out.println("x: " + x);
 
 

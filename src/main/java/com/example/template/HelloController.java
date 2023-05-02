@@ -40,7 +40,7 @@ public class HelloController {
     private ImageView arrowImg;
 
     @FXML
-    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar;
+    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar;
 
     @FXML
     private Rectangle slot1,slot2,slot3,slot4,slot5;
@@ -107,7 +107,7 @@ public class HelloController {
     double totalHunger = 100;
     double tempHunger = 50;
 
-    int dayTime = 120;
+    int dayTime = 15;
     int nightTime = 60;
 
     boolean day = true;
@@ -115,9 +115,9 @@ public class HelloController {
     int totalDayTime = 120;
     int totalNightTime = 60;
 
-    int totalOverHealth = 100;
+    double totalOverHealth = 120;
 
-    int tempOverHealth = 0;
+    double tempOverHealth = 0;
 
     boolean firstMine = false;
 
@@ -136,13 +136,13 @@ public class HelloController {
             sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
-            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee;
+            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh;
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
             ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
-            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone;
+            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -155,6 +155,7 @@ public class HelloController {
     private double toolBoost =1;
     private int eatingCount =6;
     private long dayNightTime = System.nanoTime();
+    private int maxOverHealth;
 
     public HelloController() {
         fruitQuest = false;
@@ -249,8 +250,9 @@ public class HelloController {
             diamondBootssInv = new FileInputStream("src/main/resources/InventoryItems/diamondBoots.png");
             zombieOverStonee = new FileInputStream("src/main/resources/Animals/zombieOverStone.png");
             zombieOverGrasss = new FileInputStream("src/main/resources/Animals/zombieOverGrass.png");
+            rottenFleshh = new FileInputStream("src/main/resources/InventoryItems/rottenFlesh.png");
 
-
+            rottenFlesh = new Image(rottenFleshh);
             zombieOverGrass = new Image(zombieOverGrasss);
             zombieOverStone = new Image(zombieOverStonee);
             furnaceInv = new Image(furnaceeInv);
@@ -347,7 +349,7 @@ public class HelloController {
     @FXML
     private void onClick() {
         System.out.println((false));
-        mobsNoCreepersOnMap.add(new mobsNoCreeper("zombieOverGrass",30,new Food("Rotten Flesh",5),(int)(Math.random()*15),1.25,(int) (Math.random()*3)+1,10,99,160));
+        mobsNoCreepersOnMap.add(new mobsNoCreeper("zombieOverGrass",30,new Food("rottenFlesh",5),(int)(Math.random()*15),1.25,(int) (Math.random()*3)+1,10,99,160));
         startB.setDisable(true);
         healthBar.setProgress(tempHealth/totalHealth);
         healthBar.setStyle(" -fx-accent: #FF0000; ");
@@ -437,13 +439,18 @@ public class HelloController {
                         System.out.println("hey");
                         if (inventoryA[row][col].getName().equals("empty")) {
                             if(inventoryImg[row][col].getImage().equals(grayBack)) {
-                                System.out.println("hey2");
-                                inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
-                                inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                                invSelectedCol = -1;
-                                invSelectedRow = -1;
-                                updateScreen();
-                                clickedP = false;
+                                if(row==1&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Helmet")||
+                                        row==2&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Chestplate")||
+                                        row==3&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Leggings")||
+                                        row==4&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Boots")||col!=7) {
+                                    System.out.println("hey2");
+                                    inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                                    inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                    invSelectedCol = -1;
+                                    invSelectedRow = -1;
+                                    updateScreen();
+                                    clickedP = false;
+                                }
                             }
                         } else if (inventoryA[row][col].getName().equals(inventoryA[invSelectedRow][invSelectedCol].getName())) {
                             if(row!=invSelectedRow||col!=invSelectedCol) {
@@ -959,6 +966,8 @@ public class HelloController {
                 hotbarImg[i][0].setImage(diamondLeggingsInv);
             }else if(hotbar[i].getName().equals("diamondBoots")) {
                 hotbarImg[i][0].setImage(diamondBootsInv);
+            }else if(hotbar[i].getName().equals("rottenFlesh")) {
+                hotbarImg[i][0].setImage(rottenFlesh);
             }
 
 
@@ -1067,6 +1076,8 @@ public class HelloController {
                     inventoryImg[i][j].setImage(diamondLeggingsInv);
                 }else if(inventoryA[i][j].getName().equals("diamondBoots")) {
                     inventoryImg[i][j].setImage(diamondBootsInv);
+                }else if(inventoryA[i][j].getName().equals("rottenFlesh")) {
+                    inventoryImg[i][j].setImage(rottenFlesh);
                 }
 
 
@@ -1076,6 +1087,12 @@ public class HelloController {
                 }
             }
         }
+        tempOverHealth = 0;
+        for (int i = 1; i <= 4; i++) {
+            tempOverHealth +=  inventoryA[i][7].getProtection();
+        }
+
+        overHealthBar.setProgress( tempOverHealth/totalOverHealth);
         equipped = hotbar[selected];
 
 
@@ -1088,7 +1105,7 @@ public class HelloController {
 //        playerPositionY -= 5;
 //        map[playerPositionX][playerPositionY] = "playerOverGrass";
 //        updateScreen();
-//    }
+//    }qr
 
     private void checkCrafts(){
         inventoryItems tl = inventoryA[1][9];
@@ -2216,6 +2233,20 @@ public class HelloController {
                         dayNightTime = System.nanoTime();
                         nightTime--;
                         dayNightBar.setProgress((double) nightTime / totalNightTime);
+                        int ranNum = (int)(Math.random()*5);
+                        if(ranNum==0){
+                            while(true){
+                                int ranX = (int)(Math.random()*31)+playerPositionX-15;
+                                int ranY = (int)(Math.random()*31)+playerPositionY-15;
+                                if(map[ranX][ranY].equals("grass")){
+                                    mobsNoCreepersOnMap.add(new mobsNoCreeper("zombieOverGrass",30,new Food("rottenFlesh",5),(int)(Math.random()*15),1.25,(int) (Math.random()*3)+1,10,ranX,ranY));
+                                    break;
+                                } else if (map[ranX][ranY].equals("Stone")) {
+                                    mobsNoCreepersOnMap.add(new mobsNoCreeper("zombieOverStone",30,new Food("rottenFlesh",5),(int)(Math.random()*15),1.25,(int) (Math.random()*3)+1,10,ranX,ranY));
+                                    break;
+                                }
+                            }
+                        }
                         if (nightTime <= 0) {
                             dayNightLbl.setText("Day Time");
                             day = true;
@@ -2229,7 +2260,7 @@ public class HelloController {
                     for(mobsNoCreeper mobs:mobsNoCreepersOnMap){
                         if(now - mobs.getStartTime() > 1000000000.0 * mobs.getSpeed()){
                             if(mobs.getMovementTime()<0){
-                                mobs.changeLoc(map,mapBackground,playerPositionX,playerPositionY,tempHealth);
+                                mobs.changeLoc(map,mapBackground,playerPositionX,playerPositionY,tempHealth,tempOverHealth);
                                 tempHealth  = mobs.getPlayerHealth();
                                 healthBar.setProgress(tempHealth/totalHealth);
                                 mobs.resetStartTime();
@@ -2387,7 +2418,63 @@ public class HelloController {
                             }
                         }
                     }
+                case "zombieOverGrass","zombieOverStone":
+                    damage = 1;
+                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
+                        damage = equipped.getDamage();
+                    }
+                    for(mobsNoCreeper mobs:mobsNoCreepersOnMap){
+                        if(mobs.getX()==playerPositionX+directionChange&&mobs.getY()==playerPositionY){
+                            mobs.changeHealth(-(damage));
+                            if(mobs.getHealth()<=0){
+                                if(mapBackground[playerPositionX+directionChange][playerPositionY].equals("grass")||mapBackground[playerPositionX+directionChange][playerPositionY].equals("normal")||mapBackground[playerPositionX+directionChange][playerPositionY].equals("fruit")||mapBackground[playerPositionX+directionChange][playerPositionY].equals("autumn")) {
+                                    map[playerPositionX+directionChange][playerPositionY] = "grass";
+                                }else{
+                                    map[playerPositionX+directionChange][playerPositionY] = "stone";
+                                }
+                                breakB = false;
+                                for (int i = 4; i >=1; i--) {
+                                    for (int j = 1; j <=5; j++) {
+                                        if(inventoryA[i][j].getName().equals(mobs.getResourceDrop().getName())){
+                                            System.out.println("hi");
+                                            inventoryA[i][j].changeAmount(mobs.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        break;
+                                    }
+                                }
 
+
+
+
+                                for (int i = 4; i >=1; i--) {
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                    for (int j = 1; j <=5; j++) {
+                                        if(inventoryA[i][j].getName().equals("empty")){
+                                            inventoryA[i][j] = mobs.getResourceDrop();
+                                            inventoryA[i][j].setAmount(mobs.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                }
+
+
+                                mobsNoCreepersOnMap.remove(mobs);
+                                break;
+                            }
+                        }
+                    }
 
 
                     break;
@@ -2526,7 +2613,65 @@ public class HelloController {
                             }
                         }
                     }
+                case "zombieOverGrass","zombieOverStone":
+                    damage = 1;
+                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
+                        damage = equipped.getDamage();
+                    }
+                    for(mobsNoCreeper mobs:mobsNoCreepersOnMap){
+                        if(mobs.getX()==playerPositionX&&mobs.getY()==playerPositionY+directionChange){
+                            mobs.changeHealth(-(damage));
+                            if(mobs.getHealth()<=0){
+                                if(mapBackground[playerPositionX][playerPositionY+directionChange].equals("grass")||mapBackground[playerPositionX][playerPositionY+directionChange].equals("normal")||mapBackground[playerPositionX][playerPositionY+directionChange].equals("fruit")||mapBackground[playerPositionX][playerPositionY+directionChange].equals("autumn")) {
+                                    map[playerPositionX][playerPositionY+directionChange] = "grass";
+                                }else{
+                                    map[playerPositionX][playerPositionY+directionChange] = "stone";
+                                }
+                                breakB = false;
+                                for (int i = 4; i >=1; i--) {
+                                    for (int j = 1; j <=5; j++) {
+                                        if(inventoryA[i][j].getName().equals(mobs.getResourceDrop().getName())){
+                                            System.out.println("hi");
+                                            inventoryA[i][j].changeAmount(mobs.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        break;
+                                    }
+                                }
+
+
+
+
+                                for (int i = 4; i >=1; i--) {
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                    for (int j = 1; j <=5; j++) {
+                                        if(inventoryA[i][j].getName().equals("empty")){
+                                            inventoryA[i][j] = mobs.getResourceDrop();
+                                            inventoryA[i][j].setAmount(mobs.getAmountDrop());
+                                            breakB = true;
+                                            break;
+                                        }
+                                    }
+                                    if(breakB){
+                                        breakB = false;
+                                        break;
+                                    }
+                                }
+
+
+                                mobsNoCreepersOnMap.remove(mobs);
+                                break;
+                            }
+                        }
+                    }
                     break;
+
             }
         }
 
