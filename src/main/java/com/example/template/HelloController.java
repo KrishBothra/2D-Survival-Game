@@ -69,6 +69,8 @@ public class HelloController {
     private inventoryItems[] hotbar = new inventoryItems[5];
     private inventoryItems[][] inventoryA = new inventoryItems[6][12];
 
+    private boolean furnaceShowing;
+
     private inventoryItems[][] craftingA = new inventoryItems[6][12];
 
     private inventoryItems inventorySelected = new inventoryItems("empty");
@@ -219,7 +221,7 @@ public class HelloController {
             coww = new FileInputStream("src/main/resources/Animals/cow.png");
             pigg = new FileInputStream("src/main/resources/Animals/pig.png");
             furnaceeInv = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
-            furnacee = new FileInputStream("src/main/resources/InventoryItems/furnace.png");
+            furnacee = new FileInputStream("src/main/resources/furnaceUnlit.png");
             stoneSworddInv = new FileInputStream("src/main/resources/InventoryItems/stoneSword.png");
             rubySworddInv = new FileInputStream("src/main/resources/InventoryItems/rubySword.png");
             goldSworddInv = new FileInputStream("src/main/resources/InventoryItems/goldSword.png");
@@ -439,7 +441,16 @@ public class HelloController {
                         System.out.println("hey");
                         if (inventoryA[row][col].getName().equals("empty")) {
                             if(inventoryImg[row][col].getImage().equals(grayBack)) {
-                                if(row==1&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Helmet")||
+                                if(furnaceShowing){
+                                    System.out.println("hey2");
+                                    inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                                    inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                    invSelectedCol = -1;
+                                    invSelectedRow = -1;
+                                    updateScreen();
+                                    clickedP = false;
+                                }
+                                else if(row==1&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Helmet")||
                                         row==2&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Chestplate")||
                                         row==3&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Leggings")||
                                         row==4&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Boots")||col!=7) {
@@ -496,8 +507,9 @@ public class HelloController {
                 }
                 System.out.println("THE THING IN TOP RIGHT" + inventoryA[1][5].getName());
 
-
-                checkCrafts();
+                if(!furnaceShowing){
+                    checkCrafts();
+                }
                 if(row==4&&col==9){
                     if(!inventoryA[4][9].getName().equals("empty")){
                         if(!craftingShowing){
@@ -794,73 +806,74 @@ public class HelloController {
             }
             tempPlayerPositionX = playerPositionX;
             tempPlayerPositionY = playerPositionY;
-            for (int i = 0; i<inventoryLabels.length; i++) {
-                for (int j = 0; j < inventoryLabels[0].length; j++) {
-                    if(inventoryA[i+1][j+1].getAmount()!=0&&inventoryA[i+1][j+1].getAmount()!=1){
-                        inventoryLabels[i][j].setText(Integer.toString(inventoryA[i+1][j+1].getAmount()));
-                    }else{
-                        inventoryLabels[i][j].setText("");
-                    }
+
+
+
+
+
+        }
+        for (int i = 0; i<inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                if(inventoryA[i+1][j+1].getAmount()!=0&&inventoryA[i+1][j+1].getAmount()!=1){
+                    inventoryLabels[i][j].setText(Integer.toString(inventoryA[i+1][j+1].getAmount()));
+                }else{
+                    inventoryLabels[i][j].setText("");
                 }
             }
+        }
 
-            if(inventoryA[2][9].getAmount()!=0&&inventoryA[2][9].getAmount()!=1){
-                two1c.setText(Integer.toString(inventoryA[2][9].getAmount()));
-            }else{
-                two1c.setText("");
-            }
-            if(inventoryA[2][10].getAmount()!=0&&inventoryA[2][10].getAmount()!=1){
-                two2c.setText(Integer.toString(inventoryA[2][10].getAmount()));
-            }else{
-                two2c.setText("");
-            }
-            if(inventoryA[1][9].getAmount()!=0&&inventoryA[1][9].getAmount()!=1){
-                one1c.setText(Integer.toString(inventoryA[1][9].getAmount()));
-            }else{
-                one1c.setText("");
-            }
-            if(inventoryA[1][10].getAmount()!=0&&inventoryA[1][10].getAmount()!=1){
-                one2c.setText(Integer.toString(inventoryA[1][10].getAmount()));
-            }else{
-                one2c.setText("");
-            }
-            if(inventoryA[4][9].getAmount()!=0&&inventoryA[4][9].getAmount()!=1){
-                result.setText(Integer.toString(inventoryA[4][9].getAmount()));
-            }else{
-                result.setText("");
-            }
-
-
-
-            if(inventoryA[0][9].getAmount()!=0&&inventoryA[0][9].getAmount()!=1){
-                three1cv.setText(Integer.toString(inventoryA[0][9].getAmount()));
-            }else{
-                three1cv.setText("");
-            }
-            if(inventoryA[0][10].getAmount()!=0&&inventoryA[0][10].getAmount()!=1){
-                three2cv.setText(Integer.toString(inventoryA[0][10].getAmount()));
-            }else{
-                three2cv.setText("");
-            }
-            if(inventoryA[0][11].getAmount()!=0&&inventoryA[0][11].getAmount()!=1){
-                three3cv.setText(Integer.toString(inventoryA[0][11].getAmount()));
-            }else{
-                three3cv.setText("");
-            }
-            if(inventoryA[1][11].getAmount()!=0&&inventoryA[1][11].getAmount()!=1){
-                one3cv.setText(Integer.toString(inventoryA[1][11].getAmount()));
-            }else{
-                one3cv.setText("");
-            }
-            if(inventoryA[2][11].getAmount()!=0&&inventoryA[2][11].getAmount()!=1){
-                two3cv.setText(Integer.toString(inventoryA[2][11].getAmount()));
-            }else{
-                two3cv.setText("");
-            }
+        if(inventoryA[2][9].getAmount()!=0&&inventoryA[2][9].getAmount()!=1){
+            two1c.setText(Integer.toString(inventoryA[2][9].getAmount()));
+        }else{
+            two1c.setText("");
+        }
+        if(inventoryA[2][10].getAmount()!=0&&inventoryA[2][10].getAmount()!=1){
+            two2c.setText(Integer.toString(inventoryA[2][10].getAmount()));
+        }else{
+            two2c.setText("");
+        }
+        if(inventoryA[1][9].getAmount()!=0&&inventoryA[1][9].getAmount()!=1){
+            one1c.setText(Integer.toString(inventoryA[1][9].getAmount()));
+        }else{
+            one1c.setText("");
+        }
+        if(inventoryA[1][10].getAmount()!=0&&inventoryA[1][10].getAmount()!=1){
+            one2c.setText(Integer.toString(inventoryA[1][10].getAmount()));
+        }else{
+            one2c.setText("");
+        }
+        if(inventoryA[4][9].getAmount()!=0&&inventoryA[4][9].getAmount()!=1){
+            result.setText(Integer.toString(inventoryA[4][9].getAmount()));
+        }else{
+            result.setText("");
+        }
 
 
 
-
+        if(inventoryA[0][9].getAmount()!=0&&inventoryA[0][9].getAmount()!=1){
+            three1cv.setText(Integer.toString(inventoryA[0][9].getAmount()));
+        }else{
+            three1cv.setText("");
+        }
+        if(inventoryA[0][10].getAmount()!=0&&inventoryA[0][10].getAmount()!=1){
+            three2cv.setText(Integer.toString(inventoryA[0][10].getAmount()));
+        }else{
+            three2cv.setText("");
+        }
+        if(inventoryA[0][11].getAmount()!=0&&inventoryA[0][11].getAmount()!=1){
+            three3cv.setText(Integer.toString(inventoryA[0][11].getAmount()));
+        }else{
+            three3cv.setText("");
+        }
+        if(inventoryA[1][11].getAmount()!=0&&inventoryA[1][11].getAmount()!=1){
+            one3cv.setText(Integer.toString(inventoryA[1][11].getAmount()));
+        }else{
+            one3cv.setText("");
+        }
+        if(inventoryA[2][11].getAmount()!=0&&inventoryA[2][11].getAmount()!=1){
+            two3cv.setText(Integer.toString(inventoryA[2][11].getAmount()));
+        }else{
+            two3cv.setText("");
         }
         //System.out.println(inventoryA[4][selected].getName());
         for (int i = 1; i < 6; i++) {
@@ -1839,15 +1852,66 @@ public class HelloController {
                 }
             }
 
+
+            else if("furnace".equals(map[playerPositionX+directionChange][playerPositionY])){
+                System.out.println("FURNACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    furnaceShowing = false;
+                    System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[2][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[2][7].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[2][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[2][7] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    furnaceShowing=true;
+                    System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[2][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[2][7].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[2][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[2][7] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                }
+            }
+
         }
-        else {
-            if ("craftingTable".equals(map[playerPositionX][playerPositionY + directionChange])) {
+        else{
+            if("craftingTable".equals(map[playerPositionX][playerPositionY + directionChange])) {
                 if (inventoryShowing) {
                     gPane.setVisible(true);
                     hotbarG.setVisible(true);
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     craftingShowing = false;
+
 
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
@@ -1912,7 +1976,54 @@ public class HelloController {
                     inventoryA[2][11]= new inventoryItems("empty");
                 }
             }
+            else if("furnace".equals(map[playerPositionX][playerPositionY + directionChange])){
+
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    furnaceShowing = false;
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[2][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[2][7].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[2][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[2][7] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    furnaceShowing = true;
+
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[2][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[2][7].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[2][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[2][7] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                }
+            }
         }
+
+
 
         }
 
