@@ -40,7 +40,7 @@ public class HelloController {
     private ImageView arrowImg;
 
     @FXML
-    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar;
+    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar,swingBar;
 
     @FXML
     private Rectangle slot1,slot2,slot3,slot4,slot5;
@@ -96,7 +96,7 @@ public class HelloController {
 
     private boolean fruitQuest, normalQuest, autumnQuest, stoneQuest, waterQuest;
 
-
+    long swingTime = System.nanoTime();
 //    int changeX = 0;
 //    int changeY = 0;
 
@@ -125,6 +125,8 @@ public class HelloController {
 
     int tempPlayerPositionX;//-1
     int tempPlayerPositionY;//-1
+
+    long regenTime = System.nanoTime();
 
     int miningX;
     int miningY;
@@ -158,6 +160,8 @@ public class HelloController {
     private int eatingCount =6;
     private long dayNightTime = System.nanoTime();
     private int maxOverHealth;
+    private boolean swing = false;
+    private double swingCount = 3;
 
     public HelloController() {
         fruitQuest = false;
@@ -454,13 +458,15 @@ public class HelloController {
                                         row==2&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Chestplate")||
                                         row==3&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Leggings")||
                                         row==4&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Boots")||col!=7) {
-                                    System.out.println("hey2");
-                                    inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
-                                    inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                                    invSelectedCol = -1;
-                                    invSelectedRow = -1;
-                                    updateScreen();
-                                    clickedP = false;
+                                    if(row!=4||col!=7) {
+                                        System.out.println("hey2");
+                                        inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                                        inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                        invSelectedCol = -1;
+                                        invSelectedRow = -1;
+                                        updateScreen();
+                                        clickedP = false;
+                                    }
                                 }
                             }
                         } else if (inventoryA[row][col].getName().equals(inventoryA[invSelectedRow][invSelectedCol].getName())) {
@@ -2384,6 +2390,32 @@ public class HelloController {
                     }
                     updateScreen();
                 }
+
+                if(now - regenTime>1000000000.0 * 2.5){
+                    regenTime = System.nanoTime();
+                    if(tempHunger>=85){
+                        tempHealth+= 5;
+                        if(tempHealth>100){
+                            tempHealth = 100;
+                        }
+                        healthBar.setProgress(tempHealth/totalHealth);
+                    }
+                }
+
+                if(swing) {
+                    if (now - swingTime > 1000000000.0 * 0.2) {
+                        swingCount--;
+                        swingBar.setProgress(swingCount/4);
+                        swingTime = System.nanoTime();
+                        if(swingCount<=0) {
+                            swing = false;
+                            swingCount = 3;
+                            swingBar.setVisible(false);
+                        }
+                    }
+                }
+
+
             }
         }.start();
     }
@@ -2472,117 +2504,126 @@ public class HelloController {
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
                     }
-
+                    break;
                 case "sheep","cow","pig":
-                    int damage = 1;
-                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
-                        damage = equipped.getDamage();
-                    }
-                    for(Animals animal:animalsOnMap){
-                        if(animal.getX()==playerPositionX+directionChange&&animal.getY()==playerPositionY){
-                            animal.changeHealth(-(damage));
-                            if(animal.getHealth()<=0){
-                                map[playerPositionX+directionChange][playerPositionY] = "grass";
-                                breakB = false;
-                                for (int i = 4; i >=1; i--) {
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
-                                            System.out.println("hi");
-                                            inventoryA[i][j].changeAmount(animal.getAmountDrop());
-                                            breakB = true;
-                                            break; 
+                    if(!swing) {
+                        swing = true;
+                        swingTime = System.nanoTime();
+                        swingBar.setVisible(true);
+                        swingBar.setProgress(swingCount/4);
+                        int damage = 1;
+                        if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
+                            damage = equipped.getDamage();
+                        }
+                        for (Animals animal : animalsOnMap) {
+                            if (animal.getX() == playerPositionX + directionChange && animal.getY() == playerPositionY) {
+                                animal.changeHealth(-(damage));
+                                if (animal.getHealth() <= 0) {
+                                    map[playerPositionX + directionChange][playerPositionY] = "grass";
+                                    breakB = false;
+                                    for (int i = 4; i >= 1; i--) {
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())) {
+                                                System.out.println("hi");
+                                                inventoryA[i][j].changeAmount(animal.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
                                         }
-                                    }
-                                    if(breakB){
-                                        break;
-                                    }
-                                }
-
-
-
-
-                                for (int i = 4; i >=1; i--) {
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals("empty")){
-                                            inventoryA[i][j] = animal.getResourceDrop();
-                                            inventoryA[i][j].setAmount(animal.getAmountDrop());
-                                            breakB = true;
+                                        if (breakB) {
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
+
+
+                                    for (int i = 4; i >= 1; i--) {
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals("empty")) {
+                                                inventoryA[i][j] = animal.getResourceDrop();
+                                                inventoryA[i][j].setAmount(animal.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
                                     }
+
+
+                                    animalsOnMap.remove(animal);
+                                    break;
+                                } else {
+                                    animal.changeLoc(map);
+                                    updateScreen();
                                 }
-
-
-                                animalsOnMap.remove(animal);
-                                break;
-                            }else{
-                                animal.changeLoc(map);
-                                updateScreen();
                             }
                         }
                     }
+                    break;
                 case "zombieOverGrass","zombieOverStone":
-                    damage = 1;
-                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
-                        damage = equipped.getDamage();
-                    }
-                    for(mobsNoCreeper mobs:mobsNoCreepersOnMap){
-                        if(mobs.getX()==playerPositionX+directionChange&&mobs.getY()==playerPositionY){
-                            mobs.changeHealth(-(damage));
-                            if(mobs.getHealth()<=0){
-                                if(mapBackground[playerPositionX+directionChange][playerPositionY].equals("grass")||mapBackground[playerPositionX+directionChange][playerPositionY].equals("normal")||mapBackground[playerPositionX+directionChange][playerPositionY].equals("fruit")||mapBackground[playerPositionX+directionChange][playerPositionY].equals("autumn")) {
-                                    map[playerPositionX+directionChange][playerPositionY] = "grass";
-                                }else{
-                                    map[playerPositionX+directionChange][playerPositionY] = "stone";
-                                }
-                                breakB = false;
-                                for (int i = 4; i >=1; i--) {
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals(mobs.getResourceDrop().getName())){
-                                            System.out.println("hi");
-                                            inventoryA[i][j].changeAmount(mobs.getAmountDrop());
-                                            breakB = true;
+                    if(!swing) {
+                        swing = true;
+                        swingTime = System.nanoTime();
+                        swingBar.setVisible(true);
+                        swingBar.setProgress(swingCount/4);
+                        int damage = 1;
+                        if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
+                            damage = equipped.getDamage();
+                        }
+                        for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
+                            if (mobs.getX() == playerPositionX + directionChange && mobs.getY() == playerPositionY) {
+                                mobs.changeHealth(-(damage));
+                                if (mobs.getHealth() <= 0) {
+                                    if (mapBackground[playerPositionX + directionChange][playerPositionY].equals("grass") || mapBackground[playerPositionX + directionChange][playerPositionY].equals("normal") || mapBackground[playerPositionX + directionChange][playerPositionY].equals("fruit") || mapBackground[playerPositionX + directionChange][playerPositionY].equals("autumn")) {
+                                        map[playerPositionX + directionChange][playerPositionY] = "grass";
+                                    } else {
+                                        map[playerPositionX + directionChange][playerPositionY] = "stone";
+                                    }
+                                    breakB = false;
+                                    for (int i = 4; i >= 1; i--) {
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals(mobs.getResourceDrop().getName())) {
+                                                System.out.println("hi");
+                                                inventoryA[i][j].changeAmount(mobs.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        break;
-                                    }
-                                }
 
 
-
-
-                                for (int i = 4; i >=1; i--) {
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals("empty")){
-                                            inventoryA[i][j] = mobs.getResourceDrop();
-                                            inventoryA[i][j].setAmount(mobs.getAmountDrop());
-                                            breakB = true;
+                                    for (int i = 4; i >= 1; i--) {
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals("empty")) {
+                                                inventoryA[i][j] = mobs.getResourceDrop();
+                                                inventoryA[i][j].setAmount(mobs.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
+                                            breakB = false;
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
+
+
+                                    mobsNoCreepersOnMap.remove(mobs);
+                                    break;
                                 }
-
-
-                                mobsNoCreepersOnMap.remove(mobs);
-                                break;
                             }
                         }
                     }
@@ -2666,118 +2707,126 @@ public class HelloController {
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
                     }
-
+                    break;
                 case "sheep","cow","pig":
-                    int damage = 1;
-                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
-                        damage = equipped.getDamage();
-                    }
-                    for(Animals animal:animalsOnMap){
-                        if(animal.getX()==playerPositionX&&animal.getY()==playerPositionY+directionChange){
+                    if(!swing) {
+                        int damage = 1;
+                        swing = true;
+                        swingTime = System.nanoTime();
+                        swingBar.setVisible(true);
+                        swingBar.setProgress(swingCount/4);
+                        if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
+                            damage = equipped.getDamage();
+                        }
+                        for (Animals animal : animalsOnMap) {
+                            if (animal.getX() == playerPositionX && animal.getY() == playerPositionY + directionChange) {
 
-                            animal.changeHealth(-(damage));
-                            if(animal.getHealth()<=0){
-                                map[playerPositionX][playerPositionY+directionChange] = "grass";
-                                breakB = false;
-                                for (int i = 4; i >=1; i--) {
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())){
-                                            System.out.println("hi");
-                                            inventoryA[i][j].changeAmount(animal.getAmountDrop());
-                                            breakB = true;
+                                animal.changeHealth(-(damage));
+                                if (animal.getHealth() <= 0) {
+                                    map[playerPositionX][playerPositionY + directionChange] = "grass";
+                                    breakB = false;
+                                    for (int i = 4; i >= 1; i--) {
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals(animal.getResourceDrop().getName())) {
+                                                System.out.println("hi");
+                                                inventoryA[i][j].changeAmount(animal.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        break;
-                                    }
-                                }
 
 
-
-
-                                for (int i = 4; i >=1; i--) {
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals("empty")){
-                                            inventoryA[i][j] = animal.getResourceDrop();
-                                            inventoryA[i][j].setAmount(animal.getAmountDrop());
-                                            breakB = true;
+                                    for (int i = 4; i >= 1; i--) {
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals("empty")) {
+                                                inventoryA[i][j] = animal.getResourceDrop();
+                                                inventoryA[i][j].setAmount(animal.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
+                                            breakB = false;
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
+
+
+                                    animalsOnMap.remove(animal);
+                                    break;
+                                } else {
+                                    animal.changeLoc(map);
+                                    updateScreen();
                                 }
-
-
-                                animalsOnMap.remove(animal);
-                                break;
-                            }else{
-                                animal.changeLoc(map);
-                                updateScreen();
                             }
                         }
                     }
                 case "zombieOverGrass","zombieOverStone":
-                    damage = 1;
-                    if(equipped.getName().endsWith("Axe")||equipped.getName().endsWith("Pickaxe")||equipped.getName().endsWith("Sword")){
-                        damage = equipped.getDamage();
-                    }
-                    for(mobsNoCreeper mobs:mobsNoCreepersOnMap){
-                        if(mobs.getX()==playerPositionX&&mobs.getY()==playerPositionY+directionChange){
-                            mobs.changeHealth(-(damage));
-                            if(mobs.getHealth()<=0){
-                                if(mapBackground[playerPositionX][playerPositionY+directionChange].equals("grass")||mapBackground[playerPositionX][playerPositionY+directionChange].equals("normal")||mapBackground[playerPositionX][playerPositionY+directionChange].equals("fruit")||mapBackground[playerPositionX][playerPositionY+directionChange].equals("autumn")) {
-                                    map[playerPositionX][playerPositionY+directionChange] = "grass";
-                                }else{
-                                    map[playerPositionX][playerPositionY+directionChange] = "stone";
-                                }
-                                breakB = false;
-                                for (int i = 4; i >=1; i--) {
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals(mobs.getResourceDrop().getName())){
-                                            System.out.println("hi");
-                                            inventoryA[i][j].changeAmount(mobs.getAmountDrop());
-                                            breakB = true;
+                    if(!swing) {
+                        int damage = 1;
+                        swing = true;
+                        swingTime = System.nanoTime();
+                        swingBar.setVisible(true);
+                        swingBar.setProgress(swingCount/4);
+                        if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
+                            damage = equipped.getDamage();
+                        }
+                        for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
+                            if (mobs.getX() == playerPositionX && mobs.getY() == playerPositionY + directionChange) {
+                                mobs.changeHealth(-(damage));
+                                if (mobs.getHealth() <= 0) {
+                                    if (mapBackground[playerPositionX][playerPositionY + directionChange].equals("grass") || mapBackground[playerPositionX][playerPositionY + directionChange].equals("normal") || mapBackground[playerPositionX][playerPositionY + directionChange].equals("fruit") || mapBackground[playerPositionX][playerPositionY + directionChange].equals("autumn")) {
+                                        map[playerPositionX][playerPositionY + directionChange] = "grass";
+                                    } else {
+                                        map[playerPositionX][playerPositionY + directionChange] = "stone";
+                                    }
+                                    breakB = false;
+                                    for (int i = 4; i >= 1; i--) {
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals(mobs.getResourceDrop().getName())) {
+                                                System.out.println("hi");
+                                                inventoryA[i][j].changeAmount(mobs.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        break;
-                                    }
-                                }
 
 
-
-
-                                for (int i = 4; i >=1; i--) {
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
-                                    for (int j = 1; j <=5; j++) {
-                                        if(inventoryA[i][j].getName().equals("empty")){
-                                            inventoryA[i][j] = mobs.getResourceDrop();
-                                            inventoryA[i][j].setAmount(mobs.getAmountDrop());
-                                            breakB = true;
+                                    for (int i = 4; i >= 1; i--) {
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals("empty")) {
+                                                inventoryA[i][j] = mobs.getResourceDrop();
+                                                inventoryA[i][j].setAmount(mobs.getAmountDrop());
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
+                                            breakB = false;
                                             break;
                                         }
                                     }
-                                    if(breakB){
-                                        breakB = false;
-                                        break;
-                                    }
+
+
+                                    mobsNoCreepersOnMap.remove(mobs);
+                                    break;
                                 }
-
-
-                                mobsNoCreepersOnMap.remove(mobs);
-                                break;
                             }
                         }
                     }
@@ -2807,6 +2856,7 @@ public class HelloController {
                 }
                 playerPositionX += dirNum;
                 map[playerPositionX][playerPositionY] = "playerOverStone";
+
             }
         } else if (dirStr.equals("y")) {
             if (map[playerPositionX][playerPositionY + dirNum].equals("grass")) {
@@ -2828,6 +2878,8 @@ public class HelloController {
                 map[playerPositionX][playerPositionY] = "playerOverStone";
             }
         }
+        tempHunger -=0.1;
+        hungerBar.setProgress(tempHunger/totalHunger);
     }
 
     private void createBiomes() {
