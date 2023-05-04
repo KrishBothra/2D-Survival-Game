@@ -2383,6 +2383,13 @@ public class HelloController {
 
                 if(day){
                     if(now-dayNightTime>1000000000.0) {
+                        if(mobsNoCreepersOnMap.size()>0){
+                            for (mobsNoCreeper mobs: mobsNoCreepersOnMap){
+                                if(mobs.getName().startsWith("zombie")){
+                                    mobs.changeHealth(-5);
+                                }
+                            }
+                        }
                         dayNightTime = System.nanoTime();
                         dayTime--;
                         dayNightBar.setProgress((double) dayTime / totalDayTime);
@@ -2395,6 +2402,7 @@ public class HelloController {
                     }
                 }else{
                     if(now-dayNightTime>1000000000.0) {
+
                         dayNightTime = System.nanoTime();
                         nightTime--;
                         dayNightBar.setProgress((double) nightTime / totalNightTime);
@@ -2437,6 +2445,19 @@ public class HelloController {
                         }
                     }
                     updateScreen();
+                }
+                if(mobsNoCreepersOnMap.size()>0) {
+                    for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
+                        if (mobs.getHealth() <= 0) {
+                            mobsNoCreepersOnMap.remove(mobs);
+                            if (mapBackground[mobs.getX()][mobs.getY()].equals("grass") || mapBackground[mobs.getX()][mobs.getY()].equals("normal") || mapBackground[mobs.getX()][mobs.getY()].equals("fruit") || mapBackground[mobs.getX()][mobs.getY()].equals("autumn")) {
+                                map[mobs.getX()][mobs.getY()] = "grass";
+                            } else {
+                                map[mobs.getX()][mobs.getY()] = "stone";
+                            }
+                            break;
+                        }
+                    }
                 }
 
                 if(now - regenTime>1000000000.0 * 2.5){
