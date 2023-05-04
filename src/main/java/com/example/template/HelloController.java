@@ -90,7 +90,7 @@ public class HelloController {
 
 
     @FXML
-    private Label one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5, one1c, one2c, one3cv, two1c, two2c, two3cv, three1cv, three2cv, three3cv, result;
+    private Label furnaceTop, furnaceBottom, one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5, one1c, one2c, one3cv, two1c, two2c, two3cv, three1cv, three2cv, three3cv, result;
 
 
 
@@ -140,13 +140,14 @@ public class HelloController {
             sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
-            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh;
+            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree;
+
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
             ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
-            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh;
+            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -257,6 +258,7 @@ public class HelloController {
             zombieOverStonee = new FileInputStream("src/main/resources/Animals/zombieOverStone.png");
             zombieOverGrasss = new FileInputStream("src/main/resources/Animals/zombieOverGrass.png");
             rottenFleshh = new FileInputStream("src/main/resources/InventoryItems/rottenFlesh.png");
+            coalOree = new FileInputStream("src/main/resources/coalOre.png");
 
             rottenFlesh = new Image(rottenFleshh);
             zombieOverGrass = new Image(zombieOverGrasss);
@@ -337,6 +339,7 @@ public class HelloController {
             normalPlankInv = new Image(normalPlankkInv);
             autumnPlankInv = new Image(autumnPlankkInv);
             fruitPlankInv = new Image(fruitPlankkInv);
+            coalOre = new Image(coalOree);
 
             craftingTableInv = new Image(craftingTableeInv);
             craftingTable = new Image(craftingTablee);
@@ -404,6 +407,8 @@ public class HelloController {
                 three2cv.setVisible(false);
                 three3cv.setVisible(false);
                 result.setVisible(false);
+                furnaceTop.setVisible(false);
+                furnaceBottom.setVisible(false);
             }
         }
 
@@ -880,6 +885,17 @@ public class HelloController {
             two3cv.setText(Integer.toString(inventoryA[2][11].getAmount()));
         }else{
             two3cv.setText("");
+        }
+
+        if(inventoryA[1][7].getAmount()!=0&&inventoryA[1][7].getAmount()!=1){
+            furnaceTop.setText(Integer.toString(inventoryA[1][7].getAmount()));
+        }else{
+            furnaceTop.setText("");
+        }
+        if(inventoryA[3][7].getAmount()!=0&&inventoryA[3][7].getAmount()!=1){
+            furnaceBottom.setText(Integer.toString(inventoryA[3][7].getAmount()));
+        }else{
+            furnaceBottom.setText("");
         }
         //System.out.println(inventoryA[4][selected].getName());
         for (int i = 1; i < 6; i++) {
@@ -1867,7 +1883,14 @@ public class HelloController {
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     furnaceShowing = false;
-                    System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            two1c.setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                        }
+                    }
 
                     inventoryImg[1][9].setImage(grayBack);
                     inventoryImg[1][10].setImage(grayBack);
@@ -1889,7 +1912,15 @@ public class HelloController {
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     furnaceShowing=true;
-                    System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            two1c.setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                        }
+                    }
 
 
                     inventoryImg[1][9].setImage(blackBack);
@@ -1991,6 +2022,15 @@ public class HelloController {
                     inventoryShowing = false;
                     furnaceShowing = false;
 
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            two1c.setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                        }
+                    }
+
                     inventoryImg[1][9].setImage(grayBack);
                     inventoryImg[1][10].setImage(grayBack);
                     inventoryImg[2][10].setImage(grayBack);
@@ -2011,6 +2051,14 @@ public class HelloController {
                     inventoryShowing = true;
                     furnaceShowing = true;
 
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            two1c.setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                        }
+                    }
 
                     inventoryImg[1][9].setImage(blackBack);
                     inventoryImg[1][10].setImage(blackBack);
@@ -2895,7 +2943,7 @@ public class HelloController {
                 mapBackground[i][j] = "grass";
             }
         }
-        for (int p = 0; p < 20; p++) {
+        for (int p = 0; p < 15; p++) {
 
 
             if (biomeNameList.size() == 0) {
@@ -2918,15 +2966,14 @@ public class HelloController {
                 for (int i = startX; i < startX + lengthX; i++) {
                     for (int j = startY; j < startY + lengthY; j++) {
                         if(!Objects.equals(biomeNameList.get(randNum), "stone")&&!Objects.equals(biomeNameList.get(randNum), "water")){
-                            if (map[i][j].equals("stone")||map[i][j].equals("water")) {
+                            if (!map[i][j].equals("grass")) {
                                 valid = false;
                             }
                         }else if(biomeNameList.get(randNum).equals("stone")){
-                            if (!map[i][j].equals("stone")&&!map[i][j].equals("grass")){
+                            if (!map[i][j].equals("grass")){
                                 valid = false;
                             }
                         }else if(biomeNameList.get(randNum).equals("water")){
-                            System.out.println("witnqoitnwq");
                             if (!map[i][j].equals("grass")){
                                 valid = false;
                                 System.out.println("not grass when water");

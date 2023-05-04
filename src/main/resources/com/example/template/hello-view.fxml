@@ -122,6 +122,18 @@
       </Label>
 
 
+      <Label fx:id="furnaceTop" layoutX="1240.0" layoutY="310.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="furnaceBottom" layoutX="1240.0" layoutY="626.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
+
+
       <Label fx:id="one1c" layoutX="1556.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
