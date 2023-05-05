@@ -140,14 +140,14 @@ public class HelloController {
             sheepp, normalPlankkInv, fruitPlankkInv, autumnPlankkInv,fruitPlankk,autumnPlankk,normalPlankk, craftingTableeInv, craftingTablee, stickkInv, woodPickaxeeInv, woodSworddInv, boattInv, boatt
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
-            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree;
+            ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree,spiderOverGrasss,spiderOverStonee;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
             ,sheep, normalPlankInv, fruitPlankInv, autumnPlankInv,fruitPlank,autumnPlank,normalPlank, craftingTableInv, craftingTable, stickInv, woodPickaxeInv, woodSwordInv, boatInv, boat,
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
-            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre;
+            goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, spiderOverGrass,spiderOverStone;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -259,7 +259,11 @@ public class HelloController {
             zombieOverGrasss = new FileInputStream("src/main/resources/Animals/zombieOverGrass.png");
             rottenFleshh = new FileInputStream("src/main/resources/InventoryItems/rottenFlesh.png");
             coalOree = new FileInputStream("src/main/resources/coalOre.png");
+            spiderOverStonee = new FileInputStream("src/main/resources/Animals/spiderOverStone.png");
+            spiderOverGrasss = new FileInputStream("src/main/resources/Animals/spiderOverGrass.png");
 
+            spiderOverGrass = new Image(spiderOverGrasss);
+            spiderOverStone = new Image(spiderOverStonee);
             rottenFlesh = new Image(rottenFleshh);
             zombieOverGrass = new Image(zombieOverGrasss);
             zombieOverStone = new Image(zombieOverStonee);
@@ -737,6 +741,10 @@ public class HelloController {
                         img[i][j].setImage(zombieOverGrass);
                     }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverStone")) {
                         img[i][j].setImage(zombieOverStone);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverStone")) {
+                        img[i][j].setImage(spiderOverStone);
+                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverGrass")) {
+                        img[i][j].setImage(spiderOverGrass);
                     }
                 }
             }
@@ -812,6 +820,10 @@ public class HelloController {
                         img[i][j].setImage(zombieOverGrass); //steve
                     }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverStone")) {
                         img[i][j].setImage(zombieOverStone); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverGrass")) {
+                        img[i][j].setImage(spiderOverGrass); //steve
+                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverStone")) {
+                        img[i][j].setImage(spiderOverStone); //steve
                     }
                 }
             }
