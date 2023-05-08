@@ -89,6 +89,7 @@ public class HelloController {
 
     private ArrayList<Animals> animalsOnMap = new ArrayList<>();
     private ArrayList<mobsNoCreeper> mobsNoCreepersOnMap = new ArrayList<>();
+    private ArrayList<Villagers> villagersOnMap = new ArrayList<>();
 
 
     private Label[][] inventoryLabels = new Label[4][5];
@@ -2030,6 +2031,69 @@ public class HelloController {
                 }
             }
 
+//            else if("villager".equals(map[playerPositionX+directionChange][playerPositionY])){
+//                if (inventoryShowing) {
+//                    gPane.setVisible(true);
+//                    hotbarG.setVisible(true);
+//                    inventoryPane.setVisible(false);
+//                    inventoryShowing = false;
+//                    for (int i = 0; i < inventoryLabels.length; i++) {
+//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+//                            inventoryLabels[i][j].setVisible(false);
+//                            furnaceTop.setVisible(false);
+//                            furnaceBottom.setVisible(false);
+//                        }
+//                    }
+//
+//                    inventoryImg[1][9].setImage(grayBack);
+//                    inventoryImg[1][10].setImage(grayBack);
+//                    inventoryImg[2][10].setImage(grayBack);
+//                    inventoryImg[4][9].setImage(grayBack);
+//                    inventoryImg[2][7].setImage(grayBack);
+//                    inventoryImg[4][7].setImage(grayBack);
+//
+//                    inventoryA[1][9] = new inventoryItems("empty");
+//                    inventoryA[1][10] = new inventoryItems("empty");
+//                    inventoryA[2][10] = new inventoryItems("empty");
+//                    inventoryA[4][9] = new inventoryItems("empty");
+//                    inventoryA[2][7] = new inventoryItems("empty");
+//                    inventoryA[4][7] = new inventoryItems("empty");
+//
+//                }else{
+//                    gPane.setVisible(false);
+//                    hotbarG.setVisible(false);
+//                    inventoryPane.setVisible(true);
+//                    inventoryShowing = true;
+//                    furnaceShowing=true;
+//                    smeltingBar.setVisible(true);
+//                    fuelBar.setVisible(true);
+//
+//                    for (int i = 0; i < inventoryLabels.length; i++) {
+//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+//                            inventoryLabels[i][j].setVisible(true);
+//                            two1c.setVisible(true);
+//                            furnaceTop.setVisible(true);
+//                            furnaceBottom.setVisible(true);
+//                        }
+//                    }
+//
+//
+//                    inventoryImg[1][9].setImage(blackBack);
+//                    inventoryImg[1][10].setImage(blackBack);
+//                    inventoryImg[2][10].setImage(blackBack);
+//                    inventoryImg[4][9].setImage(blackBack);
+//                    inventoryImg[2][7].setImage(blackBack);
+//                    inventoryImg[4][7].setImage(blackBack);
+//
+//                    inventoryA[1][9] = new inventoryItems("nothing");
+//                    inventoryA[1][10] = new inventoryItems("nothing");
+//                    inventoryA[2][10] = new inventoryItems("nothing");
+//                    inventoryA[4][9] = new inventoryItems("nothing");
+//                    inventoryA[2][7] = new inventoryItems("nothing");
+//                    inventoryA[4][7] = new inventoryItems("nothing");
+//                }
+//            }
+
         }
         else{
             if("craftingTable".equals(map[playerPositionX][playerPositionY + directionChange])) {
@@ -2581,6 +2645,22 @@ public class HelloController {
                     updateScreen();
                 }
 
+                if(villagersOnMap.size()>0){
+                    for(Villagers villager:villagersOnMap){
+                        if(now - villager.getStartTime() > 1000000000.0 * 1.5){
+                            if(villager.getMovementTime()<0){
+                                villager.changeLoc(map, mapBackground);
+                                villager.resetStartTime();
+                            }else{
+                                villager.changeMovementTime(-1);
+                            }
+
+
+                        }
+                    }
+                    updateScreen();
+                }
+
 
 
                 if(day){
@@ -2910,7 +2990,7 @@ public class HelloController {
                         miningBar.setProgress(1.0);
                     }
                     break;
-                case "sheep","cow","pig":
+                case "sheep","cow","pig","villager":
                     if(!swing) {
                         swing = true;
                         swingTime = System.nanoTime();
@@ -2965,6 +3045,22 @@ public class HelloController {
                                     break;
                                 } else {
                                     animal.changeLoc(map);
+                                    updateScreen();
+                                }
+                            }
+                        }
+
+                        for (Villagers villager : villagersOnMap) {
+                            if (villager.getX() == playerPositionX + directionChange && villager.getY() == playerPositionY) {
+
+                                villager.changeHealth(-(damage));
+                                if (villager.getHealth() <= 0) {
+                                    map[playerPositionX][playerPositionY + directionChange] = "grass";
+                                    breakB = false;
+                                    villagersOnMap.remove(villager);
+                                    break;
+                                } else {
+                                    villager.changeLoc(map, mapBackground);
                                     updateScreen();
                                 }
                             }
@@ -3116,7 +3212,7 @@ public class HelloController {
                         miningBar.setProgress(1.0);
                     }
                     break;
-                case "sheep","cow","pig":
+                case "sheep","cow","pig", "villager":
                     if(!swing) {
                         int damage = 1;
                         swing = true;
@@ -3172,6 +3268,22 @@ public class HelloController {
                                     break;
                                 } else {
                                     animal.changeLoc(map);
+                                    updateScreen();
+                                }
+                            }
+                        }
+
+                        for (Villagers villager : villagersOnMap) {
+                            if (villager.getX() == playerPositionX && villager.getY() == playerPositionY + directionChange) {
+
+                                villager.changeHealth(-(damage));
+                                if (villager.getHealth() <= 0) {
+                                    map[playerPositionX][playerPositionY + directionChange] = "grass";
+                                    breakB = false;
+                                    villagersOnMap.remove(villager);
+                                    break;
+                                } else {
+                                    villager.changeLoc(map, mapBackground);
                                     updateScreen();
                                 }
                             }
@@ -3349,6 +3461,11 @@ public class HelloController {
             int x = (int)(Math.random()*(lengthX))+startX;
             int y = (int)(Math.random()*(lengthY))+startY;
 
+            int v1x = (int)(Math.random()*(lengthX))+startX;
+            int v1y = (int)(Math.random()*(lengthY))+startY;
+            int v2x = (int)(Math.random()*(lengthX))+startX;
+            int v2y = (int)(Math.random()*(lengthY))+startY;
+
             switch (biomeNameList.get(randNum)) {
                 case "normalTree" -> {
                     System.out.println("normal");
@@ -3357,6 +3474,8 @@ public class HelloController {
                         map[x][y] = "normalQuest";
                         normalQuest = true;
                     }
+                    villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v1x, v1y, "normal"));
+                    villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v2x, v2y, "normal"));
                     biomeNameList.remove("normalTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
