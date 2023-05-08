@@ -199,7 +199,7 @@
       <Label layoutX="372.0" layoutY="6.0" text="Hunger" />
       <Label layoutX="828.0" layoutY="6.0" text="Armor" />
       <ImageView fx:id="deathScreenImg" fitHeight="1080.0" fitWidth="1920.0" layoutX="0.0" layoutY="0.0" visible="false" />
-      <Button fx:id="respawnB" layoutX="450.0" layoutY="534.0" mnemonicParsing="false" opacity="0.0" prefHeight="85" prefWidth="480" text="" visible="false" />
+      <Button fx:id="respawnB" layoutX="450.0" layoutY="534.0" mnemonicParsing="false" onAction="#respawnF" opacity="0.0" prefHeight="85" prefWidth="480" text="" visible="false" />
       <ProgressBar fx:id="fuelBar" layoutX="1122.0" layoutY="691.0" prefHeight="25.0" prefWidth="150.0" progress="1.0" />
       <ProgressBar fx:id="smeltingBar" layoutX="1294.0" layoutY="471.0" prefHeight="25.0" prefWidth="127.0" progress="1.0" />
 

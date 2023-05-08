@@ -2778,7 +2778,47 @@ public class HelloController {
     }
 
     public void respawnF(ActionEvent event) {
+        deathScreenImg.setVisible(false);
+        respawnB.setVisible(false);
+        tempHealth = 10;
+        tempHunger = 100;
+        healthBar.setProgress(tempHealth/totalHealth);
+        healthBar.setStyle(" -fx-accent: #FF0000; ");
+        hungerBar.setProgress(tempHunger/totalHunger);
+        hungerBar.setStyle(" -fx-accent: #987554; ");
 
+        for (int i = 0; i < inventoryA.length; i++) {
+            for (int j = 0; j < inventoryA[0].length; j++) {
+                if(!inventoryA[i][j].getName().equals("empty")&&!inventoryA[i][j].getName().equals("nothing")){
+                    int ranNum = (int) (Math.random()*8);
+                    if(ranNum==0){
+                        System.out.println("ELimanate");
+                        inventoryA[i][j] = new inventoryItems("empty");
+                    }
+                }
+            }
+        }
+
+        while(true) {
+            int ranX = (int)(Math.random()*31)+playerPositionX-15;
+            int ranY = (int)(Math.random()*31)+playerPositionY-15;
+            if (map[ranX][ranY].equals("grass")) {
+                if (mapBackground[playerPositionX][playerPositionY].equals("grass") || mapBackground[playerPositionX][playerPositionY].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY].equals("autumn")) {
+                    map[playerPositionX][playerPositionY] = "grass";
+                } else {
+                    map[playerPositionX][playerPositionY] = "stone";
+                }
+                playerPositionX = ranX;
+                playerPositionY = ranY;
+                map[playerPositionX][playerPositionY] = "playerOverGrass";
+                break;
+            }
+        }
+
+
+
+
+        updateScreen();
 
     }
 
