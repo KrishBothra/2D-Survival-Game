@@ -39,7 +39,7 @@ public class HelloController {
     @FXML
     private TextField txtField;
     @FXML
-    private ImageView arrowImg,deathScreenImg;
+    private ImageView arrowImg,deathScreenImg,hitScreenImg,nightTimeImg;
 
     @FXML
     private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar,swingBar, fuelBar, smeltingBar;
@@ -152,7 +152,8 @@ public class HelloController {
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
-            ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv;
+            ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
+            ,hitScreenn,nightTimee;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -160,7 +161,7 @@ public class HelloController {
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
-            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv;
+            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -177,6 +178,8 @@ public class HelloController {
     private boolean swing = false;
     private double swingCount = 3;
     private ArrayList<Creepers> creepersOnMap = new ArrayList<>();
+    private boolean playerHit = false;
+    private long playerHitTime = System.nanoTime();
 
     public HelloController() {
         fruitQuest = false;
@@ -284,7 +287,12 @@ public class HelloController {
             cookedPorkkInv = new FileInputStream("src/main/resources/InventoryItems/cookedPork.png");
             cookedBeeffInv = new FileInputStream("src/main/resources/InventoryItems/cookedBeef.png");
             cookedMuttonnInv = new FileInputStream("src/main/resources/InventoryItems/coookedMutton.png");
+            hitScreenn = new FileInputStream("src/main/resources/hitScreen.jpg");
+            nightTimee = new FileInputStream("src/main/resources/nightTime.jpg");
 
+
+            nightTimeI = new Image(nightTimee);
+            hitScreen = new Image(hitScreenn);
             deathScreen = new Image(deathScreenn);
             spiderOverGrass = new Image(spiderOverGrasss);
             spiderOverStone = new Image(spiderOverStonee);
@@ -401,6 +409,8 @@ public class HelloController {
         hungerBar.setProgress(tempHunger/totalHunger);
         hungerBar.setStyle(" -fx-accent: #987554; ");
         dayNightBar.setStyle(" -fx-accent: orange; ");
+        hitScreenImg.setImage(hitScreen);
+        nightTimeImg.setImage(nightTimeI);
 //        mediaPlayer.play();
         biomeNameList.add("fruitTree");
         biomeNameList.add("normalTree");
@@ -2664,6 +2674,7 @@ public class HelloController {
 
 
                 if(day){
+                    nightTimeImg.setVisible(false);
                     if(now-dayNightTime>1000000000.0) {
                         if(mobsNoCreepersOnMap.size()>0){
                             for (mobsNoCreeper mobs: mobsNoCreepersOnMap){
@@ -2683,6 +2694,7 @@ public class HelloController {
                         }
                     }
                 }else{
+                    nightTimeImg.setVisible(true);
                     if(now-dayNightTime>1000000000.0) {
 
                         dayNightTime = System.nanoTime();
@@ -2735,9 +2747,13 @@ public class HelloController {
                         if(now - mobs.getStartTime() > 1000000000.0 * mobs.getSpeed()){
                             if(mobs.getMovementTime()<0){
                                 if((mobs.getName().startsWith("spider")&&!day)||mobs.getName().startsWith("zombie")||mobs.isAttacked()) {
-                                    mobs.changeLoc(map, mapBackground, playerPositionX, playerPositionY, tempHealth, tempOverHealth);
-                                    tempHealth = mobs.getPlayerHealth();
-                                    healthBar.setProgress(tempHealth / totalHealth);
+                                    if(mobs.changeLoc(map, mapBackground, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
+                                        tempHealth = mobs.getPlayerHealth();
+                                        healthBar.setProgress(tempHealth / totalHealth);
+                                        playerHit = true;
+                                        playerHitTime = System.nanoTime();
+                                        hitScreenImg.setVisible(true);
+                                    }
                                     mobs.resetStartTime();
                                     System.out.println("jhey");
                                 }else{
@@ -2756,6 +2772,10 @@ public class HelloController {
                     }
                     updateScreen();
                 }
+
+
+
+
                 if(mobsNoCreepersOnMap.size()>0) {
                     for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
                         if (mobs.getHealth() <= 0) {
@@ -2798,9 +2818,13 @@ public class HelloController {
                     for (Creepers creeperL : creepersOnMap) {
                         if (now - creeperL.getStartTime() > 1000000000.0 * creeperL.getSpeed()) {
                             if (creeperL.getMovementTime() < 0) {
-                                creeperL.changeLoc(map, mapBackground, playerPositionX, playerPositionY, tempHealth, tempOverHealth);
-                                tempHealth = creeperL.getPlayerHealth();
-                                healthBar.setProgress(tempHealth / totalHealth);
+                                if(creeperL.changeLoc(map, mapBackground, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
+                                    tempHealth = creeperL.getPlayerHealth();
+                                    healthBar.setProgress(tempHealth / totalHealth);
+                                    playerHit = true;
+                                    playerHitTime = System.nanoTime();
+                                    hitScreenImg.setVisible(true);
+                                }
                                 creeperL.resetStartTime();
                                 System.out.println("jhey");
                                 if(creeperL.isBlownUp()){
@@ -2852,6 +2876,13 @@ public class HelloController {
                     deathScreenImg.setImage(deathScreen);
                     deathScreenImg.setVisible(true);
                     respawnB.setVisible(true);
+                }
+
+                if(playerHit){
+                    if(now-playerHitTime>1000000000.0 * 0.25){
+                        playerHit = false;
+                        hitScreenImg.setVisible(false);
+                    }
                 }
             }
         }.start();
