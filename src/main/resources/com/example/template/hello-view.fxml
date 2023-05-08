@@ -9,14 +9,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="1056.0" prefWidth="2022.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
+<AnchorPane fx:id="anchor" maxHeight="1080" maxWidth="1920" minHeight="1080" minWidth="1920" onKeyPressed="#onKeyPressed" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
       <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
       <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
       <Rectangle fx:id="slot3" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="424.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
       <Rectangle fx:id="slot4" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="595.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
       <Rectangle fx:id="slot5" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="760.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
-      <Button fx:id="starB" layoutX="350.0" layoutY="403.0" mnemonicParsing="false"  text="Start" />
+      <Button fx:id="starB" layoutX="350.0" layoutY="403.0" mnemonicParsing="false" text="Start" />
       <Button fx:id="startB" layoutX="350.0" layoutY="403.0" mnemonicParsing="false" onAction="#onClick" text="Start" />
       <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="910.0" pickOnBounds="true" preserveRatio="true" />
@@ -198,7 +198,8 @@
       <Label layoutX="600.0" layoutY="6.0" text="Health" />
       <Label layoutX="372.0" layoutY="6.0" text="Hunger" />
       <Label layoutX="828.0" layoutY="6.0" text="Armor" />
-
+      <ImageView fx:id="deathScreenImg" fitHeight="1080.0" fitWidth="1920.0" layoutX="0.0" layoutY="0.0" visible="false" />
+      <Button fx:id="respawnB" layoutX="450.0" layoutY="534.0" mnemonicParsing="false" onAction="#respawnF" opacity="0.0" prefHeight="85" prefWidth="480" text="" visible="false" />
 
 
       

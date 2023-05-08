@@ -10,7 +10,7 @@ public class mineObjects {
     int amountDrop;
     int x,y;
 
-    public mineObjects(String name,String type,int mineTime,Resources resourceDrop,int amountDrop,int x,int y) {
+    public mineObjects(String name,String type,int mineTime,inventoryItems resourceDrop,int amountDrop,int x,int y) {
         this.name = name;
         this.mineTime = mineTime;
         this.resourceDrop = resourceDrop;

@@ -1,6 +1,6 @@
 package com.example.template;
 
-public class mobsNoCreeper {
+public class Creepers {
     private inventoryItems resourceDrop;
     String name;
     int health;
@@ -14,15 +14,16 @@ public class mobsNoCreeper {
     double speed;
 
     boolean attacked = false;
-
+    boolean blownUp = false;
     double playerHealth;
 
     long startTime;
-    int damage;
+    int damage = 30;
 
     double movementTime;
+    private int blowUp = 0;
 
-    public mobsNoCreeper(String name, int health, inventoryItems resourceDrop, double movementTime,double speed, int amount, int damage, int x, int y) {
+    public Creepers(String name, int health, inventoryItems resourceDrop, double movementTime, double speed, int amount, int x, int y) {
         this.name = name;
         this.health = health;
         this.resourceDrop = resourceDrop;
@@ -35,12 +36,15 @@ public class mobsNoCreeper {
         this.startTime = System.nanoTime();
         this.amount = amount;
         this.movementTime = movementTime;
-        this.damage = damage;
         this.speed = speed;
     }
 
     public double getSpeed() {
         return speed;
+    }
+
+    public boolean isBlownUp() {
+        return blownUp;
     }
 
     public int getAmountDrop() {
@@ -95,6 +99,7 @@ public class mobsNoCreeper {
         boolean check = false;
         playerHealth = healthB;
 
+
         while (!check) {
             boolean left = false;
             boolean right = false;
@@ -117,18 +122,23 @@ public class mobsNoCreeper {
                 left = true;
             }
             if (Math.abs(tempx - playerX) == 0 && Math.abs(tempy - playerY) == 0) {
-                playerHealth -= damage - (damage*(playerOverHealth*0.005833333333));
-                System.out.println(playerOverHealth);
-                System.out.println( damage - (damage*(playerOverHealth*0.005833333333)));
-//                tempE.setHealth(-(damage-randNum));
+
+                if(blowUp>1){
+                    playerHealth -= damage - (damage*(playerOverHealth*0.005833333333));
+                    System.out.println(playerOverHealth);
+                    System.out.println( damage - (damage*(playerOverHealth*0.005833333333)));
+                    blownUp = true;
+                }
+                blowUp++;
+                break;
+            }
+            if(blowUp>1){
+
+                blownUp = true;
                 break;
             }
             if (map[tempx][tempy].equals("grass")) {
-                if(name.startsWith("zombie")) {
-                    map[tempx][tempy] = "zombieOverGrass";
-                }else{
-                    map[tempx][tempy] = "spiderOverGrass";
-                }
+                map[tempx][tempy] = "creeperOverGrass";
                 name = map[tempx][tempy];
                 if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
                     map[x][y] = "grass";
@@ -141,14 +151,11 @@ public class mobsNoCreeper {
                 lastX = x;
                 x = tempx;
                 y = tempy;
+                blowUp= 0;
                 break;
             } else if (map[tempx][tempy].equals("stone")) {
                 check = true;
-                if(name.startsWith("zombie")) {
-                    map[tempx][tempy] = "zombieOverStone";
-                }else{
-                    map[tempx][tempy] = "spiderOverStone";
-                }
+                map[tempx][tempy] = "creeperOverStone";
                 name = map[tempx][tempy];
                 if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
                     map[x][y] = "grass";
@@ -161,20 +168,17 @@ public class mobsNoCreeper {
                 lastX = x;
                 x = tempx;
                 y = tempy;
+                blowUp= 0;
                 break;
             } else {
-                if(name.startsWith("zombie")) {
-                    goAroundZ(left, right, down, up, y, x, map, mapBackground);
-                }else{
-                    goAroundS(left, right, down, up, y, x, map, mapBackground);
-                }
-
+                goAround(left, right, down, up, y, x, map, mapBackground);
+                blowUp= 0;
                 break;
             }
         }
     }
 
-    public void changeLocSpiderDay(String[][] map, String[][] mapBackground){
+    public void changeLocCreeperDay(String[][] map, String[][] mapBackground){
         boolean check = false;
         int timeout = 0;
         while(!check&&timeout<1000){
@@ -191,7 +195,7 @@ public class mobsNoCreeper {
                 tempy--;
             }
             if (map[tempx][tempy].equals("grass")) {
-                map[tempx][tempy] = "spiderOverGrass";
+                map[tempx][tempy] = "creeperOverGrass";
                 name = map[tempx][tempy];
                 if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
                     map[x][y] = "grass";
@@ -207,7 +211,7 @@ public class mobsNoCreeper {
                 break;
             } else if (map[tempx][tempy].equals("stone")) {
 
-                map[tempx][tempy] = "spiderOverStone";
+                map[tempx][tempy] = "creeperOverStone";
                 name = map[tempx][tempy];
                 if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
                     map[x][y] = "grass";
@@ -230,7 +234,7 @@ public class mobsNoCreeper {
     }
 
 
-        private void goAroundZ( boolean left, boolean right, boolean down, boolean up, int tempy2, int tempx2, String[][] map, String[][]mapBackground){
+    private void goAround( boolean left, boolean right, boolean down, boolean up, int tempy2, int tempx2, String[][] map, String[][]mapBackground){
             int counter = 0;
             while (true) {
                 System.out.println("TROOP COUNTER: " + counter);
@@ -240,9 +244,9 @@ public class mobsNoCreeper {
                     tempy--;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         name = map[tempx][tempy];
                         System.out.println("LAST2X: "+last2X);
@@ -265,9 +269,9 @@ public class mobsNoCreeper {
                     tempx--;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != lastX || tempy != last2Y)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         System.out.println("LAST2X: "+last2X);
                         System.out.println("LASTY: "+lastY);
@@ -295,9 +299,9 @@ public class mobsNoCreeper {
                     tempy++;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         System.out.println("LAST2X: "+last2X);
                         System.out.println("LASTY: "+lastY);
@@ -321,9 +325,9 @@ public class mobsNoCreeper {
                     tempx--;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         name = map[tempx][tempy];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -347,9 +351,9 @@ public class mobsNoCreeper {
                     tempy--;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         System.out.println("LAST2X: "+last2X);
                         System.out.println("LASTY: "+lastY);
@@ -373,9 +377,9 @@ public class mobsNoCreeper {
                     tempy++;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         System.out.println("LAST2X: "+last2X);
                         System.out.println("LASTY: "+lastY);
@@ -402,9 +406,9 @@ public class mobsNoCreeper {
                     tempx++;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         name = map[tempx][tempy];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -426,9 +430,9 @@ public class mobsNoCreeper {
                     }
                     if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y) && (tempx != last2X || tempy2 != lastY)) {
                         if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                            map[tempx][tempy2] = "zombieOverGrass";
+                            map[tempx][tempy2] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy2] = "zombieOverStone";
+                            map[tempx][tempy2] = "creeperOverStone";
                         }
                         name = map[tempx][tempy2];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -450,9 +454,9 @@ public class mobsNoCreeper {
                     tempx--;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         name = map[tempx][tempy];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -470,9 +474,9 @@ public class mobsNoCreeper {
                     }
                     if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != last2X || tempy2 != lastY)) {
                         if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                            map[tempx][tempy2] = "zombieOverGrass";
+                            map[tempx][tempy2] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy2] = "zombieOverStone";
+                            map[tempx][tempy2] = "creeperOverStone";
                         }
                         name = map[tempx][tempy2];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -494,9 +498,9 @@ public class mobsNoCreeper {
                     tempx++;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         name = map[tempx][tempy];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -514,9 +518,9 @@ public class mobsNoCreeper {
                     }
                     if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != last2X || tempy2 != lastY)) {
                         if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                            map[tempx][tempy2] = "zombieOverGrass";
+                            map[tempx][tempy2] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy2] = "zombieOverStone";
+                            map[tempx][tempy2] = "creeperOverStone";
                         }
                         name = map[tempx][tempy2];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -536,9 +540,9 @@ public class mobsNoCreeper {
                     tempx--;
                     if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
                         if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                            map[tempx][tempy] = "zombieOverGrass";
+                            map[tempx][tempy] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy] = "zombieOverStone";
+                            map[tempx][tempy] = "creeperOverStone";
                         }
                         name = map[tempx][tempy];
                         last2Y = lastY;
@@ -556,9 +560,9 @@ public class mobsNoCreeper {
                     }
                     if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != last2X || tempy2 != lastY)) {
                         if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                            map[tempx][tempy2] = "zombieOverGrass";
+                            map[tempx][tempy2] = "creeperOverGrass";
                         } else {
-                            map[tempx][tempy2] = "zombieOverStone";
+                            map[tempx][tempy2] = "creeperOverStone";
                         }
                         name = map[tempx][tempy2];
                         if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
@@ -588,362 +592,7 @@ public class mobsNoCreeper {
         }
 
 
-        private void goAroundS( boolean left, boolean right, boolean down, boolean up, int tempy2, int tempx2, String[][] map, String[][]mapBackground){
-        int counter = 0;
-        while (true) {
-            System.out.println("TROOP COUNTER: " + counter);
-            int tempy = tempy2;
-            int tempx = tempx2;
-            if (left) {
-                tempy--;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy];
-                    System.out.println("LAST2X: "+last2X);
-                    System.out.println("LASTY: "+lastY);
-                    System.out.println("TEMP X: "+tempx);
-                    System.out.println("TEMP Y "+tempy);
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                tempx--;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != lastX || tempy != last2Y)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    System.out.println("LAST2X: "+last2X);
-                    System.out.println("LASTY: "+lastY);
-                    System.out.println("TEMP X: "+tempx);
-                    System.out.println("TEMP Y "+tempy);
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                left = false;
-                right = true;
-//                tempy =  tempy2;
-                tempx = tempx2;
-            } else if (right) {
-                tempy++;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    System.out.println("LAST2X: "+last2X);
-                    System.out.println("LASTY: "+lastY);
-                    System.out.println("TEMP X: "+tempx);
-                    System.out.println("TEMP Y "+tempy);
-                    System.out.println("HOW: "+(tempx != last2X || tempy != lastY));
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                tempx--;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                left = true;
-                right = false;
-//                tempy =  tempy2;
-                tempx = tempx2;
-            } else {
-                tempy--;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    System.out.println("LAST2X: "+last2X);
-                    System.out.println("LASTY: "+lastY);
-                    System.out.println("TEMP X: "+tempx);
-                    System.out.println("TEMP Y "+tempy);
-                    name = map[tempx][tempy];
-                    last2Y = lastY;
-                    last2X = lastX;
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                tempy = tempy2;
-                tempy++;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    System.out.println("LAST2X: "+last2X);
-                    System.out.println("LASTY: "+lastY);
-                    System.out.println("TEMP X: "+tempx);
-                    System.out.println("TEMP Y "+tempy);
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
 
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                right = true;
-            }
-            if (down) {
-                tempx++;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    System.out.println("LAST2X: "+last2X);
-                    System.out.println("LASTY: "+lastY);
-                    System.out.println("TEMP X: "+tempx);
-                    System.out.println("TEMP Y "+tempy);
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y) && (tempx != last2X || tempy2 != lastY)) {
-                    if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                        map[tempx][tempy2] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy2] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy2];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy2;
-                    break;
-                }
-                up = true;
-                down = false;
-            } else if (up) {
-                tempx--;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != last2X || tempy2 != lastY)) {
-                    if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                        map[tempx][tempy2] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy2] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy2];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy2;
-                    break;
-                }
-                up = false;
-                down = true;
-            } else {
-                tempx++;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != last2X || tempy2 != lastY)) {
-                    if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                        map[tempx][tempy2] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy2] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy2];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy2;
-                    break;
-                }
-                tempx = tempx2;
-                tempx--;
-                if ((map[tempx][tempy].equals("grass") || map[tempx][tempy].equals("stone")) && (tempx != lastX || tempy != last2Y)  && (tempx != last2X || tempy != lastY)) {
-                    if (mapBackground[tempx][tempy].equals("grass") || mapBackground[tempx][tempy].equals("normal") | mapBackground[tempx][tempy].equals("fruit") || mapBackground[tempx][tempy].equals("autumn")) {
-                        map[tempx][tempy] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy];
-                    last2Y = lastY;
-                    last2X = lastX;
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy;
-                    break;
-                }
-                if ((map[tempx][tempy2].equals("grass") || map[tempx][tempy2].equals("stone")) && (tempx != lastX || tempy2 != last2Y)  && (tempx != last2X || tempy2 != lastY)) {
-                    if (mapBackground[tempx][tempy2].equals("grass") || mapBackground[tempx][tempy2].equals("normal") | mapBackground[tempx][tempy2].equals("fruit") || mapBackground[tempx][tempy2].equals("autumn")) {
-                        map[tempx][tempy2] = "spiderOverGrass";
-                    } else {
-                        map[tempx][tempy2] = "spiderOverStone";
-                    }
-                    name = map[tempx][tempy2];
-                    if (mapBackground[x][y].equals("grass") || mapBackground[x][y].equals("normal") || mapBackground[x][y].equals("fruit") || mapBackground[x][y].equals("autumn")) {
-                        map[x][y] = "grass";
-                    } else {
-                        map[x][y] = "stone";
-                    }
-                    last2Y = lastY;
-                    last2X = lastX;
-                    lastY = y;
-                    lastX = x;
-                    x = tempx;
-                    y = tempy2;
-                    break;
-                }
-                up = true;
-            }
-            counter++;
-            if (counter > 4) {
-//                    last2Y = lastY;
-//                    last2X = lastX;
-//                    lastY = y;
-//                    lastX = x;
-                break;
-            }
-        }
-    }
 
 
 //          System.out.println("x: " + x);
@@ -955,5 +604,9 @@ public class mobsNoCreeper {
 
     public void changeAttacked(boolean change) {
         attacked = change;
+    }
+
+    public int getBlowUp() {
+        return blowUp;
     }
 }
