@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="1080" maxWidth="1920" minHeight="1080" minWidth="1920" onKeyPressed="#onKeyPressed" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
+<AnchorPane fx:id="anchor" maxHeight="1080" maxWidth="1920" minHeight="1080" minWidth="1920" onKeyPressed="#onKeyPressed" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
       <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
       <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
@@ -200,6 +200,9 @@
       <Label layoutX="828.0" layoutY="6.0" text="Armor" />
       <ImageView fx:id="deathScreenImg" fitHeight="1080.0" fitWidth="1920.0" layoutX="0.0" layoutY="0.0" visible="false" />
       <Button fx:id="respawnB" layoutX="450.0" layoutY="534.0" mnemonicParsing="false" onAction="#respawnF" opacity="0.0" prefHeight="85" prefWidth="480" text="" visible="false" />
+      <ProgressBar fx:id="fuelBar" layoutX="1122.0" layoutY="691.0" prefHeight="25.0" prefWidth="150.0" progress="1.0" />
+      <ProgressBar fx:id="smeltingBar" layoutX="1294.0" layoutY="471.0" prefHeight="25.0" prefWidth="127.0" progress="1.0" />
+
 
 
       

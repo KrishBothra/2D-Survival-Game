@@ -42,7 +42,7 @@ public class HelloController {
     private ImageView arrowImg,deathScreenImg;
 
     @FXML
-    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar,swingBar;
+    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar,swingBar, fuelBar, smeltingBar;
 
     @FXML
     private Rectangle slot1,slot2,slot3,slot4,slot5;
@@ -53,6 +53,9 @@ public class HelloController {
 
     private long miningTime = System.nanoTime();
     private long eatingTime = System.nanoTime();
+    private long burningTime;
+    private long smeltingTime;
+    private long amountToSmelt, amountToBurn;
 
     ImageView[][] img = new ImageView[x][y];
 
@@ -111,6 +114,11 @@ public class HelloController {
     double totalHunger = 100;
     double tempHunger = 50;
 
+    private String currentSmelting = "";
+
+    private boolean burningFuel = false;
+    private boolean smelting = false;
+
     int dayTime = 15;
     int nightTime = 60;
 
@@ -143,7 +151,7 @@ public class HelloController {
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
-            ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee,creeperOverGrasss,creeperOverStonee,deathScreenn;
+            ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreeInv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -151,7 +159,7 @@ public class HelloController {
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
-            ,creeperOverGrass,creeperOverStone,deathScreen;
+            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreeInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -271,6 +279,10 @@ public class HelloController {
             creeperOverGrasss = new FileInputStream("src/main/resources/Animals/creeperOverGrass.png");
             creeperOverStonee = new FileInputStream("src/main/resources/Animals/creeperOverStone.png");
             deathScreenn = new FileInputStream("src/main/resources/deathScreen.png");
+            goldOreeInv = new FileInputStream("src/main/resources/InventoryItems/goldOre.png");
+            cookedPorkkInv = new FileInputStream("src/main/resources/InventoryItems/cookedPork.png");
+            cookedBeeffInv = new FileInputStream("src/main/resources/InventoryItems/cookedBeef.png");
+            cookedMuttonnInv = new FileInputStream("src/main/resources/InventoryItems/coookedMutton.png");
 
             deathScreen = new Image(deathScreenn);
             spiderOverGrass = new Image(spiderOverGrasss);
@@ -359,6 +371,10 @@ public class HelloController {
             coalOre = new Image(coalOree);
             rubyOreInv = new Image(rubyOreeInv);
             coalInv = new Image(coallInv);
+            goldOreInv = new Image(goldOreeInv);
+            cookedMuttonInv = new Image(cookedMuttonnInv);
+            cookedPorkInv = new Image(cookedPorkkInv);
+            cookedBeefInv = new Image(cookedBeeffInv);
 
             craftingTableInv = new Image(craftingTableeInv);
             craftingTable = new Image(craftingTablee);
@@ -430,6 +446,8 @@ public class HelloController {
                 furnaceBottom.setVisible(false);
             }
         }
+        fuelBar.setVisible(false);
+        smeltingBar.setVisible(false);
 
 
 
@@ -661,11 +679,11 @@ public class HelloController {
 
         inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
         inventoryA[4][2] = new Resources("craftingTable", "axe");
-        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",2,1555);
+        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",15,20);
         inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
         inventoryA[1][1].setAmount(99);
-        inventoryA[1][1] = new inventoryItems("coal");
-        inventoryA[1][1].setAmount(99);
+        inventoryA[1][4] = new inventoryItems("coal");
+        inventoryA[1][4].setAmount(99);
         inventoryA[1][2] = new Resources("normalWood", "axe");
         inventoryA[1][2].setAmount(99);
         inventoryA[1][3] = new Resources("autumnWood", "axe");
@@ -680,6 +698,10 @@ public class HelloController {
         inventoryA[3][1].setAmount(99);
         inventoryA[3][2] = new inventoryItems("stick");
         inventoryA[3][2].setAmount(99);
+        inventoryA[4][4] = new Resources("furnace", "pickaxe");
+        inventoryA[4][4].setAmount(99);
+        inventoryA[4][5] = new inventoryItems("goldOre");
+        inventoryA[4][5].setAmount(99);
 
         updateScreen();
         start();
@@ -1049,6 +1071,14 @@ public class HelloController {
                 hotbarImg[i][0].setImage(rubyOreInv);
             }else if(hotbar[i].getName().equals("coal")) {
                 hotbarImg[i][0].setImage(coalInv);
+            }else if(hotbar[i].getName().equals("goldOre")) {
+                hotbarImg[i][0].setImage(goldOreInv);
+            }else if(hotbar[i].getName().equals("cookedPork")) {
+                hotbarImg[i][0].setImage(cookedPorkInv);
+            }else if(hotbar[i].getName().equals("cookedBeef")) {
+                hotbarImg[i][0].setImage(cookedBeefInv);
+            }else if(hotbar[i].getName().equals("cookedMutton")) {
+                hotbarImg[i][0].setImage(cookedMuttonInv);
             }
 
 
@@ -1163,6 +1193,14 @@ public class HelloController {
                     inventoryImg[i][j].setImage(rubyOreInv);
                 }else if(inventoryA[i][j].getName().equals("coal")) {
                     inventoryImg[i][j].setImage(coalInv);
+                }else if(inventoryA[i][j].getName().equals("goldOre")) {
+                    inventoryImg[i][j].setImage(goldOreInv);
+                }else if(inventoryA[i][j].getName().equals("cookedBeef")) {
+                    inventoryImg[i][j].setImage(cookedBeefInv);
+                }else if(inventoryA[i][j].getName().equals("cookedPork")) {
+                    inventoryImg[i][j].setImage(cookedPorkInv);
+                }else if(inventoryA[i][j].getName().equals("cookedMutton")) {
+                    inventoryImg[i][j].setImage(cookedMuttonInv);
                 }
 
 
@@ -1926,13 +1964,14 @@ public class HelloController {
 
 
             else if("furnace".equals(map[playerPositionX+directionChange][playerPositionY])){
-                System.out.println("FURNACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                 if (inventoryShowing) {
                     gPane.setVisible(true);
                     hotbarG.setVisible(true);
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     furnaceShowing = false;
+                    smeltingBar.setVisible(false);
+                    fuelBar.setVisible(false);
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
                             inventoryLabels[i][j].setVisible(false);
@@ -1962,6 +2001,8 @@ public class HelloController {
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     furnaceShowing=true;
+                    smeltingBar.setVisible(true);
+                    fuelBar.setVisible(true);
 
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
@@ -2000,6 +2041,7 @@ public class HelloController {
                     craftingShowing = false;
 
 
+
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
                             inventoryLabels[i][j].setVisible(true);
@@ -2034,6 +2076,7 @@ public class HelloController {
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     craftingShowing = true;
+
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
                             inventoryLabels[i][j].setVisible(true);
@@ -2071,6 +2114,8 @@ public class HelloController {
                     inventoryPane.setVisible(false);
                     inventoryShowing = false;
                     furnaceShowing = false;
+                    smeltingBar.setVisible(false);
+                    fuelBar.setVisible(false);
 
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
@@ -2100,6 +2145,8 @@ public class HelloController {
                     inventoryPane.setVisible(true);
                     inventoryShowing = true;
                     furnaceShowing = true;
+                    smeltingBar.setVisible(true);
+                    fuelBar.setVisible(true);
 
                     for (int i = 0; i < inventoryLabels.length; i++) {
                         for (int j = 0; j < inventoryLabels[0].length; j++) {
@@ -2251,6 +2298,111 @@ public class HelloController {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
+                    //3,7 is fuel        1,7 is smelted        2,9 is result
+                    fuelBar.setProgress(amountToBurn*1000000000.0/(double) ((now-burningTime)*10));
+                smeltingBar.setProgress(amountToSmelt*1000000000.0/(double) ((now-smeltingTime)*10));
+                    if((inventoryA[3][7].getName().equals("coal")||inventoryA[3][7].getName().equals("autumnWood")||inventoryA[3][7].getName().equals("fruitWood")||inventoryA[3][7].getName().equals("normalWood")||inventoryA[3][7].getName().equals("stick"))&&(inventoryA[1][7].getName().equals("goldOre")||inventoryA[1][7].getName().equals("rubyOre")||inventoryA[1][7].getName().equals("rawPork")||inventoryA[1][7].getName().equals("rawBeef")||inventoryA[1][7].getName().equals("rawMutton"))){
+                        if(!burningFuel){
+                            if(inventoryA[3][7].getName().equals("coal")){
+                                burningTime = System.nanoTime();
+                                burningFuel = true;
+                                amountToBurn = 10;
+                            }if(inventoryA[3][7].getName().equals("autumnWood")){
+                                burningTime = System.nanoTime();
+                                burningFuel = true;
+                                amountToBurn = 5;
+                            }if(inventoryA[3][7].getName().equals("fruitWood")){
+                                burningTime = System.nanoTime();
+                                burningFuel = true;
+                                amountToBurn = 5;
+                            }if(inventoryA[3][7].getName().equals("normalWood")){
+                                burningTime = System.nanoTime();
+                                burningFuel = true;
+                                amountToBurn = 5;
+                            }if(inventoryA[3][7].getName().equals("stick")){
+                                burningTime = System.nanoTime();
+                                burningFuel = true;
+                                amountToBurn = 2;
+                            }
+                        }
+                        if(!smelting){
+                            if(inventoryA[1][7].getName().equals("goldOre")){
+                                 smeltingTime = System.nanoTime();
+                                 amountToSmelt = 5;
+                                 smelting = true;
+                                 currentSmelting = "gold";
+                            }
+                            if(inventoryA[1][7].getName().equals("rubyOre")){
+                                smeltingTime = System.nanoTime();
+                                amountToSmelt = 5;
+                                smelting = true;
+                                currentSmelting = "ruby";
+                            }
+                            if(inventoryA[1][7].getName().equals("rawPork")){
+                                smeltingTime = System.nanoTime();
+                                amountToSmelt = 3;
+                                smelting = true;
+                                currentSmelting = "pork";
+                            }
+                            if(inventoryA[1][7].getName().equals("rawBeef")){
+                                smeltingTime = System.nanoTime();
+                                amountToSmelt = 4;
+                                smelting = true;
+                                currentSmelting = "beef";
+                            }
+                            if(inventoryA[1][7].getName().equals("rawMutton")){
+                                smeltingTime = System.nanoTime();
+                                amountToSmelt = 3;
+                                smelting = true;
+                                currentSmelting = "mutton";
+                            }
+                            if(inventoryA[3][7].getAmount()==1){
+                                inventoryA[3][7] = new inventoryItems("empty");
+                            }else{
+                                inventoryA[3][7].changeAmount(-1);
+                            }
+                        }
+                    }
+                if(smelting) {
+                    if (now - smeltingTime > 1000000000.0 * amountToSmelt) {
+                        if(inventoryA[2][9].getName().equals("empty")){
+                            if(currentSmelting.equals("gold")){
+                                inventoryA[2][9] = new inventoryItems("goldIngot");
+                                inventoryA[2][9].setAmount(1);
+                            }
+                            if(currentSmelting.equals("ruby")){
+                                inventoryA[2][9] = new inventoryItems("ruby");
+                                inventoryA[2][9].setAmount(1);
+                            }
+                            if(currentSmelting.equals("pork")){
+                                inventoryA[2][9] = new inventoryItems("cookedPork");
+                                inventoryA[2][9].setAmount(1);
+                            }
+                            if(currentSmelting.equals("mutton")){
+                                inventoryA[2][9] = new inventoryItems("cookedMutton");
+                                inventoryA[2][9].setAmount(1);
+                            }
+                            if(currentSmelting.equals("beef")){
+                                inventoryA[2][9] = new inventoryItems("cookedBeef");
+                                inventoryA[2][9].setAmount(1);
+                            }
+                        }else{
+                            inventoryA[2][9].changeAmount(1);
+                        }
+                        if(inventoryA[1][7].getAmount()==1){
+                            inventoryA[1][7] = new inventoryItems("empty");
+                        }else{
+                            inventoryA[1][7].changeAmount(-1);
+                        }
+                        currentSmelting = "";
+                        smelting = false;
+                    }
+                }
+                if(burningFuel){
+                    if(now-burningTime > 1000000000.0 * amountToBurn){
+                        burningFuel = false;
+                    }
+                }
                 if(miningObject){
                     //1000000000.0
 
@@ -2627,8 +2779,9 @@ public class HelloController {
 
     public void respawnF(ActionEvent event) {
 
-        
+
     }
+
 
 
     private void interact() {
