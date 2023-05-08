@@ -91,7 +91,7 @@ public class mobsNoCreeper {
         return playerHealth;
     }
 
-    public void changeLoc(String[][] map, String[][] mapBackground, int playerX, int playerY, double healthB,double playerOverHealth) {
+    public boolean changeLoc(String[][] map, String[][] mapBackground, int playerX, int playerY, double healthB,double playerOverHealth) {
         boolean check = false;
         playerHealth = healthB;
 
@@ -121,7 +121,7 @@ public class mobsNoCreeper {
                 System.out.println(playerOverHealth);
                 System.out.println( damage - (damage*(playerOverHealth*0.005833333333)));
 //                tempE.setHealth(-(damage-randNum));
-                break;
+                return true;
             }
             if (map[tempx][tempy].equals("grass")) {
                 if(name.startsWith("zombie")) {
@@ -172,6 +172,7 @@ public class mobsNoCreeper {
                 break;
             }
         }
+        return false;
     }
 
     public void changeLocSpiderDay(String[][] map, String[][] mapBackground){

@@ -95,7 +95,7 @@ public class Creepers {
         return playerHealth;
     }
 
-    public void changeLoc(String[][] map, String[][] mapBackground, int playerX, int playerY, double healthB,double playerOverHealth) {
+    public boolean changeLoc(String[][] map, String[][] mapBackground, int playerX, int playerY, double healthB,double playerOverHealth) {
         boolean check = false;
         playerHealth = healthB;
 
@@ -128,6 +128,7 @@ public class Creepers {
                     System.out.println(playerOverHealth);
                     System.out.println( damage - (damage*(playerOverHealth*0.005833333333)));
                     blownUp = true;
+                    return true;
                 }
                 blowUp++;
                 break;
@@ -176,6 +177,7 @@ public class Creepers {
                 break;
             }
         }
+        return false;
     }
 
     public void changeLocCreeperDay(String[][] map, String[][] mapBackground){
