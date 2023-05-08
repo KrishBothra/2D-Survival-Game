@@ -151,7 +151,7 @@ public class HelloController {
             ,rawMuttonInvv,coww,pigg,rawPorkInvv,rawBeefInvv, furnaceeInv, furnacee, stoneSworddInv, rubySworddInv, goldSworddInv, diamondSworddInv, stoneAxeeInv, rubyAxeeInv, goldAxeeInv, diamondAxeeInv, stonePickaxeeInv
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
-            ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreeInv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv;
+            ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -159,7 +159,7 @@ public class HelloController {
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
-            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreeInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv;
+            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -279,7 +279,7 @@ public class HelloController {
             creeperOverGrasss = new FileInputStream("src/main/resources/Animals/creeperOverGrass.png");
             creeperOverStonee = new FileInputStream("src/main/resources/Animals/creeperOverStone.png");
             deathScreenn = new FileInputStream("src/main/resources/deathScreen.png");
-            goldOreeInv = new FileInputStream("src/main/resources/InventoryItems/goldOre.png");
+            goldOreInvv = new FileInputStream("src/main/resources/InventoryItems/goldOre.png");
             cookedPorkkInv = new FileInputStream("src/main/resources/InventoryItems/cookedPork.png");
             cookedBeeffInv = new FileInputStream("src/main/resources/InventoryItems/cookedBeef.png");
             cookedMuttonnInv = new FileInputStream("src/main/resources/InventoryItems/coookedMutton.png");
@@ -371,7 +371,7 @@ public class HelloController {
             coalOre = new Image(coalOree);
             rubyOreInv = new Image(rubyOreeInv);
             coalInv = new Image(coallInv);
-            goldOreInv = new Image(goldOreeInv);
+            goldOreInv = new Image(goldOreInvv);
             cookedMuttonInv = new Image(cookedMuttonnInv);
             cookedPorkInv = new Image(cookedPorkkInv);
             cookedBeefInv = new Image(cookedBeeffInv);
