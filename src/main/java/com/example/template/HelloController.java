@@ -73,6 +73,9 @@ public class HelloController {
     ImageView[][] mapNight = new ImageView[x][y]; //100 //164
     String[][] mapNightS = new String[x * 8 + 1][y * 8 + 1];
 
+    ImageView[][] caveImg = new ImageView[x][y]; //100 //164
+    String[][] mapCave = new String[x * 8 + 1][y * 8 + 1]; //100 //164
+    String[][] mapBackgroundCave = new String[x * 8 + 1][y * 8 + 1]; //100 //164
 
     private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
