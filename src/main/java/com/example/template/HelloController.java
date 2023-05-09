@@ -86,6 +86,7 @@ public class HelloController {
 
     private inventoryItems equipped;
     private int selected = 0;
+    private boolean tradingShowing;
 
     private ArrayList<Animals> animalsOnMap = new ArrayList<>();
     private ArrayList<mobsNoCreeper> mobsNoCreepersOnMap = new ArrayList<>();
@@ -96,7 +97,7 @@ public class HelloController {
 
 
     @FXML
-    private Label furnaceTop, furnaceBottom, one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5, one1c, one2c, one3cv, two1c, two2c, two3cv, three1cv, three2cv, three3cv, result;
+    private Label tradingLabel,furnaceTop, furnaceBottom, one1, one2, one3, one4, one5, two1, two2, two3, two4, two5, three1, three2, three3, three4, three5, four1, four2, four3, four4, four5, one1c, one2c, one3cv, two1c, two2c, two3cv, three1cv, three2cv, three3cv, result;
 
 
 
@@ -455,6 +456,7 @@ public class HelloController {
                 result.setVisible(false);
                 furnaceTop.setVisible(false);
                 furnaceBottom.setVisible(false);
+                tradingLabel.setVisible(false);
             }
         }
         fuelBar.setVisible(false);
@@ -498,7 +500,7 @@ public class HelloController {
                         System.out.println("hey");
                         if (inventoryA[row][col].getName().equals("empty")) {
                             if(inventoryImg[row][col].getImage().equals(grayBack)) {
-                                if(furnaceShowing){
+                                if(furnaceShowing||tradingShowing){
                                     System.out.println("hey2");
                                     inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
                                     inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
@@ -972,6 +974,11 @@ public class HelloController {
         }else{
             furnaceBottom.setText("");
         }
+        if(inventoryA[2][7].getAmount()!=0&&inventoryA[2][7].getAmount()!=1){
+            tradingLabel.setText(Integer.toString(inventoryA[2][7].getAmount()));
+        }else{
+            tradingLabel.setText("");
+        }
         //System.out.println(inventoryA[4][selected].getName());
         for (int i = 1; i < 6; i++) {
             hotbar[i-1]=inventoryA[4][i];
@@ -1336,7 +1343,9 @@ public class HelloController {
 
 
             else{
-                inventoryA[4][9] = new inventoryItems("empty");
+                if(!tradingShowing){
+                    inventoryA[4][9] = new inventoryItems("empty");
+                }
                 inventoryA[4][9].setAmount(0);
             }
         }
@@ -2041,68 +2050,70 @@ public class HelloController {
                 }
             }
 
-//            else if("villager".equals(map[playerPositionX+directionChange][playerPositionY])){
-//                if (inventoryShowing) {
-//                    gPane.setVisible(true);
-//                    hotbarG.setVisible(true);
-//                    inventoryPane.setVisible(false);
-//                    inventoryShowing = false;
-//                    for (int i = 0; i < inventoryLabels.length; i++) {
-//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-//                            inventoryLabels[i][j].setVisible(false);
-//                            furnaceTop.setVisible(false);
-//                            furnaceBottom.setVisible(false);
-//                        }
-//                    }
-//
-//                    inventoryImg[1][9].setImage(grayBack);
-//                    inventoryImg[1][10].setImage(grayBack);
-//                    inventoryImg[2][10].setImage(grayBack);
-//                    inventoryImg[4][9].setImage(grayBack);
-//                    inventoryImg[2][7].setImage(grayBack);
-//                    inventoryImg[4][7].setImage(grayBack);
-//
-//                    inventoryA[1][9] = new inventoryItems("empty");
-//                    inventoryA[1][10] = new inventoryItems("empty");
-//                    inventoryA[2][10] = new inventoryItems("empty");
-//                    inventoryA[4][9] = new inventoryItems("empty");
-//                    inventoryA[2][7] = new inventoryItems("empty");
-//                    inventoryA[4][7] = new inventoryItems("empty");
-//
-//                }else{
-//                    gPane.setVisible(false);
-//                    hotbarG.setVisible(false);
-//                    inventoryPane.setVisible(true);
-//                    inventoryShowing = true;
-//                    furnaceShowing=true;
-//                    smeltingBar.setVisible(true);
-//                    fuelBar.setVisible(true);
-//
-//                    for (int i = 0; i < inventoryLabels.length; i++) {
-//                        for (int j = 0; j < inventoryLabels[0].length; j++) {
-//                            inventoryLabels[i][j].setVisible(true);
-//                            two1c.setVisible(true);
-//                            furnaceTop.setVisible(true);
-//                            furnaceBottom.setVisible(true);
-//                        }
-//                    }
-//
-//
-//                    inventoryImg[1][9].setImage(blackBack);
-//                    inventoryImg[1][10].setImage(blackBack);
-//                    inventoryImg[2][10].setImage(blackBack);
-//                    inventoryImg[4][9].setImage(blackBack);
-//                    inventoryImg[2][7].setImage(blackBack);
-//                    inventoryImg[4][7].setImage(blackBack);
-//
-//                    inventoryA[1][9] = new inventoryItems("nothing");
-//                    inventoryA[1][10] = new inventoryItems("nothing");
-//                    inventoryA[2][10] = new inventoryItems("nothing");
-//                    inventoryA[4][9] = new inventoryItems("nothing");
-//                    inventoryA[2][7] = new inventoryItems("nothing");
-//                    inventoryA[4][7] = new inventoryItems("nothing");
-//                }
-//            }
+            else if("villager".equals(map[playerPositionX+directionChange][playerPositionY])){
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    tradingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                            tradingLabel.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+                    inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+                    inventoryA[2][11] = new inventoryItems("nothing");
+
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    tradingShowing = true;
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                            tradingLabel.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+                    inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                    inventoryA[2][11] = new inventoryItems("empty");
+                }
+            }
+
 
         }
         else{
@@ -2244,6 +2255,71 @@ public class HelloController {
                     inventoryA[4][9] = new inventoryItems("nothing");
                     inventoryA[2][7] = new inventoryItems("nothing");
                     inventoryA[4][7] = new inventoryItems("nothing");
+                }
+            }
+
+            else if("villager".equals(map[playerPositionX][playerPositionY+directionChange])){
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    tradingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                            tradingLabel.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+                    inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+                    inventoryA[2][11] = new inventoryItems("nothing");
+
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    tradingShowing = true;
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                            tradingLabel.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                        }
+                    }
+
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+                    inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                    inventoryA[2][11] = new inventoryItems("empty");
                 }
             }
         }
@@ -2659,7 +2735,9 @@ public class HelloController {
                     for(Villagers villager:villagersOnMap){
                         if(now - villager.getStartTime() > 1000000000.0 * 1.5){
                             if(villager.getMovementTime()<0){
-                                villager.changeLoc(map, mapBackground);
+                                if(!tradingShowing){
+                                    villager.changeLoc(map, mapBackground);
+                                }
                                 villager.resetStartTime();
                             }else{
                                 villager.changeMovementTime(-1);
@@ -2694,7 +2772,11 @@ public class HelloController {
                         }
                     }
                 }else{
-                    nightTimeImg.setVisible(true);
+                    if(!craftingShowing&&!furnaceShowing&&!inventoryShowing){
+                        nightTimeImg.setVisible(true);
+                    }else{
+                        nightTimeImg.setVisible(false);
+                    }
                     if(now-dayNightTime>1000000000.0) {
 
                         dayNightTime = System.nanoTime();
@@ -3530,6 +3612,8 @@ public class HelloController {
                         map[x][y] = "fruitQuest";
                         fruitQuest = true;
                     }
+                    villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v1x, v1y, "fruit"));
+                    villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v2x, v2y, "fruit"));
                     biomeNameList.remove("fruitTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
@@ -3549,10 +3633,13 @@ public class HelloController {
                 case "autumnTree" -> {
                     System.out.println("autumn");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
+
                     if(!autumnQuest){
                         map[x][y] = "autumnQuest";
                         autumnQuest = true;
                     }
+                    villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v1x, v1y, "autumn"));
+                    villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v2x, v2y, "autumn"));
                     biomeNameList.remove("autumnTree");
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {

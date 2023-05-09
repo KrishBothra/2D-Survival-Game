@@ -132,6 +132,11 @@
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
+      <Label fx:id="tradingLabel" layoutX="1240.0" layoutY="468.0" text="22">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font>
+      </Label>
 
 
       <Label fx:id="one1c" layoutX="1556.0" layoutY="310.0" text="22">
@@ -187,6 +192,8 @@
             <Font name="Comic Sans MS" size="23.0" />
          </font>
       </Label>
+      <ImageView fx:id="nightTimeImg" fitHeight="1000.0" fitWidth="1640.0" layoutX="25.0" layoutY="25.0" opacity="0.5" visible="false" />
+      <ImageView fx:id="hitScreenImg" fitHeight="1000.0" fitWidth="1640.0" layoutX="25.0" layoutY="25.0" opacity="0.35" visible="false" />
 
       <ProgressBar fx:id="healthBar" layoutX="530.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
       <ProgressBar fx:id="overHealthBar" layoutX="766.0" layoutY="30.0" prefHeight="19.0" prefWidth="200.0" progress="1.0" />
@@ -201,8 +208,6 @@
 
       <ProgressBar fx:id="fuelBar" layoutX="1122.0" layoutY="691.0" prefHeight="25.0" prefWidth="150.0" progress="1.0" />
       <ProgressBar fx:id="smeltingBar" layoutX="1294.0" layoutY="471.0" prefHeight="25.0" prefWidth="127.0" progress="1.0" />
-      <ImageView fx:id="nightTimeImg" fitHeight="1000.0" fitWidth="1640.0" layoutX="25.0" layoutY="25.0" opacity="0.5" visible="false" />
-      <ImageView fx:id="hitScreenImg" fitHeight="1000.0" fitWidth="1640.0" layoutX="25.0" layoutY="25.0" opacity="0.35" visible="false" />
       <ImageView fx:id="deathScreenImg" fitHeight="1080.0" fitWidth="1920.0" layoutX="0.0" layoutY="0.0" visible="false" />
       <Button fx:id="respawnB" layoutX="450.0" layoutY="534.0" mnemonicParsing="false" onAction="#respawnF" opacity="0.0" prefHeight="85" prefWidth="480" text="" visible="true" />
 
