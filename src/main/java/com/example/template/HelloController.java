@@ -26,6 +26,11 @@ import java.util.Objects;
 //import javafx.scene.media.MediaPlayer;
 
 public class HelloController {
+    ////////TRADES:
+    //Drill
+    //Obsidian
+    //Steak
+    //Porkchops
     @FXML
     private Label lbl, coordsLabel, dayNightLbl;
     @FXML
@@ -1939,10 +1944,26 @@ public class HelloController {
                 inventoryA[4][9].setAmount(1);
             }
 
-
-
-
-
+            ////////////////////TORCHES
+            else if(tl.getName().equals("coal")&&tr.getName().equals("empty")&&bl.getName().equals("stick")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("torch", "axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("stick")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("coal")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("torch", "axe");
+                inventoryA[4][9].setAmount(4);
+            } else if(tl.getName().equals("empty")&&tr.getName().equals("coal")&&bl.getName().equals("empty")&&br.getName().equals("stick")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("torch", "axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("stick")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("coal")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("torch", "axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("coal")&&brc.getName().equals("stick")){
+                inventoryA[4][9] = new Resources("torch", "axe");
+                inventoryA[4][9].setAmount(4);
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("coal")&&mrc.getName().equals("stick")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new Resources("torch", "axe");
+                inventoryA[4][9].setAmount(4);
+            }
 
 
 
@@ -2590,15 +2611,15 @@ public class HelloController {
                                 inventoryA[2][9].setAmount(1);
                             }
                             if(currentSmelting.equals("pork")){
-                                inventoryA[2][9] = new inventoryItems("cookedPork");
+                                inventoryA[2][9] = new Food("cookedPork", 20);
                                 inventoryA[2][9].setAmount(1);
                             }
                             if(currentSmelting.equals("mutton")){
-                                inventoryA[2][9] = new inventoryItems("cookedMutton");
+                                inventoryA[2][9] = new Food("cookedMutton", 15);
                                 inventoryA[2][9].setAmount(1);
                             }
                             if(currentSmelting.equals("beef")){
-                                inventoryA[2][9] = new inventoryItems("cookedBeef");
+                                inventoryA[2][9] = new Food("cookedBeef", 25);
                                 inventoryA[2][9].setAmount(1);
                             }
                         }else{
