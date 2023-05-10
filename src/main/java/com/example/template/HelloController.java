@@ -62,6 +62,8 @@ public class HelloController {
     private long smeltingTime;
     private long amountToSmelt, amountToBurn;
 
+    private boolean inCave = false;
+
     ImageView[][] img = new ImageView[x][y];
 
 
@@ -75,8 +77,7 @@ public class HelloController {
 
     ImageView[][] caveImg = new ImageView[x][y]; //100 //164
     String[][] mapCave = new String[x * 8 + 1][y * 8 + 1]; //100 //164
-    String[][] mapBackgroundCave = new String[x * 8 + 1][y * 8 + 1]; //100 //164
-
+    private String[][] mapCaveBackground = new String[x * 8 + 1][y * 8 + 1];
     private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
     private ArrayList<Biome> biomeArrayList = new ArrayList<>();
@@ -165,7 +166,7 @@ public class HelloController {
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
             ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
-            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt;
+            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -173,7 +174,7 @@ public class HelloController {
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
-            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light;
+            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -192,6 +193,7 @@ public class HelloController {
     private ArrayList<Creepers> creepersOnMap = new ArrayList<>();
     private boolean playerHit = false;
     private long playerHitTime = System.nanoTime();
+
 
     public HelloController() {
         fruitQuest = false;
@@ -305,7 +307,9 @@ public class HelloController {
             torchOverGrasss = new FileInputStream("src/main/resources/torchOverGrass.png");
             torchOverStonee = new FileInputStream("src/main/resources/torchOverStone.png");
             lightt = new FileInputStream("src/main/resources/nightTime.jpg");
-
+            stoneWXX = new FileInputStream("src/main/resources/stoneWX.png");
+            
+            stoneWX = new Image(stoneWXX);
             torchOverStone = new Image(torchOverStonee);
             torchOverGrass = new Image(torchOverGrasss);
             torchInv = new Image(torchInvv);
@@ -683,6 +687,15 @@ public class HelloController {
             }
         }
 
+        for (int i = 0; i < mapCave.length; i++) {
+            for (int j = 0; j < mapCave[0].length; j++) {
+                mapCave[i][j] = "stone";
+                if (i == 0 || i == mapCave.length - 1 || j == 0 || j == mapCave[0].length - 1) {
+                    mapCave[i][j] = "stoneWX";
+                }
+            }
+        }
+
         for (int i = 0; i < mapNight.length; i++) {
             for (int j = 0; j < mapNight[0].length; j++) {
                 mapNight[i][j] = new ImageView();
@@ -754,7 +767,7 @@ public class HelloController {
         updateScreen();
         start();
         //for the change
-
+//        inCave = true;
 
     }
 
@@ -768,196 +781,395 @@ public class HelloController {
             if (!(playerPositionX < 12 || playerPositionX > 188)) {
                 tempPlayerPositionX = playerPositionX;
             }
+
             //UPDATE SCREEN EDGE
-            for (int i = 0; i < img.length; i++) {
-                for (int j = 0; j < img[0].length; j++) {
-                    if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
-                        img[i][j].setImage(grass);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grassWX")) {
-                        img[i][j].setImage(grassWX); //steve
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverGrass")) {
-                        img[i][j].setImage(playerOverGrass); //steve
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalTree")) {
-                        img[i][j].setImage(normalTree);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitTree")) {
-                        img[i][j].setImage(fruitTree);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnTree")) {
-                        img[i][j].setImage(autumnTree);
-                    }  else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stone")) {
-                        img[i][j].setImage(stone);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
-                        img[i][j].setImage(playerOverStone);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rock")) {
-                        img[i][j].setImage(rock);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("goldOre")) {
-                        img[i][j].setImage(goldOre);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rubyOre")) {
-                        img[i][j].setImage(rubyOre);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamondOre")) {
-                        img[i][j].setImage(diamondOre);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("water")) {
-                        img[i][j].setImage(water);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
-                        img[i][j].setImage(null);
-                    } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalWood")) {
-                        img[i][j].setImage(normalWood);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnWood")) {
-                        img[i][j].setImage(autumnWood);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitWood")) {
-                        img[i][j].setImage(fruitWood);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("sheep")) {
-                        img[i][j].setImage(sheep);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitPlank")) {
-                        img[i][j].setImage(fruitPlank);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalPlank")) {
-                        img[i][j].setImage(normalPlank);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnPlank")) {
-                        img[i][j].setImage(autumnPlank);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("craftingTable")) {
-                        img[i][j].setImage(craftingTable);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("boat")) {
-                        img[i][j].setImage(boat);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("cow")) {
-                        img[i][j].setImage(cow);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("pig")) {
-                        img[i][j].setImage(pig);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("furnace")) {
-                        img[i][j].setImage(furnace);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverGrass")) {
-                        img[i][j].setImage(zombieOverGrass);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverStone")) {
-                        img[i][j].setImage(zombieOverStone);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("coalOre")) {
-                        img[i][j].setImage(coalOre);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverStone")) {
-                        img[i][j].setImage(spiderOverStone);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverGrass")) {
-                        img[i][j].setImage(spiderOverGrass);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverStone")) {
-                        img[i][j].setImage(creeperOverStone);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverGrass")) {
-                        img[i][j].setImage(creeperOverGrass);
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].startsWith("torch")) {
-                        if(mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("grass")||mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("normal")||mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("fruit")||mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("autumn")) {
-                            img[i][j].setImage(torchOverGrass);
-                        }else{
-                            System.out.println(tempMine.getName());
-                            img[i][j].setImage(torchOverStone);
+            if(!inCave) {
+                for (int i = 0; i < img.length; i++) {
+                    for (int j = 0; j < img[0].length; j++) {
+                        if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
+                            img[i][j].setImage(grass);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grassWX")) {
+                            img[i][j].setImage(grassWX); //steve
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalTree")) {
+                            img[i][j].setImage(normalTree);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitTree")) {
+                            img[i][j].setImage(fruitTree);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnTree")) {
+                            img[i][j].setImage(autumnTree);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stone")) {
+                            img[i][j].setImage(stone);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rock")) {
+                            img[i][j].setImage(rock);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("goldOre")) {
+                            img[i][j].setImage(goldOre);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rubyOre")) {
+                            img[i][j].setImage(rubyOre);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamondOre")) {
+                            img[i][j].setImage(diamondOre);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("water")) {
+                            img[i][j].setImage(water);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
+                            img[i][j].setImage(null);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalWood")) {
+                            img[i][j].setImage(normalWood);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnWood")) {
+                            img[i][j].setImage(autumnWood);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitWood")) {
+                            img[i][j].setImage(fruitWood);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("sheep")) {
+                            img[i][j].setImage(sheep);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitPlank")) {
+                            img[i][j].setImage(fruitPlank);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalPlank")) {
+                            img[i][j].setImage(normalPlank);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnPlank")) {
+                            img[i][j].setImage(autumnPlank);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("craftingTable")) {
+                            img[i][j].setImage(craftingTable);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("boat")) {
+                            img[i][j].setImage(boat);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("cow")) {
+                            img[i][j].setImage(cow);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("pig")) {
+                            img[i][j].setImage(pig);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("furnace")) {
+                            img[i][j].setImage(furnace);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverGrass")) {
+                            img[i][j].setImage(zombieOverGrass);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverStone")) {
+                            img[i][j].setImage(zombieOverStone);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("coalOre")) {
+                            img[i][j].setImage(coalOre);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverStone")) {
+                            img[i][j].setImage(spiderOverStone);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverGrass")) {
+                            img[i][j].setImage(spiderOverGrass);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverStone")) {
+                            img[i][j].setImage(creeperOverStone);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverGrass")) {
+                            img[i][j].setImage(creeperOverGrass);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].startsWith("torch")) {
+                            if (mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("autumn")) {
+                                img[i][j].setImage(torchOverGrass);
+                            } else {
+                                System.out.println(tempMine.getName());
+                                img[i][j].setImage(torchOverStone);
+                            }
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("villager")) {
+                            img[i][j].setImage(villager);
                         }
-                    }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("villager")) {
-                        img[i][j].setImage(villager);
-                    }
-                    if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
-                        mapNight[i][j].setOpacity(0.0);
-                    }else if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
-                        mapNight[i][j].setOpacity(0.5);
+                        if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
+                            mapNight[i][j].setOpacity(0.0);
+                        } else if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
+                            mapNight[i][j].setOpacity(0.5);
+                        }
                     }
                 }
+            }else{
+                for (int i = 0; i < img.length; i++) {
+                    for (int j = 0; j < img[0].length; j++) {
+                        if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
+                            img[i][j].setImage(grass);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grassWX")) {
+                            img[i][j].setImage(grassWX); //steve
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalTree")) {
+                            img[i][j].setImage(normalTree);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitTree")) {
+                            img[i][j].setImage(fruitTree);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnTree")) {
+                            img[i][j].setImage(autumnTree);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stone")) {
+                            img[i][j].setImage(stone);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rock")) {
+                            img[i][j].setImage(rock);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("goldOre")) {
+                            img[i][j].setImage(goldOre);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("rubyOre")) {
+                            img[i][j].setImage(rubyOre);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("diamondOre")) {
+                            img[i][j].setImage(diamondOre);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("water")) {
+                            img[i][j].setImage(water);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("null")) {
+                            img[i][j].setImage(null);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalWood")) {
+                            img[i][j].setImage(normalWood);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnWood")) {
+                            img[i][j].setImage(autumnWood);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitWood")) {
+                            img[i][j].setImage(fruitWood);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("sheep")) {
+                            img[i][j].setImage(sheep);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruitPlank")) {
+                            img[i][j].setImage(fruitPlank);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normalPlank")) {
+                            img[i][j].setImage(normalPlank);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumnPlank")) {
+                            img[i][j].setImage(autumnPlank);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("craftingTable")) {
+                            img[i][j].setImage(craftingTable);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("boat")) {
+                            img[i][j].setImage(boat);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("cow")) {
+                            img[i][j].setImage(cow);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("pig")) {
+                            img[i][j].setImage(pig);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("furnace")) {
+                            img[i][j].setImage(furnace);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverGrass")) {
+                            img[i][j].setImage(zombieOverGrass);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("zombieOverStone")) {
+                            img[i][j].setImage(zombieOverStone);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("coalOre")) {
+                            img[i][j].setImage(coalOre);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverStone")) {
+                            img[i][j].setImage(spiderOverStone);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("spiderOverGrass")) {
+                            img[i][j].setImage(spiderOverGrass);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverStone")) {
+                            img[i][j].setImage(creeperOverStone);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverGrass")) {
+                            img[i][j].setImage(creeperOverGrass);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].startsWith("torch")) {
+                            if (mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + i].equals("autumn")) {
+                                img[i][j].setImage(torchOverGrass);
+                            } else {
+                                System.out.println(tempMine.getName());
+                                img[i][j].setImage(torchOverStone);
+                            }
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("villager")) {
+                            img[i][j].setImage(villager);
+                        } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stoneWX")) {
+                            img[i][j].setImage(stoneWX);
+                        }
+
+                        if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
+                            mapNight[i][j].setOpacity(0.0);
+                        } else if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
+                            mapNight[i][j].setOpacity(0.5);
+                        }
+                    }
+                }
+
             }
         } else {
             //UPDATE SCREEN
-            for (int i = 0; i < img.length; i++) {
-                for (int j = 0; j < img[0].length; j++) {
-                    if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
-                        img[i][j].setImage(grass);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grassWX")) {
-                        img[i][j].setImage(grassWX); //steve
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverGrass")) {
-                        img[i][j].setImage(playerOverGrass); //steve
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalTree")) {
-                        img[i][j].setImage(normalTree); //steve
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitTree")) {
-                        img[i][j].setImage(fruitTree); //steve
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnTree")) {
-                        img[i][j].setImage(autumnTree); //steve
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stone")) {
-                        img[i][j].setImage(stone);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
-                        img[i][j].setImage(playerOverStone);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rock")) {
-                        img[i][j].setImage(rock);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rubyOre")) {
-                        img[i][j].setImage(rubyOre);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamondOre")) {
-                        img[i][j].setImage(diamondOre);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("goldOre")) {
-                        img[i][j].setImage(goldOre);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
-                        img[i][j].setImage(water);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
-                        img[i][j].setImage(mailboxGrass);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnQuest")) {
-                        img[i][j].setImage(mailboxGrass);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalQuest")) {
-                        img[i][j].setImage(mailboxGrass);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneQuest")) {
-                        img[i][j].setImage(mailboxStone);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("waterQuest")) {
-                        img[i][j].setImage(chestWater);
-                    } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
-                        img[i][j].setImage(null); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalWood")) {
-                        img[i][j].setImage(normalWood); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnWood")) {
-                        img[i][j].setImage(autumnWood); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitWood")) {
-                        img[i][j].setImage(fruitWood); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("sheep")) {
-                        img[i][j].setImage(sheep); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitPlank")) {
-                        img[i][j].setImage(fruitPlank); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalPlank")) {
-                        img[i][j].setImage(normalPlank); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnPlank")) {
-                        img[i][j].setImage(autumnPlank); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("craftingTable")) {
-                        img[i][j].setImage(craftingTable); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("boat")) {
-                        img[i][j].setImage(boat); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("cow")) {
-                        img[i][j].setImage(cow); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("pig")) {
-                        img[i][j].setImage(pig); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("furnace")) {
-                        img[i][j].setImage(furnace); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverGrass")) {
-                        img[i][j].setImage(zombieOverGrass); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverStone")) {
-                        img[i][j].setImage(zombieOverStone); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("coalOre")) {
-                        img[i][j].setImage(coalOre); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverGrass")) {
-                        img[i][j].setImage(spiderOverGrass); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverStone")) {
-                        img[i][j].setImage(spiderOverStone); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("creeperOverGrass")) {
-                        img[i][j].setImage(creeperOverGrass); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("creeperOverStone")) {
-                        img[i][j].setImage(creeperOverStone); //steve
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].startsWith("torch")) {
-                        if(mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")||mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normal")||mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruit")||mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumn")) {
-                            img[i][j].setImage(torchOverGrass);
-                        }else{
-                            System.out.println(tempMine.getName());
-                            img[i][j].setImage(torchOverStone);
+            if(!inCave) {
+                for (int i = 0; i < img.length; i++) {
+                    for (int j = 0; j < img[0].length; j++) {
+                        if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
+                            img[i][j].setImage(grass);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grassWX")) {
+                            img[i][j].setImage(grassWX); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalTree")) {
+                            img[i][j].setImage(normalTree); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitTree")) {
+                            img[i][j].setImage(fruitTree); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnTree")) {
+                            img[i][j].setImage(autumnTree); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stone")) {
+                            img[i][j].setImage(stone);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rock")) {
+                            img[i][j].setImage(rock);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rubyOre")) {
+                            img[i][j].setImage(rubyOre);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamondOre")) {
+                            img[i][j].setImage(diamondOre);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("goldOre")) {
+                            img[i][j].setImage(goldOre);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
+                            img[i][j].setImage(water);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneQuest")) {
+                            img[i][j].setImage(mailboxStone);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("waterQuest")) {
+                            img[i][j].setImage(chestWater);
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
+                            img[i][j].setImage(null); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalWood")) {
+                            img[i][j].setImage(normalWood); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnWood")) {
+                            img[i][j].setImage(autumnWood); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitWood")) {
+                            img[i][j].setImage(fruitWood); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("sheep")) {
+                            img[i][j].setImage(sheep); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitPlank")) {
+                            img[i][j].setImage(fruitPlank); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalPlank")) {
+                            img[i][j].setImage(normalPlank); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnPlank")) {
+                            img[i][j].setImage(autumnPlank); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("craftingTable")) {
+                            img[i][j].setImage(craftingTable); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("boat")) {
+                            img[i][j].setImage(boat); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("cow")) {
+                            img[i][j].setImage(cow); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("pig")) {
+                            img[i][j].setImage(pig); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("furnace")) {
+                            img[i][j].setImage(furnace); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverGrass")) {
+                            img[i][j].setImage(zombieOverGrass); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverStone")) {
+                            img[i][j].setImage(zombieOverStone); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("coalOre")) {
+                            img[i][j].setImage(coalOre); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverGrass")) {
+                            img[i][j].setImage(spiderOverGrass); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverStone")) {
+                            img[i][j].setImage(spiderOverStone); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("creeperOverGrass")) {
+                            img[i][j].setImage(creeperOverGrass); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("creeperOverStone")) {
+                            img[i][j].setImage(creeperOverStone); //steve
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].startsWith("torch")) {
+                            if (mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normal") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruit") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumn")) {
+                                img[i][j].setImage(torchOverGrass);
+                            } else {
+                                System.out.println(tempMine.getName());
+                                img[i][j].setImage(torchOverStone);
+                            }
+                        } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("villager")) {
+                            img[i][j].setImage(villager); //steve
                         }
-                    }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("villager")) {
-                        img[i][j].setImage(villager); //steve
-                    }
-                    if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("light")) {
-                        mapNight[i][j].setOpacity(0.0); //steve
-                    }else if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
-                        mapNight[i][j].setOpacity(0.5); //steve
+                        if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("light")) {
+                            mapNight[i][j].setOpacity(0.0); //steve
+                        } else if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
+                            mapNight[i][j].setOpacity(0.5); //steve
+                        }
                     }
                 }
+            }else{
+                for (int i = 0; i < img.length; i++) {
+                    for (int j = 0; j < img[0].length; j++) {
+                        if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
+                            img[i][j].setImage(grass);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grassWX")) {
+                            img[i][j].setImage(grassWX); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalTree")) {
+                            img[i][j].setImage(normalTree); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitTree")) {
+                            img[i][j].setImage(fruitTree); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnTree")) {
+                            img[i][j].setImage(autumnTree); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stone")) {
+                            img[i][j].setImage(stone);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rock")) {
+                            img[i][j].setImage(rock);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("rubyOre")) {
+                            img[i][j].setImage(rubyOre);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("diamondOre")) {
+                            img[i][j].setImage(diamondOre);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("goldOre")) {
+                            img[i][j].setImage(goldOre);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("water")) {
+                            img[i][j].setImage(water);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneQuest")) {
+                            img[i][j].setImage(mailboxStone);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("waterQuest")) {
+                            img[i][j].setImage(chestWater);
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("null")) {
+                            img[i][j].setImage(null); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalWood")) {
+                            img[i][j].setImage(normalWood); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnWood")) {
+                            img[i][j].setImage(autumnWood); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitWood")) {
+                            img[i][j].setImage(fruitWood); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("sheep")) {
+                            img[i][j].setImage(sheep); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruitPlank")) {
+                            img[i][j].setImage(fruitPlank); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normalPlank")) {
+                            img[i][j].setImage(normalPlank); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumnPlank")) {
+                            img[i][j].setImage(autumnPlank); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("craftingTable")) {
+                            img[i][j].setImage(craftingTable); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("boat")) {
+                            img[i][j].setImage(boat); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("cow")) {
+                            img[i][j].setImage(cow); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("pig")) {
+                            img[i][j].setImage(pig); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("furnace")) {
+                            img[i][j].setImage(furnace); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverGrass")) {
+                            img[i][j].setImage(zombieOverGrass); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("zombieOverStone")) {
+                            img[i][j].setImage(zombieOverStone); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("coalOre")) {
+                            img[i][j].setImage(coalOre); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverGrass")) {
+                            img[i][j].setImage(spiderOverGrass); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("spiderOverStone")) {
+                            img[i][j].setImage(spiderOverStone); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("creeperOverGrass")) {
+                            img[i][j].setImage(creeperOverGrass); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("creeperOverStone")) {
+                            img[i][j].setImage(creeperOverStone); //steve
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].startsWith("torch")) {
+                            if (mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("normal") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruit") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("autumn")) {
+                                img[i][j].setImage(torchOverGrass);
+                            } else {
+                                System.out.println(tempMine.getName());
+                                img[i][j].setImage(torchOverStone);
+                            }
+                        } else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("villager")) {
+                            img[i][j].setImage(villager); //steve
+                        }else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneWX")) {
+                            img[i][j].setImage(stoneWX); //steve
+                        }
+
+
+
+
+
+                        if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("light")) {
+                            mapNight[i][j].setOpacity(0.0); //steve
+                        } else if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
+                            mapNight[i][j].setOpacity(0.5); //steve
+                        }
+                    }
+                }
+
             }
+
+
+
+
+
             tempPlayerPositionX = playerPositionX;
             tempPlayerPositionY = playerPositionY;
-
-
-
-
-
         }
         for (int i = 0; i<inventoryLabels.length; i++) {
             for (int j = 0; j < inventoryLabels[0].length; j++) {
@@ -3642,6 +3854,85 @@ public class HelloController {
         }
         tempHunger -=0.1;
         hungerBar.setProgress(tempHunger/totalHunger);
+    }
+
+    private void createCaveBiomes(){
+        int startX = 0;
+        int startY = 0;
+        int lengthX = 0;
+        int lengthY = 0;
+        int randNum;
+        boolean valid;
+
+//        for (int i = 0; i < mapBackground.length; i++) {
+//            for (int j = 0; j < mapBackground[0].length; j++) {
+//                mapCaveBackground[i][j] = "stone";
+//            }
+//        }
+        for (int p = 0; p < 15; p++) {
+            valid = false;
+            while(!valid){
+                System.out.println(biomeNameList);
+                valid = true;
+                lengthX = (int) (Math.random() * 9) + 40;
+                lengthY = (int) (Math.random() * 15) + 40;
+                startX = (int) (Math.random() * (199 - lengthX)) + 1;
+                startY = (int) (Math.random() * (327 - lengthY)) + 1;
+                for (int i = startX; i < startX + lengthX; i++) {
+                    for (int j = startY; j < startY + lengthY; j++) {
+                        if (!map[i][j].equals("stone")) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            int x = (int)(Math.random()*(lengthX))+startX;
+            int y = (int)(Math.random()*(lengthY))+startY;
+
+//            int v1x = (int)(Math.random()*(lengthX))+startX;
+//            int v1y = (int)(Math.random()*(lengthY))+startY;
+//            int v2x = (int)(Math.random()*(lengthX))+startX;
+//            int v2y = (int)(Math.random()*(lengthY))+startY;
+
+            int mineralRand;
+            biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 1));
+            biomeNameList.remove("stone");
+            if(!stoneQuest){
+                map[x][y] = "stoneQuest";
+                stoneQuest = true;
+            }
+            for (int i = startX; i < startX + lengthX; i++) {
+                for (int j = startY; j < startY + lengthY; j++) {
+                    mineralRand = (int) (Math.random() * 70);
+                    if (mineralRand < 4) {
+                        map[i][j] = "rock";
+                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
+
+                    } else if (mineralRand < 6) {
+                        map[i][j] = "goldOre";
+                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
+
+                    } else if (mineralRand < 8) {
+                        map[i][j] = "diamondOre";
+                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new inventoryItems("diamond"), 1, i, j));
+
+                    } else if (mineralRand < 11) {
+                        map[i][j] = "rubyOre";
+                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("rubyOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
+
+                    }else if (mineralRand < 15) {
+                        map[i][j] = "coalOre";
+                        mineObjectsOnMap.add(new mineObjects("coalOre","pickaxe", (int) (Math.random() * 5) + 15, new inventoryItems("coal"), (int) (Math.random() * 2) + 1, i, j));
+
+                    }
+                }
+            }
+        }
+
+        for (Biome biome : biomeArrayList) {
+            System.out.println(biome.getSx() + " " + biome.getSy() + " " + biome.getEx() + " " + biome.getEy());
+        }
     }
 
     private void createBiomes() {
