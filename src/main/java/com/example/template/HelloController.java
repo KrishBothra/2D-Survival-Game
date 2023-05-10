@@ -719,6 +719,7 @@ public class HelloController {
         map[99][163] = "playerOverGrass";
 //        map[30][160] = "normalTree";
         createBiomes();
+        createCaveBiomes();
 
 
         gPane.setGridLinesVisible(true);
@@ -767,7 +768,7 @@ public class HelloController {
         updateScreen();
         start();
         //for the change
-//        inCave = true;
+        inCave = true;
 
     }
 
@@ -3880,7 +3881,7 @@ public class HelloController {
                 startY = (int) (Math.random() * (327 - lengthY)) + 1;
                 for (int i = startX; i < startX + lengthX; i++) {
                     for (int j = startY; j < startY + lengthY; j++) {
-                        if (!map[i][j].equals("stone")) {
+                        if (!mapCave[i][j].equals("stone")) {
                             valid = false;
                             break;
                         }
@@ -3897,32 +3898,31 @@ public class HelloController {
 
             int mineralRand;
             biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 1));
-            biomeNameList.remove("stone");
             if(!stoneQuest){
-                map[x][y] = "stoneQuest";
+                mapCave[x][y] = "stoneQuest";
                 stoneQuest = true;
             }
             for (int i = startX; i < startX + lengthX; i++) {
                 for (int j = startY; j < startY + lengthY; j++) {
                     mineralRand = (int) (Math.random() * 70);
                     if (mineralRand < 4) {
-                        map[i][j] = "rock";
+                        mapCave[i][j] = "rock";
                         mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
 
                     } else if (mineralRand < 6) {
-                        map[i][j] = "goldOre";
+                        mapCave[i][j] = "goldOre";
                         mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
 
                     } else if (mineralRand < 8) {
-                        map[i][j] = "diamondOre";
+                        mapCave[i][j] = "diamondOre";
                         mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new inventoryItems("diamond"), 1, i, j));
 
                     } else if (mineralRand < 11) {
-                        map[i][j] = "rubyOre";
+                        mapCave[i][j] = "rubyOre";
                         mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("rubyOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
 
                     }else if (mineralRand < 15) {
-                        map[i][j] = "coalOre";
+                        mapCave[i][j] = "coalOre";
                         mineObjectsOnMap.add(new mineObjects("coalOre","pickaxe", (int) (Math.random() * 5) + 15, new inventoryItems("coal"), (int) (Math.random() * 2) + 1, i, j));
 
                     }
