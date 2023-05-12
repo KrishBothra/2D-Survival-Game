@@ -141,7 +141,7 @@ public class HelloController {
     private boolean burningFuel = false;
     private boolean smelting = false;
 
-    int dayTime = 15;
+    int dayTime = 180;
     int nightTime = 60;
 
     boolean day = true;
@@ -793,14 +793,18 @@ public class HelloController {
         inventoryA[1][1].setAmount(99);
         inventoryA[1][4] = new inventoryItems("coal");
         inventoryA[1][4].setAmount(99);
+        inventoryA[2][4] = new Resources("torch","axe");
+        inventoryA[2][4].setAmount(99);
         inventoryA[1][2] = new Resources("normalWood", "axe");
         inventoryA[1][2].setAmount(99);
         inventoryA[1][3] = new Resources("autumnWood", "axe");
         inventoryA[1][3].setAmount(99);
         inventoryA[2][1] = new Resources("fruitWood", "axe");
         inventoryA[2][1].setAmount(99);
-        inventoryA[2][2] = new inventoryItems("ruby");
+        inventoryA[2][2] = new Food("cookedBeef",25);
         inventoryA[2][2].setAmount(99);
+        inventoryA[3][4] = new inventoryItems("ruby");
+        inventoryA[3][4].setAmount(99);
         inventoryA[2][3] = new inventoryItems("goldIngot");
         inventoryA[2][3].setAmount(99);
         inventoryA[3][1] = new inventoryItems("diamond");
@@ -966,7 +970,10 @@ public class HelloController {
                             }
                         } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("villager")) {
                             img[i][j].setImage(villager);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("obsidian")) {
+                            img[i][j].setImage(obsidian);
                         }
+
                         if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
                             mapNight[i][j].setOpacity(0.0);
                         } else if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
@@ -1053,6 +1060,8 @@ public class HelloController {
                             img[i][j].setImage(villager);
                         } else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("stoneWX")) {
                             img[i][j].setImage(stoneWX);
+                        }else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("obsidian")) {
+                            img[i][j].setImage(obsidian);
                         }
 
                         if (mapNightCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
@@ -1153,7 +1162,10 @@ public class HelloController {
                             }
                         } else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("villager")) {
                             img[i][j].setImage(villager); //steve
+                        }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("obsidian")) {
+                            img[i][j].setImage(obsidian); //steve
                         }
+
                         if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("light")) {
                             mapNight[i][j].setOpacity(0.0); //steve
                         } else if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
@@ -1250,6 +1262,8 @@ public class HelloController {
                             img[i][j].setImage(villager); //steve
                         }else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("stoneWX")) {
                             img[i][j].setImage(stoneWX); //steve
+                        }else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("obsidian")) {
+                            img[i][j].setImage(obsidian); //steve
                         }
 
 
