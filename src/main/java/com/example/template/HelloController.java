@@ -31,6 +31,10 @@ public class HelloController {
     //Obsidian
     //Steak
     //Porkchops
+    private ArrayList<String> otherTrades = new ArrayList<>();
+
+    private String tradeSelected;
+
     @FXML
     private Label lbl, coordsLabel, dayNightLbl;
     @FXML
@@ -170,7 +174,7 @@ public class HelloController {
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
             ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
-            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX;
+            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -178,7 +182,8 @@ public class HelloController {
             rawMuttonInv,cow,pig,rawPorkInv,rawBeefInv, furnaceInv, furnace, stoneSwordInv, rubySwordInv, goldSwordInv, diamondSwordInv, stoneAxeInv, rubyAxeInv, goldAxeInv, diamondAxeInv, stonePickaxeInv, rubyPickaxeInv
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
-            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX;
+            ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX, obsidian, obsidianInv
+            , drillInv, flintInv, bossSoulInv;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -315,7 +320,12 @@ public class HelloController {
             torchOverStonee = new FileInputStream("src/main/resources/torchOverStone.png");
             lightt = new FileInputStream("src/main/resources/nightTime.jpg");
             stoneWXX = new FileInputStream("src/main/resources/stoneWX.png");
-            
+            flinttInv = new FileInputStream("src/main/resources/InventoryItems/flint.png");
+            obsidiannInv = new FileInputStream("src/main/resources/InventoryItems/obsidian.png");
+            bossSoullInv = new FileInputStream("src/main/resources/InventoryItems/soul.png");
+            drilllInv = new FileInputStream("src/main/resources/InventoryItems/drill.png");
+            obsidiann = new FileInputStream("src/main/resources/obsidian.jpg");
+
             stoneWX = new Image(stoneWXX);
             torchOverStone = new Image(torchOverStonee);
             torchOverGrass = new Image(torchOverGrasss);
@@ -414,6 +424,11 @@ public class HelloController {
             cookedMuttonInv = new Image(cookedMuttonnInv);
             cookedPorkInv = new Image(cookedPorkkInv);
             cookedBeefInv = new Image(cookedBeeffInv);
+            flintInv = new Image(flinttInv);
+            drillInv = new Image(drilllInv);
+            bossSoulInv = new Image(bossSoullInv);
+            obsidianInv = new Image(obsidiannInv);
+            obsidian = new Image(obsidiann);
 
             craftingTableInv = new Image(craftingTableeInv);
             craftingTable = new Image(craftingTablee);
@@ -626,6 +641,19 @@ public class HelloController {
                     }
                 }
 
+
+                if(tradingShowing){
+                    if(row==1||(col==9||col==10||col==11)){
+                        if(inventoryImg[row][col].getImage() == flintInv){
+                            inventoryImg[2][9].setImage(rubyInv);
+                            inventoryImg[2][10].setImage(stickInv);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                        }
+                    }
+                }
             }
 
         };
@@ -783,6 +811,63 @@ public class HelloController {
         inventoryA[4][4].setAmount(99);
         inventoryA[4][5] = new inventoryItems("goldOre");
         inventoryA[4][5].setAmount(99);
+
+
+        otherTrades.add("goldHelmet");
+        otherTrades.add("woodChestplate");
+        otherTrades.add("rubyAxe");
+        otherTrades.add("stoneSword");
+        otherTrades.add("ruby");
+        otherTrades.add("apple");
+        otherTrades.add("woodBoots");
+        otherTrades.add("rubyChestplate");
+        otherTrades.add("diamondLeggings");
+        otherTrades.add("goldSword");
+        otherTrades.add("rawPork");
+        otherTrades.add("cookedBeef");
+
+        for(Villagers villager: villagersOnMap){
+            int random = (int)(Math.random()*2)+1;
+            switch (villager.getBiome()) {
+                case "normal" -> {
+                    villager.addTrades("obsidian");
+                    villager.addTrades(otherTrades.get((int) (Math.random() * 12)));
+                    if (random == 2) {
+                        boolean valid = false;
+                        while (!valid) {
+                            int randomNum2 = (int) (Math.random() * 12);
+                            if (!(otherTrades.get(randomNum2).equals(villager.getTrades().get(1)))) {
+                                villager.addTrades(otherTrades.get(randomNum2));
+                                valid = true;
+                            }
+                        }
+                    }
+                }
+                case "autumn" -> {
+                    villager.addTrades("flint");
+                    villager.addTrades("bossSoul");
+                    if (random == 2) {
+                        villager.addTrades(otherTrades.get((int) (Math.random() * 12)));
+                    }
+                }
+                case "fruit" -> {
+                    villager.addTrades("drill");
+                    villager.addTrades(otherTrades.get((int) (Math.random() * 12)));
+                    if (random == 2) {
+                        boolean valid = false;
+                        while (!valid) {
+                            int randomNum2 = (int) (Math.random() * 12) ;
+                            if (!(otherTrades.get(randomNum2).equals(villager.getTrades().get(1)))){
+                                villager.addTrades(otherTrades.get(randomNum2));
+                                valid = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         updateScreen();
         start();
@@ -1273,250 +1358,142 @@ public class HelloController {
         }
 
         for (int i = 0; i < hotbar.length; i++) {
-            if(hotbar[i].getName().equals("normalWood")){
-                hotbarImg[i][0].setImage(normalWoodInv);
-            }else if(hotbar[i].getName().equals("autumnWood")){
-                hotbarImg[i][0].setImage(autumnWoodInv);
-            }else if(hotbar[i].getName().equals("fruitWood")){
-                hotbarImg[i][0].setImage(fruitWoodInv);
-            } else if(hotbar[i].getName().equals("apples")){
-                hotbarImg[i][0].setImage(appleInv);
-            } else if(hotbar[i].getName().equals("diamond")){
-                hotbarImg[i][0].setImage(diamondInv);
-            } else if(hotbar[i].getName().equals("goldIngot")){
-                hotbarImg[i][0].setImage(goldIngotInv);
-            } else if(hotbar[i].getName().equals("ruby")){
-                hotbarImg[i][0].setImage(rubyInv);
-            }else if(hotbar[i].getName().equals("cobblestone")){
-                hotbarImg[i][0].setImage(cobbelstoneInv);
-            }else if(hotbar[i].getName().equals("woodAxe")){
-                hotbarImg[i][0].setImage(woodAxeInv);
-            }else if(hotbar[i].getName().equals("normalPlank")) {
-                hotbarImg[i][0].setImage(normalPlankInv);
-            } else if(hotbar[i].getName().equals("autumnPlank")) {
-                hotbarImg[i][0].setImage(autumnPlankInv);
-            }else if(hotbar[i].getName().equals("fruitPlank")) {
-                hotbarImg[i][0].setImage(fruitPlankInv);
-            }else if(hotbar[i].getName().equals("craftingTable")) {
-                hotbarImg[i][0].setImage(craftingTableInv);
-            }else if(hotbar[i].getName().equals("boat")) {
-                hotbarImg[i][0].setImage(boatInv);
-            }else if(hotbar[i].getName().equals("stick")) {
-                hotbarImg[i][0].setImage(stickInv);
-            }else if(hotbar[i].getName().equals("woodSword")) {
-                hotbarImg[i][0].setImage(woodSwordInv);
-            }else if(hotbar[i].getName().equals("woodPickaxe")) {
-                hotbarImg[i][0].setImage(woodPickaxeInv);
-            }else if(hotbar[i].getName().equals("rawMutton")) {
-                hotbarImg[i][0].setImage(rawMuttonInv);
-            }else if(hotbar[i].getName().equals("rawPork")) {
-                hotbarImg[i][0].setImage(rawPorkInv);
-            }else if(hotbar[i].getName().equals("rawBeef")) {
-                hotbarImg[i][0].setImage(rawBeefInv);
-            }else if(hotbar[i].getName().equals("furnace")) {
-                hotbarImg[i][0].setImage(furnaceInv);
-            }else if(hotbar[i].getName().equals("stoneSword")) {
-                hotbarImg[i][0].setImage(stoneSwordInv);
-            }else if(hotbar[i].getName().equals("rubySword")) {
-                hotbarImg[i][0].setImage(rubySwordInv);
-            }else if(hotbar[i].getName().equals("goldSword")) {
-                hotbarImg[i][0].setImage(goldSwordInv);
-            }else if(hotbar[i].getName().equals("diamondSword")) {
-                hotbarImg[i][0].setImage(diamondSwordInv);
-            }else if(hotbar[i].getName().equals("stoneAxe")) {
-                hotbarImg[i][0].setImage(stoneAxeInv);
-            }else if(hotbar[i].getName().equals("rubyAxe")) {
-                hotbarImg[i][0].setImage(rubyAxeInv);
-            }else if(hotbar[i].getName().equals("goldAxe")) {
-                hotbarImg[i][0].setImage(goldAxeInv);
-            }else if(hotbar[i].getName().equals("diamondAxe")) {
-                hotbarImg[i][0].setImage(diamondAxeInv);
-            }else if(hotbar[i].getName().equals("stonePickaxe")) {
-                hotbarImg[i][0].setImage(stonePickaxeInv);
-            }else if(hotbar[i].getName().equals("rubyPickaxe")) {
-                hotbarImg[i][0].setImage(rubyPickaxeInv);
-            }else if(hotbar[i].getName().equals("goldPickaxe")) {
-                hotbarImg[i][0].setImage(goldPickaxeInv);
-            }else if(hotbar[i].getName().equals("diamondPickaxe")) {
-                hotbarImg[i][0].setImage(diamondPickaxeInv);
-            }else if(hotbar[i].getName().equals("woodHelmet")) {
-                hotbarImg[i][0].setImage(woodHelmetInv);
-            }else if(hotbar[i].getName().equals("woodChestplate")) {
-                hotbarImg[i][0].setImage(woodChestplateInv);
-            }else if(hotbar[i].getName().equals("woodLeggings")) {
-                hotbarImg[i][0].setImage(woodLeggingsInv);
-            }else if(hotbar[i].getName().equals("woodBoots")) {
-                hotbarImg[i][0].setImage(woodBootsInv);
-            }else if(hotbar[i].getName().equals("rubyHelmet")) {
-                hotbarImg[i][0].setImage(rubyHelmetInv);
-            }else if(hotbar[i].getName().equals("rubyChestplate")) {
-                hotbarImg[i][0].setImage(rubyChestplateInv);
-            }else if(hotbar[i].getName().equals("rubyLeggings")) {
-                hotbarImg[i][0].setImage(rubyLeggingsInv);
-            }else if(hotbar[i].getName().equals("rubyBoots")) {
-                hotbarImg[i][0].setImage(rubyBootsInv);
-            }else if(hotbar[i].getName().equals("goldHelmet")) {
-                hotbarImg[i][0].setImage(goldHelmetInv);
-            }else if(hotbar[i].getName().equals("goldChestplate")) {
-                hotbarImg[i][0].setImage(goldChestplateInv);
-            }else if(hotbar[i].getName().equals("goldLeggings")) {
-                hotbarImg[i][0].setImage(goldLeggingsInv);
-            }else if(hotbar[i].getName().equals("goldBoots")) {
-                hotbarImg[i][0].setImage(goldBootsInv);
-            }else if(hotbar[i].getName().equals("diamondHelmet")) {
-                hotbarImg[i][0].setImage(diamondHelmetInv);
-            }else if(hotbar[i].getName().equals("diamondChestplate")) {
-                hotbarImg[i][0].setImage(diamondChestplateInv);
-            }else if(hotbar[i].getName().equals("diamondLeggings")) {
-                hotbarImg[i][0].setImage(diamondLeggingsInv);
-            }else if(hotbar[i].getName().equals("diamondBoots")) {
-                hotbarImg[i][0].setImage(diamondBootsInv);
-            }else if(hotbar[i].getName().equals("rottenFlesh")) {
-                hotbarImg[i][0].setImage(rottenFlesh);
-            }else if(hotbar[i].getName().equals("rubyOre")) {
-                hotbarImg[i][0].setImage(rubyOreInv);
-            }else if(hotbar[i].getName().equals("coal")) {
-                hotbarImg[i][0].setImage(coalInv);
-            }else if(hotbar[i].getName().equals("goldOre")) {
-                hotbarImg[i][0].setImage(goldOreInv);
-            }else if(hotbar[i].getName().equals("cookedPork")) {
-                hotbarImg[i][0].setImage(cookedPorkInv);
-            }else if(hotbar[i].getName().equals("cookedBeef")) {
-                hotbarImg[i][0].setImage(cookedBeefInv);
-            }else if(hotbar[i].getName().equals("cookedMutton")) {
-                hotbarImg[i][0].setImage(cookedMuttonInv);
-            }else if(hotbar[i].getName().equals("torch")) {
-                hotbarImg[i][0].setImage(torchInv);
-            }
+            switch (hotbar[i].getName()) {
+                case "normalWood" -> hotbarImg[i][0].setImage(normalWoodInv);
+                case "autumnWood" -> hotbarImg[i][0].setImage(autumnWoodInv);
+                case "fruitWood" -> hotbarImg[i][0].setImage(fruitWoodInv);
+                case "apples" -> hotbarImg[i][0].setImage(appleInv);
+                case "diamond" -> hotbarImg[i][0].setImage(diamondInv);
+                case "goldIngot" -> hotbarImg[i][0].setImage(goldIngotInv);
+                case "ruby" -> hotbarImg[i][0].setImage(rubyInv);
+                case "cobblestone" -> hotbarImg[i][0].setImage(cobbelstoneInv);
+                case "woodAxe" -> hotbarImg[i][0].setImage(woodAxeInv);
+                case "normalPlank" -> hotbarImg[i][0].setImage(normalPlankInv);
+                case "autumnPlank" -> hotbarImg[i][0].setImage(autumnPlankInv);
+                case "fruitPlank" -> hotbarImg[i][0].setImage(fruitPlankInv);
+                case "craftingTable" -> hotbarImg[i][0].setImage(craftingTableInv);
+                case "boat" -> hotbarImg[i][0].setImage(boatInv);
+                case "stick" -> hotbarImg[i][0].setImage(stickInv);
+                case "woodSword" -> hotbarImg[i][0].setImage(woodSwordInv);
+                case "woodPickaxe" -> hotbarImg[i][0].setImage(woodPickaxeInv);
+                case "rawMutton" -> hotbarImg[i][0].setImage(rawMuttonInv);
+                case "rawPork" -> hotbarImg[i][0].setImage(rawPorkInv);
+                case "rawBeef" -> hotbarImg[i][0].setImage(rawBeefInv);
+                case "furnace" -> hotbarImg[i][0].setImage(furnaceInv);
+                case "stoneSword" -> hotbarImg[i][0].setImage(stoneSwordInv);
+                case "rubySword" -> hotbarImg[i][0].setImage(rubySwordInv);
+                case "goldSword" -> hotbarImg[i][0].setImage(goldSwordInv);
+                case "diamondSword" -> hotbarImg[i][0].setImage(diamondSwordInv);
+                case "stoneAxe" -> hotbarImg[i][0].setImage(stoneAxeInv);
+                case "rubyAxe" -> hotbarImg[i][0].setImage(rubyAxeInv);
+                case "goldAxe" -> hotbarImg[i][0].setImage(goldAxeInv);
+                case "diamondAxe" -> hotbarImg[i][0].setImage(diamondAxeInv);
+                case "stonePickaxe" -> hotbarImg[i][0].setImage(stonePickaxeInv);
+                case "rubyPickaxe" -> hotbarImg[i][0].setImage(rubyPickaxeInv);
+                case "goldPickaxe" -> hotbarImg[i][0].setImage(goldPickaxeInv);
+                case "diamondPickaxe" -> hotbarImg[i][0].setImage(diamondPickaxeInv);
+                case "woodHelmet" -> hotbarImg[i][0].setImage(woodHelmetInv);
+                case "woodChestplate" -> hotbarImg[i][0].setImage(woodChestplateInv);
+                case "woodLeggings" -> hotbarImg[i][0].setImage(woodLeggingsInv);
+                case "woodBoots" -> hotbarImg[i][0].setImage(woodBootsInv);
+                case "rubyHelmet" -> hotbarImg[i][0].setImage(rubyHelmetInv);
+                case "rubyChestplate" -> hotbarImg[i][0].setImage(rubyChestplateInv);
+                case "rubyLeggings" -> hotbarImg[i][0].setImage(rubyLeggingsInv);
+                case "rubyBoots" -> hotbarImg[i][0].setImage(rubyBootsInv);
+                case "goldHelmet" -> hotbarImg[i][0].setImage(goldHelmetInv);
+                case "goldChestplate" -> hotbarImg[i][0].setImage(goldChestplateInv);
+                case "goldLeggings" -> hotbarImg[i][0].setImage(goldLeggingsInv);
+                case "goldBoots" -> hotbarImg[i][0].setImage(goldBootsInv);
+                case "diamondHelmet" -> hotbarImg[i][0].setImage(diamondHelmetInv);
+                case "diamondChestplate" -> hotbarImg[i][0].setImage(diamondChestplateInv);
+                case "diamondLeggings" -> hotbarImg[i][0].setImage(diamondLeggingsInv);
+                case "diamondBoots" -> hotbarImg[i][0].setImage(diamondBootsInv);
+                case "rottenFlesh" -> hotbarImg[i][0].setImage(rottenFlesh);
+                case "rubyOre" -> hotbarImg[i][0].setImage(rubyOreInv);
+                case "coal" -> hotbarImg[i][0].setImage(coalInv);
+                case "goldOre" -> hotbarImg[i][0].setImage(goldOreInv);
+                case "cookedPork" -> hotbarImg[i][0].setImage(cookedPorkInv);
+                case "cookedBeef" -> hotbarImg[i][0].setImage(cookedBeefInv);
+                case "cookedMutton" -> hotbarImg[i][0].setImage(cookedMuttonInv);
+                case "torch" -> hotbarImg[i][0].setImage(torchInv);
+                case "flint" -> hotbarImg[i][0].setImage(flintInv);
+                case "obsidian" -> hotbarImg[i][0].setImage(obsidianInv);
+                case "drill" -> hotbarImg[i][0].setImage(drillInv);
+                case "bossSoul" -> hotbarImg[i][0].setImage(bossSoulInv);
 
 
-            else if(hotbar[i].getName().equals("empty")){
-                hotbarImg[i][0].setImage(grayBack);
+                case "empty" -> hotbarImg[i][0].setImage(grayBack);
             }
         }
 
         for (int i = 0; i <inventoryA.length; i++) {
             for (int j = 0; j <inventoryA[0].length; j++) {
-                if(inventoryA[i][j].getName().equals("normalWood")){
-                    inventoryImg[i][j].setImage(normalWoodInv);
-                }else if(inventoryA[i][j].getName().equals("autumnWood")){
-                    inventoryImg[i][j].setImage(autumnWoodInv);
-                }else if(inventoryA[i][j].getName().equals("fruitWood")){
-                    inventoryImg[i][j].setImage(fruitWoodInv);
-                } else if(inventoryA[i][j].getName().equals("apples")){
-                    inventoryImg[i][j].setImage(appleInv);
-                } else if(inventoryA[i][j].getName().equals("diamond")){
-                    inventoryImg[i][j].setImage(diamondInv);
-                } else if(inventoryA[i][j].getName().equals("goldIngot")){
-                    inventoryImg[i][j].setImage(goldIngotInv);
-                } else if(inventoryA[i][j].getName().equals("ruby")){
-                    inventoryImg[i][j].setImage(rubyInv);
-                }else if(inventoryA[i][j].getName().equals("cobblestone")){
-                    inventoryImg[i][j].setImage(cobbelstoneInv);
-                }else if(inventoryA[i][j].getName().equals("woodAxe")){
-                    inventoryImg[i][j].setImage(woodAxeInv);
-                }else if(inventoryA[i][j].getName().equals("normalPlank")) {
-                    inventoryImg[i][j].setImage(normalPlankInv);
-                } else if(inventoryA[i][j].getName().equals("autumnPlank")) {
-                    inventoryImg[i][j].setImage(autumnPlankInv);
-                }else if(inventoryA[i][j].getName().equals("fruitPlank")) {
-                    inventoryImg[i][j].setImage(fruitPlankInv);
-                }else if(inventoryA[i][j].getName().equals("craftingTable")) {
-                    inventoryImg[i][j].setImage(craftingTableInv);
-                }else if(inventoryA[i][j].getName().equals("stick")) {
-                    inventoryImg[i][j].setImage(stickInv);
-                }else if(inventoryA[i][j].getName().equals("boat")) {
-                    inventoryImg[i][j].setImage(boatInv);
-                }else if(inventoryA[i][j].getName().equals("woodSword")) {
-                    inventoryImg[i][j].setImage(woodSwordInv);
-                }else if(inventoryA[i][j].getName().equals("woodPickaxe")) {
-                    inventoryImg[i][j].setImage(woodPickaxeInv);
-                }else if(inventoryA[i][j].getName().equals("rawMutton")) {
-                    inventoryImg[i][j].setImage(rawMuttonInv);
-                }else if(inventoryA[i][j].getName().equals("rawBeef")) {
-                    inventoryImg[i][j].setImage(rawBeefInv);
-                }else if(inventoryA[i][j].getName().equals("rawPork")) {
-                    inventoryImg[i][j].setImage(rawPorkInv);
-                }else if(inventoryA[i][j].getName().equals("furnace")) {
-                    inventoryImg[i][j].setImage(furnaceInv);
-                }else if(inventoryA[i][j].getName().equals("stoneSword")) {
-                    inventoryImg[i][j].setImage(stoneSwordInv);
-                }else if(inventoryA[i][j].getName().equals("rubySword")) {
-                    inventoryImg[i][j].setImage(rubySwordInv);
-                }else if(inventoryA[i][j].getName().equals("goldSword")) {
-                    inventoryImg[i][j].setImage(goldSwordInv);
-                }else if(inventoryA[i][j].getName().equals("diamondSword")) {
-                    inventoryImg[i][j].setImage(diamondSwordInv);
-                }else if(inventoryA[i][j].getName().equals("stoneAxe")) {
-                    inventoryImg[i][j].setImage(stoneAxeInv);
-                }else if(inventoryA[i][j].getName().equals("rubyAxe")) {
-                    inventoryImg[i][j].setImage(rubyAxeInv);
-                }else if(inventoryA[i][j].getName().equals("goldAxe")) {
-                    inventoryImg[i][j].setImage(goldAxeInv);
-                }else if(inventoryA[i][j].getName().equals("diamondAxe")) {
-                    inventoryImg[i][j].setImage(diamondAxeInv);
-                }else if(inventoryA[i][j].getName().equals("stonePickaxe")) {
-                    inventoryImg[i][j].setImage(stonePickaxeInv);
-                }else if(inventoryA[i][j].getName().equals("rubyPickaxe")) {
-                    inventoryImg[i][j].setImage(rubyPickaxeInv);
-                }else if(inventoryA[i][j].getName().equals("goldPickaxe")) {
-                    inventoryImg[i][j].setImage(goldPickaxeInv);
-                }else if(inventoryA[i][j].getName().equals("diamondPickaxe")) {
-                    inventoryImg[i][j].setImage(diamondPickaxeInv);
-                }else if(inventoryA[i][j].getName().equals("woodHelmet")) {
-                    inventoryImg[i][j].setImage(woodHelmetInv);
-                }else if(inventoryA[i][j].getName().equals("woodChestplate")) {
-                    inventoryImg[i][j].setImage(woodChestplateInv);
-                }else if(inventoryA[i][j].getName().equals("woodLeggings")) {
-                    inventoryImg[i][j].setImage(woodLeggingsInv);
-                }else if(inventoryA[i][j].getName().equals("woodBoots")) {
-                    inventoryImg[i][j].setImage(woodBootsInv);
-                }else if(inventoryA[i][j].getName().equals("rubyHelmet")) {
-                    inventoryImg[i][j].setImage(rubyHelmetInv);
-                }else if(inventoryA[i][j].getName().equals("rubyChestplate")) {
-                    inventoryImg[i][j].setImage(rubyChestplateInv);
-                }else if(inventoryA[i][j].getName().equals("rubyLeggings")) {
-                    inventoryImg[i][j].setImage(rubyLeggingsInv);
-                }else if(inventoryA[i][j].getName().equals("rubyBoots")) {
-                    inventoryImg[i][j].setImage(rubyBootsInv);
-                }else if(inventoryA[i][j].getName().equals("goldHelmet")) {
-                    inventoryImg[i][j].setImage(goldHelmetInv);
-                }else if(inventoryA[i][j].getName().equals("goldChestplate")) {
-                    inventoryImg[i][j].setImage(goldChestplateInv);
-                }else if(inventoryA[i][j].getName().equals("goldLeggings")) {
-                    inventoryImg[i][j].setImage(goldLeggingsInv);
-                }else if(inventoryA[i][j].getName().equals("goldBoots")) {
-                    inventoryImg[i][j].setImage(goldBootsInv);
-                }else if(inventoryA[i][j].getName().equals("diamondHelmet")) {
-                    inventoryImg[i][j].setImage(diamondHelmetInv);
-                }else if(inventoryA[i][j].getName().equals("diamondChestplate")) {
-                    inventoryImg[i][j].setImage(diamondChestplateInv);
-                }else if(inventoryA[i][j].getName().equals("diamondLeggings")) {
-                    inventoryImg[i][j].setImage(diamondLeggingsInv);
-                }else if(inventoryA[i][j].getName().equals("diamondBoots")) {
-                    inventoryImg[i][j].setImage(diamondBootsInv);
-                }else if(inventoryA[i][j].getName().equals("rottenFlesh")) {
-                    inventoryImg[i][j].setImage(rottenFlesh);
-                }else if(inventoryA[i][j].getName().equals("rubyOre")) {
-                    inventoryImg[i][j].setImage(rubyOreInv);
-                }else if(inventoryA[i][j].getName().equals("coal")) {
-                    inventoryImg[i][j].setImage(coalInv);
-                }else if(inventoryA[i][j].getName().equals("goldOre")) {
-                    inventoryImg[i][j].setImage(goldOreInv);
-                }else if(inventoryA[i][j].getName().equals("cookedBeef")) {
-                    inventoryImg[i][j].setImage(cookedBeefInv);
-                }else if(inventoryA[i][j].getName().equals("cookedPork")) {
-                    inventoryImg[i][j].setImage(cookedPorkInv);
-                }else if(inventoryA[i][j].getName().equals("cookedMutton")) {
-                    inventoryImg[i][j].setImage(cookedMuttonInv);
-                }else if(inventoryA[i][j].getName().equals("torch")) {
-                    inventoryImg[i][j].setImage(torchInv);
-                }
+                switch (inventoryA[i][j].getName()) {
+                    case "normalWood" -> inventoryImg[i][j].setImage(normalWoodInv);
+                    case "autumnWood" -> inventoryImg[i][j].setImage(autumnWoodInv);
+                    case "fruitWood" -> inventoryImg[i][j].setImage(fruitWoodInv);
+                    case "apples" -> inventoryImg[i][j].setImage(appleInv);
+                    case "diamond" -> inventoryImg[i][j].setImage(diamondInv);
+                    case "goldIngot" -> inventoryImg[i][j].setImage(goldIngotInv);
+                    case "ruby" -> inventoryImg[i][j].setImage(rubyInv);
+                    case "cobblestone" -> inventoryImg[i][j].setImage(cobbelstoneInv);
+                    case "woodAxe" -> inventoryImg[i][j].setImage(woodAxeInv);
+                    case "normalPlank" -> inventoryImg[i][j].setImage(normalPlankInv);
+                    case "autumnPlank" -> inventoryImg[i][j].setImage(autumnPlankInv);
+                    case "fruitPlank" -> inventoryImg[i][j].setImage(fruitPlankInv);
+                    case "craftingTable" -> inventoryImg[i][j].setImage(craftingTableInv);
+                    case "stick" -> inventoryImg[i][j].setImage(stickInv);
+                    case "boat" -> inventoryImg[i][j].setImage(boatInv);
+                    case "woodSword" -> inventoryImg[i][j].setImage(woodSwordInv);
+                    case "woodPickaxe" -> inventoryImg[i][j].setImage(woodPickaxeInv);
+                    case "rawMutton" -> inventoryImg[i][j].setImage(rawMuttonInv);
+                    case "rawBeef" -> inventoryImg[i][j].setImage(rawBeefInv);
+                    case "rawPork" -> inventoryImg[i][j].setImage(rawPorkInv);
+                    case "furnace" -> inventoryImg[i][j].setImage(furnaceInv);
+                    case "stoneSword" -> inventoryImg[i][j].setImage(stoneSwordInv);
+                    case "rubySword" -> inventoryImg[i][j].setImage(rubySwordInv);
+                    case "goldSword" -> inventoryImg[i][j].setImage(goldSwordInv);
+                    case "diamondSword" -> inventoryImg[i][j].setImage(diamondSwordInv);
+                    case "stoneAxe" -> inventoryImg[i][j].setImage(stoneAxeInv);
+                    case "rubyAxe" -> inventoryImg[i][j].setImage(rubyAxeInv);
+                    case "goldAxe" -> inventoryImg[i][j].setImage(goldAxeInv);
+                    case "diamondAxe" -> inventoryImg[i][j].setImage(diamondAxeInv);
+                    case "stonePickaxe" -> inventoryImg[i][j].setImage(stonePickaxeInv);
+                    case "rubyPickaxe" -> inventoryImg[i][j].setImage(rubyPickaxeInv);
+                    case "goldPickaxe" -> inventoryImg[i][j].setImage(goldPickaxeInv);
+                    case "diamondPickaxe" -> inventoryImg[i][j].setImage(diamondPickaxeInv);
+                    case "woodHelmet" -> inventoryImg[i][j].setImage(woodHelmetInv);
+                    case "woodChestplate" -> inventoryImg[i][j].setImage(woodChestplateInv);
+                    case "woodLeggings" -> inventoryImg[i][j].setImage(woodLeggingsInv);
+                    case "woodBoots" -> inventoryImg[i][j].setImage(woodBootsInv);
+                    case "rubyHelmet" -> inventoryImg[i][j].setImage(rubyHelmetInv);
+                    case "rubyChestplate" -> inventoryImg[i][j].setImage(rubyChestplateInv);
+                    case "rubyLeggings" -> inventoryImg[i][j].setImage(rubyLeggingsInv);
+                    case "rubyBoots" -> inventoryImg[i][j].setImage(rubyBootsInv);
+                    case "goldHelmet" -> inventoryImg[i][j].setImage(goldHelmetInv);
+                    case "goldChestplate" -> inventoryImg[i][j].setImage(goldChestplateInv);
+                    case "goldLeggings" -> inventoryImg[i][j].setImage(goldLeggingsInv);
+                    case "goldBoots" -> inventoryImg[i][j].setImage(goldBootsInv);
+                    case "diamondHelmet" -> inventoryImg[i][j].setImage(diamondHelmetInv);
+                    case "diamondChestplate" -> inventoryImg[i][j].setImage(diamondChestplateInv);
+                    case "diamondLeggings" -> inventoryImg[i][j].setImage(diamondLeggingsInv);
+                    case "diamondBoots" -> inventoryImg[i][j].setImage(diamondBootsInv);
+                    case "rottenFlesh" -> inventoryImg[i][j].setImage(rottenFlesh);
+                    case "rubyOre" -> inventoryImg[i][j].setImage(rubyOreInv);
+                    case "coal" -> inventoryImg[i][j].setImage(coalInv);
+                    case "goldOre" -> inventoryImg[i][j].setImage(goldOreInv);
+                    case "cookedBeef" -> inventoryImg[i][j].setImage(cookedBeefInv);
+                    case "cookedPork" -> inventoryImg[i][j].setImage(cookedPorkInv);
+                    case "cookedMutton" -> inventoryImg[i][j].setImage(cookedMuttonInv);
+                    case "torch" -> inventoryImg[i][j].setImage(torchInv);
+                    case "flint" -> inventoryImg[i][j].setImage(flintInv);
+                    case "bossSoul" -> inventoryImg[i][j].setImage(bossSoulInv);
+                    case "obsidian" -> inventoryImg[i][j].setImage(obsidianInv);
+                    case "drill" -> inventoryImg[i][j].setImage(drillInv);
 
 
 
-                else if(inventoryA[i][j].getName().equals("empty")){
-                    inventoryImg[i][j].setImage(grayBack);
+                    case "empty" -> inventoryImg[i][j].setImage(grayBack);
                 }
             }
         }
@@ -2387,17 +2364,24 @@ public class HelloController {
                         }
                     }
 
-                    inventoryImg[1][9].setImage(grayBack);
-                    inventoryImg[1][10].setImage(grayBack);
                     inventoryImg[4][9].setImage(grayBack);
                     inventoryImg[4][7].setImage(grayBack);
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
                     inventoryImg[2][11].setImage(blackBack);
+                    inventoryImg[1][11].setImage(blackBack);
 
-                    inventoryA[1][9] = new inventoryItems("empty");
-                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryImg[1][9].setOpacity(1);
+                    inventoryImg[1][10].setOpacity(1);
+                    inventoryImg[1][11].setOpacity(1);
+
                     inventoryA[4][9] = new inventoryItems("empty");
                     inventoryA[4][7] = new inventoryItems("empty");
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
                     inventoryA[2][11] = new inventoryItems("nothing");
+                    inventoryA[1][11] = new inventoryItems("nothing");
+
 
                 }else{
                     gPane.setVisible(false);
@@ -2418,17 +2402,47 @@ public class HelloController {
                         }
                     }
 
-                    inventoryImg[1][9].setImage(blackBack);
-                    inventoryImg[1][10].setImage(blackBack);
                     inventoryImg[4][9].setImage(blackBack);
                     inventoryImg[4][7].setImage(blackBack);
                     inventoryImg[2][11].setImage(grayBack);
+                    inventoryImg[1][11].setImage(grayBack);
 
-                    inventoryA[1][9] = new inventoryItems("nothing");
-                    inventoryA[1][10] = new inventoryItems("nothing");
+
                     inventoryA[4][9] = new inventoryItems("nothing");
                     inventoryA[4][7] = new inventoryItems("nothing");
                     inventoryA[2][11] = new inventoryItems("empty");
+                    inventoryA[1][11] = new inventoryItems("empty");
+
+                    Villagers tempVillager = null;
+                    for(Villagers villager: villagersOnMap){
+                        if(villager.getX()==playerPositionX+directionChange&&villager.getY()==playerPositionY){
+                            tempVillager = villager;
+                        }
+                    }
+                    assert tempVillager != null;
+                    for (int i = 0; i < 3; i++) {
+                        if(i<2||tempVillager.getTrades().size()>2){
+                            switch (tempVillager.getTrades().get(i)) {
+                                case "flint" -> inventoryImg[1][i + 9].setImage(flintInv);
+                                case "obsidian" -> inventoryImg[1][i + 9].setImage(obsidianInv);
+                                case "drill" -> inventoryImg[1][i + 9].setImage(drillInv);
+                                case "bossSoul" -> inventoryImg[1][i + 9].setImage(bossSoulInv);
+                                case "goldHelmet" -> inventoryImg[1][i + 9].setImage(goldHelmetInv);
+                                case "rubyAxe" -> inventoryImg[1][i + 9].setImage(rubyAxeInv);
+                                case "stoneSword" -> inventoryImg[1][i + 9].setImage(stoneSwordInv);
+                                case "ruby" -> inventoryImg[1][i + 9].setImage(rubyInv);
+                                case "apple" -> inventoryImg[1][i + 9].setImage(appleInv);
+                                case "woodBoots" -> inventoryImg[1][i + 9].setImage(woodBootsInv);
+                                case "rubyChestplate" -> inventoryImg[1][i + 9].setImage(rubyChestplateInv);
+                                case "diamondLeggings" -> inventoryImg[1][i + 9].setImage(diamondLeggingsInv);
+                                case "goldSword" -> inventoryImg[1][i + 9].setImage(goldSwordInv);
+                                case "rawPork" -> inventoryImg[1][i + 9].setImage(rawPorkInv);
+                                case "cookedBeef" -> inventoryImg[1][i + 9].setImage(cookedBeefInv);
+                            }
+                            inventoryA[1][i+9] = new inventoryItems("trade");
+                            inventoryImg[1][i+9].setOpacity(.7);
+                        }
+                    }
                 }
             }
 
@@ -2595,17 +2609,23 @@ public class HelloController {
                         }
                     }
 
-                    inventoryImg[1][9].setImage(grayBack);
-                    inventoryImg[1][10].setImage(grayBack);
                     inventoryImg[4][9].setImage(grayBack);
                     inventoryImg[4][7].setImage(grayBack);
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
                     inventoryImg[2][11].setImage(blackBack);
+                    inventoryImg[1][11].setImage(blackBack);
 
-                    inventoryA[1][9] = new inventoryItems("empty");
-                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryImg[1][9].setOpacity(1);
+                    inventoryImg[1][10].setOpacity(1);
+                    inventoryImg[1][11].setOpacity(1);
+
                     inventoryA[4][9] = new inventoryItems("empty");
                     inventoryA[4][7] = new inventoryItems("empty");
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
                     inventoryA[2][11] = new inventoryItems("nothing");
+                    inventoryA[1][11] = new inventoryItems("nothing");
 
                 }else{
                     gPane.setVisible(false);
@@ -2627,17 +2647,47 @@ public class HelloController {
                     }
 
 
-                    inventoryImg[1][9].setImage(blackBack);
-                    inventoryImg[1][10].setImage(blackBack);
                     inventoryImg[4][9].setImage(blackBack);
                     inventoryImg[4][7].setImage(blackBack);
                     inventoryImg[2][11].setImage(grayBack);
+                    inventoryImg[1][11].setImage(grayBack);
 
-                    inventoryA[1][9] = new inventoryItems("nothing");
-                    inventoryA[1][10] = new inventoryItems("nothing");
+
                     inventoryA[4][9] = new inventoryItems("nothing");
                     inventoryA[4][7] = new inventoryItems("nothing");
                     inventoryA[2][11] = new inventoryItems("empty");
+                    inventoryA[1][11] = new inventoryItems("empty");
+
+                    Villagers tempVillager = null;
+                    for(Villagers villager: villagersOnMap){
+                        if(villager.getX()==playerPositionX&&villager.getY()==playerPositionY+directionChange){
+                            tempVillager = villager;
+                        }
+                    }
+                    assert tempVillager != null;
+                    for (int i = 0; i < 3; i++) {
+                        if(i<2||tempVillager.getTrades().size()>2) {
+                            switch (tempVillager.getTrades().get(i)) {
+                                case "flint" -> inventoryImg[1][i + 9].setImage(flintInv);
+                                case "obsidian" -> inventoryImg[1][i + 9].setImage(obsidianInv);
+                                case "drill" -> inventoryImg[1][i + 9].setImage(drillInv);
+                                case "bossSoul" -> inventoryImg[1][i + 9].setImage(bossSoulInv);
+                                case "goldHelmet" -> inventoryImg[1][i + 9].setImage(goldHelmetInv);
+                                case "rubyAxe" -> inventoryImg[1][i + 9].setImage(rubyAxeInv);
+                                case "stoneSword" -> inventoryImg[1][i + 9].setImage(stoneSwordInv);
+                                case "ruby" -> inventoryImg[1][i + 9].setImage(rubyInv);
+                                case "apple" -> inventoryImg[1][i + 9].setImage(appleInv);
+                                case "woodBoots" -> inventoryImg[1][i + 9].setImage(woodBootsInv);
+                                case "rubyChestplate" -> inventoryImg[1][i + 9].setImage(rubyChestplateInv);
+                                case "diamondLeggings" -> inventoryImg[1][i + 9].setImage(diamondLeggingsInv);
+                                case "goldSword" -> inventoryImg[1][i + 9].setImage(goldSwordInv);
+                                case "rawPork" -> inventoryImg[1][i + 9].setImage(rawPorkInv);
+                                case "cookedBeef" -> inventoryImg[1][i + 9].setImage(cookedBeefInv);
+                            }
+                            inventoryA[1][i + 9] = new inventoryItems("trade");
+                            inventoryImg[1][i + 9].setOpacity(.7);
+                        }
+                    }
                 }
             }
         }
@@ -3220,7 +3270,8 @@ public class HelloController {
             @Override
             public void handle(long now) {
                     //3,7 is fuel        1,7 is smelted        2,9 is result
-                fuelBar.setProgress(amountToBurn*1000000000.0/(double) ((now-burningTime)*10));
+
+                    fuelBar.setProgress(amountToBurn*1000000000.0/(double) ((now-burningTime)*10));
                 smeltingBar.setProgress(amountToSmelt*1000000000.0/(double) ((now-smeltingTime)*10));
                     if((inventoryA[3][7].getName().equals("coal")||inventoryA[3][7].getName().equals("autumnWood")||inventoryA[3][7].getName().equals("fruitWood")||inventoryA[3][7].getName().equals("normalWood")||inventoryA[3][7].getName().equals("stick"))&&(inventoryA[1][7].getName().equals("goldOre")||inventoryA[1][7].getName().equals("rubyOre")||inventoryA[1][7].getName().equals("rawPork")||inventoryA[1][7].getName().equals("rawBeef")||inventoryA[1][7].getName().equals("rawMutton"))){
                         if(!burningFuel){
@@ -3598,7 +3649,9 @@ public class HelloController {
                                             healthBar.setProgress(tempHealth / totalHealth);
                                             playerHit = true;
                                             playerHitTime = System.nanoTime();
-                                            hitScreenImg.setVisible(true);
+                                            if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                                hitScreenImg.setVisible(true);
+                                            }
                                         }
                                     }else{
                                         if (mobs.changeLoc(mapCave, mapBackgroundCave, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
@@ -3606,7 +3659,9 @@ public class HelloController {
                                             healthBar.setProgress(tempHealth / totalHealth);
                                             playerHit = true;
                                             playerHitTime = System.nanoTime();
-                                            hitScreenImg.setVisible(true);
+                                            if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                                hitScreenImg.setVisible(true);
+                                            }
                                         }
                                     }
                                     mobs.resetStartTime();
@@ -3683,7 +3738,9 @@ public class HelloController {
                                         healthBar.setProgress(tempHealth / totalHealth);
                                         playerHit = true;
                                         playerHitTime = System.nanoTime();
-                                        hitScreenImg.setVisible(true);
+                                        if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                            hitScreenImg.setVisible(true);
+                                        }
                                     }
                                 }else{
                                     if (creeperL.changeLoc(mapCave, mapBackgroundCave, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
@@ -3691,7 +3748,9 @@ public class HelloController {
                                         healthBar.setProgress(tempHealth / totalHealth);
                                         playerHit = true;
                                         playerHitTime = System.nanoTime();
-                                        hitScreenImg.setVisible(true);
+                                        if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                            hitScreenImg.setVisible(true);
+                                        }
                                     }
                                 }
                                 creeperL.resetStartTime();
@@ -3744,6 +3803,14 @@ public class HelloController {
                         }
                     }
                 }
+
+
+                for (int i = 0; i < mapNightS.length; i++) {
+                    for (int j = 0; j < mapNightS[0].length; j++) {
+                        nightPane.setVisible(!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing);
+                    }
+                }
+
 
                 if(tempHealth<=0){
                     deathScreenImg.setImage(deathScreen);
@@ -4146,7 +4213,7 @@ public class HelloController {
                                 }
                             }
                         }
-                        
+
                         for(Creepers creeper: creepersOnMap){
                             if (creeper.getX() == playerPositionX + directionChange && creeper.getY() == playerPositionY) {
                                 creeper.changeAttacked(true);

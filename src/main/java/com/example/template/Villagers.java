@@ -2,6 +2,9 @@ package com.example.template;
 
 import javafx.animation.AnimationTimer;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Villagers {
     private inventoryItems resourceDrop;
     String name;
@@ -12,6 +15,8 @@ public class Villagers {
 
     double movementTime;
     String biome;
+
+    private ArrayList<String> trades = new ArrayList<>();
 
     public Villagers(String name, int health, double movementTime, int x, int y, String biome) {
         this.name = name;
@@ -24,6 +29,16 @@ public class Villagers {
 
     }
 
+    public ArrayList<String> getTrades() {
+        return trades;
+    }
+    public void addTrades(String trade){
+        trades.add(trade);
+    }
+
+    public String getBiome() {
+        return biome;
+    }
 
     public double getMovementTime() {
         return movementTime;
