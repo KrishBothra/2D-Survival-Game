@@ -21,7 +21,7 @@
       <GridPane fx:id="gPane" layoutX="25.0" layoutY="25.0" />
       <ImageView fx:id="arrowImg" fitHeight="150.0" fitWidth="200.0" layoutX="1698.0" layoutY="910.0" pickOnBounds="true" preserveRatio="true" />
 
-      <GridPane fx:id="nightPane" layoutX="25.0" layoutY="25.0" opacity="0.5" />
+      <GridPane fx:id="nightPane" layoutX="25.0" layoutY="25.0" opacity="1" />
       <ImageView fx:id="hitScreenImg" fitHeight="1000.0" fitWidth="1640.0" layoutX="25.0" layoutY="25.0" opacity="0.35" visible="false" />
 
 
