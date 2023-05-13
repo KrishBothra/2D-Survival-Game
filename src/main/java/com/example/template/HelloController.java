@@ -174,7 +174,7 @@ public class HelloController {
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
             ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
-            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann;
+            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann,flintAndSteelInvv,netherPortalImgg;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -183,7 +183,7 @@ public class HelloController {
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
             ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX, obsidian, obsidianInv
-            , drillInv, flintInv, bossSoulInv;
+            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -325,7 +325,12 @@ public class HelloController {
             bossSoullInv = new FileInputStream("src/main/resources/InventoryItems/soul.png");
             drilllInv = new FileInputStream("src/main/resources/InventoryItems/drill.png");
             obsidiann = new FileInputStream("src/main/resources/obsidian.jpg");
+            flintAndSteelInvv = new FileInputStream("src/main/resources/InventoryItems/flintAndSteelInv.png");
+            netherPortalImgg = new FileInputStream("src/main/resources/netherPortalImg.png");
 
+
+            flintAndSteelInv = new Image(flintAndSteelInvv);
+            netherPortalImg = new Image(netherPortalImgg);
             stoneWX = new Image(stoneWXX);
             torchOverStone = new Image(torchOverStonee);
             torchOverGrass = new Image(torchOverGrasss);
@@ -813,9 +818,11 @@ public class HelloController {
         inventoryA[3][2].setAmount(99);
         inventoryA[4][4] = new Resources("furnace", "pickaxe");
         inventoryA[4][4].setAmount(99);
-        inventoryA[4][5] = new inventoryItems("goldOre");
+        inventoryA[4][5] = new Resources("goldOre","pickaxe");
         inventoryA[4][5].setAmount(99);
-
+        inventoryA[3][5] = new inventoryItems("drill");
+        inventoryA[2][5] = new Resources("obsidian","pickaxe");
+        inventoryA[2][5].setAmount(99);
 
         otherTrades.add("goldHelmet");
         otherTrades.add("woodChestplate");
@@ -876,8 +883,8 @@ public class HelloController {
         updateScreen();
         start();
         //for the change
-        mapCave[playerPositionX][playerPositionY] = "playerOverStone";
-        inCave = true;
+//        mapCave[playerPositionX][playerPositionY] = "playerOverStone";
+//        inCave = true;
 
     }
 
@@ -972,6 +979,8 @@ public class HelloController {
                             img[i][j].setImage(villager);
                         } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("obsidian")) {
                             img[i][j].setImage(obsidian);
+                        } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("netherPortal")) {
+                            img[i][j].setImage(netherPortalImg);
                         }
 
                         if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
@@ -1062,6 +1071,8 @@ public class HelloController {
                             img[i][j].setImage(stoneWX);
                         }else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("obsidian")) {
                             img[i][j].setImage(obsidian);
+                        }else if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("netherPortal")) {
+                            img[i][j].setImage(netherPortalImg);
                         }
 
                         if (mapNightCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("light")) {
@@ -1164,6 +1175,8 @@ public class HelloController {
                             img[i][j].setImage(villager); //steve
                         }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("obsidian")) {
                             img[i][j].setImage(obsidian); //steve
+                        }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("netherPortal")) {
+                            img[i][j].setImage(netherPortalImg); //steve
                         }
 
                         if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("light")) {
@@ -1264,6 +1277,8 @@ public class HelloController {
                             img[i][j].setImage(stoneWX); //steve
                         }else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("obsidian")) {
                             img[i][j].setImage(obsidian); //steve
+                        }else if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("netherPortal")) {
+                            img[i][j].setImage(netherPortalImg); //steve
                         }
 
 
@@ -1434,6 +1449,7 @@ public class HelloController {
                 case "obsidian" -> hotbarImg[i][0].setImage(obsidianInv);
                 case "drill" -> hotbarImg[i][0].setImage(drillInv);
                 case "bossSoul" -> hotbarImg[i][0].setImage(bossSoulInv);
+                case "flintAndSteel" -> hotbarImg[i][0].setImage(flintAndSteelInv);
 
 
                 case "empty" -> hotbarImg[i][0].setImage(grayBack);
@@ -1504,6 +1520,7 @@ public class HelloController {
                     case "bossSoul" -> inventoryImg[i][j].setImage(bossSoulInv);
                     case "obsidian" -> inventoryImg[i][j].setImage(obsidianInv);
                     case "drill" -> inventoryImg[i][j].setImage(drillInv);
+                    case "flintAndSteel" -> inventoryImg[i][j].setImage(flintAndSteelInv);
 
 
 
@@ -4027,7 +4044,7 @@ public class HelloController {
                 case "furnace":
                 case "coalOre":
                 case "torch":
-
+                case "obsidian":
 
 
                     miningObject = true;
@@ -4063,8 +4080,8 @@ public class HelloController {
                         String type;
 
                         if (equipped.getType().equals("pickaxe")) {
-                                mineTime = (int) (Math.random() * 6) + 10;
-                                type = "pickaxe";
+                               mineTime = (int) (Math.random() * 6) + 10;
+                               type = "pickaxe";
                             } else {
                             mineTime = (int) (Math.random() * 5) + 5;
                             type = "axe";
@@ -4087,6 +4104,40 @@ public class HelloController {
                         eatingFood = true;
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
+                    }else if(equipped.getName().equals("flintAndSteel")){
+                        int row = playerPositionX + directionChange;
+                        int col = playerPositionY;
+                        System.out.println("hey");
+                        if(map[row][col-1].equals("obsidian")&&map[row][col+1].equals("obsidian")&&map[row-1][col+1].equals("obsidian")&&map[row-1][col-1].equals("obsidian")&&map[row-1][col].equals("obsidian")){
+                            //UP
+                            map[row][col] = "netherPortal";
+
+                        }else if(map[row][col-1].equals("obsidian")&&map[row][col+1].equals("obsidian")&&map[row+1][col+1].equals("obsidian")&&map[row+1][col-1].equals("obsidian")&&map[row+1][col].equals("obsidian")){
+                            //DOWN
+                            map[row][col] = "netherPortal";
+
+                        }
+
+
+
+                    }else if (equipped.getName().equals("drill")) {
+                        if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
+                            map[playerPositionX][playerPositionY] = "grass";
+                        } else {
+                            map[playerPositionX][playerPositionY] = "stone";
+                        }
+                        while (true) {
+                            System.out.println("1");
+                            int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                            int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+                            if (mapCave[ranX][ranY].equals("stone")) {
+                                mapCave[ranX][ranY] = "playerOverStone";
+                                playerPositionY = ranY;
+                                playerPositionX = ranX;
+                                break;
+                            }
+                        }
+                        inCave = true;
                     }
                     break;
                 case "sheep","cow","pig","villager":
@@ -4305,7 +4356,7 @@ public class HelloController {
                 case "furnace":
                 case "coalOre":
                 case "torch":
-
+                case "obsidian":
 
 
 
@@ -4363,6 +4414,38 @@ public class HelloController {
                         eatingFood = true;
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
+                    }else if (equipped.getName().equals("flintAndSteel")){
+                        int row = playerPositionX;
+                        int col = playerPositionY + directionChange;
+
+
+                        if(map[row+1][col].equals("obsidian")&&map[row][col+1].equals("obsidian")&&map[row-1][col+1].equals("obsidian")&&map[row+1][col+1].equals("obsidian")&&map[row-1][col].equals("obsidian")){
+                            //RIGHT
+                            map[row][col] = "netherPortal";
+
+                        }else if(map[row+1][col].equals("obsidian")&&map[row][col-1].equals("obsidian")&&map[row-1][col-1].equals("obsidian")&&map[row+1][col-1].equals("obsidian")&&map[row-1][col].equals("obsidian")){
+                            //left
+                            map[row][col] = "netherPortal";
+
+                        }
+                    } else if (equipped.getName().equals("drill")) {
+                        if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
+                            map[playerPositionX][playerPositionY] = "grass";
+                        } else {
+                            map[playerPositionX][playerPositionY] = "stone";
+                        }
+                        while (true) {
+                           System.out.println("1");
+                           int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                           int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+                           if (mapCave[ranX][ranY].equals("stone")) {
+                               mapCave[ranX][ranY] = "playerOverStone";
+                               playerPositionY = ranY;
+                               playerPositionX = ranX;
+                               break;
+                           }
+                        }
+                        inCave = true;
                     }
                     break;
                 case "sheep","cow","pig", "villager":
@@ -4592,7 +4675,7 @@ public class HelloController {
                 case "furnace":
                 case "coalOre":
                 case "torch":
-
+                case "obsidian":
 
 
                     miningObject = true;
@@ -4652,6 +4735,25 @@ public class HelloController {
                         eatingFood = true;
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
+                    }else if (equipped.getName().equals("drill")) {
+                        mapCave[playerPositionX][playerPositionY] = "stone";
+                        while (true) {
+                            System.out.println("1");
+                            int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                            int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+                            if (map[ranX][ranY].equals("grass")) {
+                                map[ranX][ranY] = "playerOverGrass";
+                                playerPositionY = ranY;
+                                playerPositionX = ranX;
+                                break;
+                            }else if (map[ranX][ranY].equals("stone")) {
+                                map[ranX][ranY] = "playerOverStone";
+                                playerPositionY = ranY;
+                                playerPositionX = ranX;
+                                break;
+                            }
+                        }
+                        inCave = false;
                     }
                     break;
                 case "sheep","cow","pig","villager":
@@ -4870,7 +4972,7 @@ public class HelloController {
                 case "furnace":
                 case "coalOre":
                 case "torch":
-
+                case "obsidian":
 
 
 
@@ -4928,6 +5030,25 @@ public class HelloController {
                         eatingFood = true;
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
+                    } else if (equipped.getName().equals("drill")) {
+                        mapCave[playerPositionX][playerPositionY] = "stone";
+                        while (true) {
+                            System.out.println("1");
+                            int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                            int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+                            if (map[ranX][ranY].equals("grass")) {
+                                map[ranX][ranY] = "playerOverGrass";
+                                playerPositionY = ranY;
+                                playerPositionX = ranX;
+                                break;
+                            }else if (map[ranX][ranY].equals("stone")) {
+                                map[ranX][ranY] = "playerOverStone";
+                                playerPositionY = ranY;
+                                playerPositionX = ranX;
+                                break;
+                            }
+                        }
+                        inCave = false;
                     }
                     break;
                 case "sheep","cow","pig", "villager":
