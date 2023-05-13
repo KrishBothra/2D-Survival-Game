@@ -538,26 +538,13 @@ public class HelloController {
             {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
-
-                if(t.getButton().equals(MouseButton.PRIMARY)&&!clickedS) {
-                    if (invSelectedCol != -1 && invSelectedRow != -1) {
-                        System.out.println("hey");
-                        if (inventoryA[row][col].getName().equals("empty")) {
-                            if(inventoryImg[row][col].getImage().equals(grayBack)) {
-                                if(furnaceShowing||tradingShowing){
-                                    System.out.println("hey2");
-                                    inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
-                                    inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                                    invSelectedCol = -1;
-                                    invSelectedRow = -1;
-                                    updateScreen();
-                                    clickedP = false;
-                                }
-                                else if(row==1&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Helmet")||
-                                        row==2&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Chestplate")||
-                                        row==3&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Leggings")||
-                                        row==4&&col==7&&inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Boots")||col!=7) {
-                                    if(row!=4||col!=7) {
+                if(!tradingShowing||(row!=1||(col!=9&&col!=10&&col!=11))) {
+                    if (t.getButton().equals(MouseButton.PRIMARY) && !clickedS) {
+                        if (invSelectedCol != -1 && invSelectedRow != -1) {
+                            System.out.println("hey");
+                            if (inventoryA[row][col].getName().equals("empty")||inventoryA[row][col].getName().equals("trade")) {
+                                if (inventoryImg[row][col].getImage().equals(grayBack)) {
+                                    if (furnaceShowing || tradingShowing) {
                                         System.out.println("hey2");
                                         inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
                                         inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
@@ -565,52 +552,64 @@ public class HelloController {
                                         invSelectedRow = -1;
                                         updateScreen();
                                         clickedP = false;
+                                    } else if (row == 1 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Helmet") ||
+                                            row == 2 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Chestplate") ||
+                                            row == 3 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Leggings") ||
+                                            row == 4 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Boots") || col != 7) {
+                                        if (row != 4 || col != 7) {
+                                            System.out.println("hey2");
+                                            inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
+                                            inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                            invSelectedCol = -1;
+                                            invSelectedRow = -1;
+                                            updateScreen();
+                                            clickedP = false;
+                                        }
                                     }
                                 }
+                            } else if (inventoryA[row][col].getName().equals(inventoryA[invSelectedRow][invSelectedCol].getName())) {
+                                if (row != invSelectedRow || col != invSelectedCol) {
+                                    System.out.println("hey5");
+                                    inventoryA[row][col].changeAmount(inventoryA[invSelectedRow][invSelectedCol].getAmount());
+                                    inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
+                                    invSelectedCol = -1;
+                                    invSelectedRow = -1;
+                                    updateScreen();
+                                }
                             }
-                        } else if (inventoryA[row][col].getName().equals(inventoryA[invSelectedRow][invSelectedCol].getName())) {
-                            if(row!=invSelectedRow||col!=invSelectedCol) {
-                                System.out.println("hey5");
-                                inventoryA[row][col].changeAmount(inventoryA[invSelectedRow][invSelectedCol].getAmount());
-                                inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
-                                invSelectedCol = -1;
-                                invSelectedRow = -1;
-                                updateScreen();
-                            }
-                        }
-                    } else if (!inventoryA[row][col].getName().equals("empty")&&!inventoryA[row][col].getName().equals("nothing")) {
-                        System.out.println("hey3");
-                        invSelectedRow = row;
-                        invSelectedCol = col;
-                        clickedP = true;
-                        System.out.println(inventoryA[row][col].getAmount());
-                    }
-                }else if(t.getButton().equals(MouseButton.SECONDARY)&&!clickedP){
-                    if (invSelectedCol != -1 && invSelectedRow != -1) {
-                        System.out.println("hey");
-                        if (inventoryA[row][col].getName().equals("empty")) {
-                            if(inventoryImg[row][col].getImage().equals(grayBack)) {
-                                System.out.println("hey2");
-                                inventoryA[row][col] = new inventoryItems(inventoryA[invSelectedRow][invSelectedCol].getName(), amountChange);
-                                inventoryA[invSelectedRow][invSelectedCol].changeAmount(-(amountChange));
-                                invSelectedCol = -1;
-                                invSelectedRow = -1;
-                                updateScreen();
-                                clickedS = false;
-                            }
-                        }
-                    } else if (!inventoryA[row][col].getName().equals("empty")&&!inventoryA[row][col].getName().equals("nothing")) {
-                        if(inventoryA[row][col].getAmount()>1){
-                            amountChange = inventoryA[row][col].getAmount()/2;
+                        } else if (!inventoryA[row][col].getName().equals("empty") && !inventoryA[row][col].getName().equals("nothing")) {
                             System.out.println("hey3");
                             invSelectedRow = row;
                             invSelectedCol = col;
-                            clickedS = true;
+                            clickedP = true;
+                            System.out.println(inventoryA[row][col].getAmount());
                         }
+                    } else if (t.getButton().equals(MouseButton.SECONDARY) && !clickedP) {
+                        if (invSelectedCol != -1 && invSelectedRow != -1) {
+                            System.out.println("hey");
+                            if (inventoryA[row][col].getName().equals("empty")) {
+                                if (inventoryImg[row][col].getImage().equals(grayBack)) {
+                                    System.out.println("hey2");
+                                    inventoryA[row][col] = new inventoryItems(inventoryA[invSelectedRow][invSelectedCol].getName(), amountChange);
+                                    inventoryA[invSelectedRow][invSelectedCol].changeAmount(-(amountChange));
+                                    invSelectedCol = -1;
+                                    invSelectedRow = -1;
+                                    updateScreen();
+                                    clickedS = false;
+                                }
+                            }
+                        } else if (!inventoryA[row][col].getName().equals("empty") && !inventoryA[row][col].getName().equals("nothing")) {
+                            if (inventoryA[row][col].getAmount() > 1) {
+                                amountChange = inventoryA[row][col].getAmount() / 2;
+                                System.out.println("hey3");
+                                invSelectedRow = row;
+                                invSelectedCol = col;
+                                clickedS = true;
+                            }
 
+                        }
                     }
                 }
-                System.out.println("THE THING IN TOP RIGHT" + inventoryA[1][5].getName());
 
                 if(!furnaceShowing){
                     checkCrafts();
@@ -641,12 +640,13 @@ public class HelloController {
                     }
                 }
 
-
                 if(tradingShowing){
                     if(row==1||(col==9||col==10||col==11)){
                         if(inventoryImg[row][col].getImage() == flintInv){
                             inventoryImg[2][9].setImage(rubyInv);
+                            inventoryA[2][9].setAmountNeeded(15);
                             inventoryImg[2][10].setImage(stickInv);
+                            inventoryA[2][10].setAmountNeeded(10);
                             inventoryImg[2][9].setOpacity(.3);
                             inventoryImg[2][10].setOpacity(.3);
                             inventoryA[2][9] = new inventoryItems("trade");
@@ -654,8 +654,23 @@ public class HelloController {
                         }
                     }
                 }
-            }
 
+                if(inventoryImg[1][7].getImage()==inventoryImg[2][9].getImage()&&inventoryA[1][7].getAmount()>=inventoryA[2][9].getAmountNeeded()){
+                    inventoryImg[2][9].setOpacity(1);
+                }else if(!(inventoryImg[2][9].getImage()==grayBack)){
+                    inventoryImg[2][9].setOpacity(.3);
+                }
+                if(inventoryImg[2][7].getImage()==inventoryImg[2][10].getImage()&&inventoryA[1][7].getAmount()>=inventoryA[2][10].getAmountNeeded()){
+                    inventoryImg[2][10].setOpacity(1);
+                }else if(!(inventoryImg[2][10].getImage()==grayBack)){
+                    inventoryImg[2][10].setOpacity(.3);
+                }
+                if(inventoryImg[3][7].getImage()==inventoryImg[2][11].getImage()&&inventoryA[1][7].getAmount()>=inventoryA[2][11].getAmountNeeded()){
+                    inventoryImg[2][11].setOpacity(1);
+                }else if(!(inventoryImg[2][11].getImage()==grayBack)){
+                    inventoryImg[2][11].setOpacity(.3);
+                }
+            }
         };
 
         for(int i=0; i<inventoryImg.length; i++){
@@ -667,7 +682,6 @@ public class HelloController {
         for (int i = 0; i < inventoryImg.length; i++) {
             for (int j = 0; j < inventoryImg[0].length; j++) {
                 inventoryImg[i][j].setImage(blackBack);
-
             }
         }
 
@@ -813,7 +827,7 @@ public class HelloController {
         inventoryA[3][2].setAmount(99);
         inventoryA[4][4] = new Resources("furnace", "pickaxe");
         inventoryA[4][4].setAmount(99);
-        inventoryA[4][5] = new inventoryItems("goldOre");
+        inventoryA[4][5] = new Food("cookedBeef", 25);
         inventoryA[4][5].setAmount(99);
 
 
@@ -870,8 +884,6 @@ public class HelloController {
                 }
             }
         }
-
-
 
         updateScreen();
         start();
