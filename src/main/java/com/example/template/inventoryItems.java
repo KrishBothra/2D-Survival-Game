@@ -19,6 +19,8 @@ public class inventoryItems {
 
     String type;
 
+    private int amountNeeded;
+
     boolean placeable = false;
 
     public inventoryItems(String name){
@@ -78,6 +80,14 @@ public class inventoryItems {
 
     public void changeAmount(int amountS) {
         this.amount += amountS;
+    }
+
+    public void setAmountNeeded(int amount){
+        amountNeeded = amount;
+    }
+
+    public int getAmountNeeded(){
+        return amountNeeded;
     }
 
     public int getDamage() {
