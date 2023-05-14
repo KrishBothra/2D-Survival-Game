@@ -146,7 +146,10 @@ public class HelloController {
     int playerPositionY = 163;//-1
 
     double totalHealth = 100;
+    int tradeSelectedIndex;
     double tempHealth = 15;
+
+    String typeTradeSelected;
 
     double totalHunger = 100;
     double tempHunger = 65;
@@ -685,6 +688,17 @@ public class HelloController {
                             inventoryImg[2][10].setOpacity(.3);
                             inventoryA[2][9] = new inventoryItems("trade");
                             inventoryA[2][10] = new inventoryItems("trade");
+                            typeTradeSelected = "inventoryItems";
+                            tradeSelected = "flint";
+                            if(col==9){
+                                tradeSelectedIndex=1;
+                            }
+                            if(col==10){
+                                tradeSelectedIndex=2;
+                            }
+                            if(col==11){
+                                tradeSelectedIndex=3;
+                            }
                         }
                     }
                 }
@@ -703,6 +717,25 @@ public class HelloController {
                     inventoryImg[2][11].setOpacity(1);
                 }else if(!(inventoryImg[2][11].getImage()==grayBack)){
                     inventoryImg[2][11].setOpacity(.3);
+                }
+
+                if(inventoryImg[2][9].getOpacity()==1&&inventoryImg[2][10].getOpacity()==1&&inventoryImg[2][11].getOpacity()==1){
+                    if(tradeSelectedIndex==1){
+                        if(typeTradeSelected.equals("inventoryItems")) {
+                            inventoryA[1][9] = new inventoryItems(tradeSelected);
+                        }
+                        inventoryImg[1][9].setOpacity(1);
+                    } else if(tradeSelectedIndex==2){
+                        if(typeTradeSelected.equals("inventoryItems")) {
+                            inventoryA[1][10] = new inventoryItems(tradeSelected);
+                        }
+                        inventoryImg[1][10].setOpacity(1);
+                    }else if(tradeSelectedIndex==3){
+                        if(typeTradeSelected.equals("inventoryItems")) {
+                            inventoryA[1][11] = new inventoryItems(tradeSelected);
+                        }
+                        inventoryImg[1][11].setOpacity(1);
+                    }
                 }
             }
         };
