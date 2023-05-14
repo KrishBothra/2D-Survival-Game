@@ -94,6 +94,9 @@ public class HelloController {
     String[][] mapCave = new String[x * 8 + 1][y * 8 + 1]; //100 //164
 
     String[][] mapNether  = new String[x ][y ]; //100 //164
+
+    String[][] mapBackgroundNether  = new String[x ][y ]; //100 //164
+
     String[][] mapNightNether  = new String[x ][y ]; //100 //164
 
 
@@ -180,6 +183,10 @@ public class HelloController {
 
     long regenTime = System.nanoTime();
 
+    ArrayList<Wither> wither = new ArrayList<>();
+    long witherMoveTime;
+    long witherHeadMoveTime;
+
     int miningX;
     int miningY;
     mineObjects tempMine = null;
@@ -195,7 +202,7 @@ public class HelloController {
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
             ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
             ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann,flintAndSteelInvv,netherPortalImgg,netherrackk,playerOverNetherrackk
-            ,netherrackWXx,lavaa,playerInLavaa;
+            ,netherrackWXx,lavaa,playerInLavaa,witherHeadd,witherOverLavaa,witherOverNetherrackk;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -204,7 +211,7 @@ public class HelloController {
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
             ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX, obsidian, obsidianInv
-            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg,netherrack,playerOverNetherrack,netherrackWX,lava,playerInLava;
+            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg,netherrack,playerOverNetherrack,netherrackWX,lava,playerInLava,witherHeadI,witherOverLava,witherOverNetherrack;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -356,7 +363,13 @@ public class HelloController {
             netherrackWXx = new FileInputStream("src/main/resources/netherrackWX.png");
             lavaa = new FileInputStream("src/main/resources/lava.jpeg");
             playerInLavaa = new FileInputStream("src/main/resources/playerInLava.png");
+            witherHeadd = new FileInputStream("src/main/resources/witherHead.png");
+            witherOverLavaa = new FileInputStream("src/main/resources/witherOverLava.png");
+            witherOverNetherrackk = new FileInputStream("src/main/resources/witherOverNetherrack.png");
 
+            witherHeadI = new Image(witherHeadd);
+            witherOverLava = new Image(witherOverLavaa);
+            witherOverNetherrack = new Image(witherOverNetherrackk);
             lava = new Image(lavaa);
             playerInLava = new Image(playerInLavaa);
             netherrackWX = new Image(netherrackWXx);
@@ -815,6 +828,7 @@ public class HelloController {
         for (int i = 0; i < mapNether.length; i++) {
             for (int j = 0; j < mapNether[0].length; j++) {
                 mapNether[i][j] = "netherrack";
+                mapBackgroundNether[i][j] = "netherrack";
                 if (i == 0 || i == mapNether.length - 1 || j == 0 || j == mapNether[0].length - 1) {
                     mapNether[i][j] = "netherrackWX";
                 }
@@ -1085,6 +1099,12 @@ public class HelloController {
                             img[i][j].setImage(lava);
                         }else if (mapNether[i][j].equals("playerInLava")) {
                             img[i][j].setImage(playerInLava);
+                        }else if (mapNether[i][j].equals("witherOverNetherrack")) {
+                            img[i][j].setImage(witherOverNetherrack);
+                        }else if (mapNether[i][j].equals("witherOverLava")) {
+                            img[i][j].setImage(witherOverLava);
+                        }else if (mapNether[i][j].equals("witherHead")) {
+                            img[i][j].setImage(witherHeadI);
                         }
 
                         if (mapNightNether[i][j].equals("light")) {
@@ -1377,6 +1397,12 @@ public class HelloController {
                             img[i][j].setImage(lava);
                         }else if (mapNether[i][j].equals("playerInLava")) {
                             img[i][j].setImage(playerInLava);
+                        }else if (mapNether[i][j].equals("witherOverNetherrack")) {
+                            img[i][j].setImage(witherOverNetherrack);
+                        }else if (mapNether[i][j].equals("witherOverLava")) {
+                            img[i][j].setImage(witherOverLava);
+                        }else if (mapNether[i][j].equals("witherHead")) {
+                            img[i][j].setImage(witherHeadI);
                         }
 
                         if (mapNightNether[i][j].equals("light")) {
@@ -4028,7 +4054,7 @@ public class HelloController {
                 slot4.setVisible(false);
                 slot5.setVisible(true);
             }else if (keyEvent.getText().equalsIgnoreCase("6")) {
-                inCave = !inCave;
+                wither.add(new Wither("witherOverNetherrack",100,new inventoryItems("rottenFlesh"),3,10,10,15));
             }
 
 
@@ -4385,6 +4411,58 @@ public class HelloController {
                         }
                     }
                     updateScreen();
+                }
+                if(inNether) {
+                    if (wither.size() > 0) {
+                        for (Wither w : wither) {
+                            if (now - w.getStartTime() > 1000000000.0) {
+                                if (w.changeLoc(mapNether, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
+                                    tempHealth = w.getPlayerHealth();
+                                    healthBar.setProgress(tempHealth / totalHealth);
+                                    playerHit = true;
+                                    playerHitTime = System.nanoTime();
+                                    if (!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing) {
+                                        hitScreenImg.setVisible(true);
+                                    }
+                                    for (int i = 1; i <= 4; i++) {
+                                        inventoryA[i][7].changeDurability(-1);
+                                    }
+                                }
+                                w.resetStartTime();
+                            }
+                            if (w.getWitherHeads().size() > 0) {
+                                for (witherHead wHead : w.getWitherHeads()) {
+                                    if (now - wHead.getStartTime() > 1000000000.0 * 0.1) {
+                                        String witherHeadMove = wHead.changeLoc(mapNether, mapBackgroundNether, tempHealth, tempOverHealth);
+                                        if (witherHeadMove.equals("hit")) {
+                                            tempHealth = wHead.getPlayerHealth();
+                                            healthBar.setProgress(tempHealth / totalHealth);
+                                            playerHit = true;
+                                            playerHitTime = System.nanoTime();
+                                            if (!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing) {
+                                                hitScreenImg.setVisible(true);
+                                            }
+                                            for (int i = 1; i <= 4; i++) {
+                                                inventoryA[i][7].changeDurability(-1);
+                                            }
+                                            if (mapBackgroundNether[wHead.getX()][wHead.getY()].equals("netherrack")) {
+                                                mapNether[wHead.getX()][wHead.getY()] = "netherrack";
+                                            } else {
+                                                mapNether[wHead.getX()][wHead.getY()] = "lava";
+                                            }
+                                            w.getWitherHeads().remove(wHead);
+                                            break;
+                                        } else if (witherHeadMove.equals("stuck")) {
+                                            mapNether[wHead.getX()][wHead.getY()] = "netherrack";
+                                            w.getWitherHeads().remove(wHead);
+                                            break;
+                                        }
+                                        wHead.resetStartTime();
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
 
@@ -6500,6 +6578,7 @@ public class HelloController {
                 if(ranNum == 0){
                     if(mapNether[i][j].equals("netherrack")&&(i!=3||j!=2)) {
                         mapNether[i][j] = "lava";
+                        mapBackgroundNether[i][j] = "lava";
                     }
                 }
             }
