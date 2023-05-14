@@ -566,20 +566,66 @@ public class HelloController {
         }
 
 
+        for (int i = 0; i < inventoryImg.length; i++) {
+            for (int j = 0; j < inventoryImg[0].length; j++) {
+                inventoryImg[i][j].setImage(blackBack);
+            }
+        }
+
+        inventoryImg[1][7].setImage(grayBack);
+        inventoryImg[2][7].setImage(grayBack);
+        inventoryImg[3][7].setImage(grayBack);
+        inventoryImg[4][7].setImage(grayBack);
+
+        inventoryImg[1][9].setImage(grayBack);
+        inventoryImg[2][9].setImage(grayBack);
+        inventoryImg[1][10].setImage(grayBack);
+        inventoryImg[2][10].setImage(grayBack);
+
+
+        inventoryImg[4][9].setImage(grayBack);
+
+        for (int i = 1; i <=4 ; i++) {
+            for (int j = 1; j <=5 ; j++) {
+                inventoryImg[i][j].setImage(grayBack);
+            }
+        }
+
+
+//        inventoryImg[1][3].setImage(rubyInv);
+//        inventoryA[1][3] = new inventoryItems("ruby",1);
+
+        for (int i = 0; i < 5; i++) {
+            hotbarImg[i][0] = new ImageView();
+            hotbarImg[i][0].setImage(grayBack);
+            hotbarImg[i][0].setFitHeight(170);
+            hotbarImg[i][0].setFitWidth(170);
+            hotbarG.add(hotbarImg[i][0],0,i);
+        }
+        arrowImg.setImage(arrow);
+
+        for (int i = 0; i < img.length; i++) {
+            for (int j = 0; j < img[0].length; j++) {
+                img[i][j] = new ImageView();
+                img[i][j].setImage(grass);
+                img[i][j].setFitHeight(40);
+                img[i][j].setFitWidth(40);
+                gPane.add(img[i][j], j, i);
+            }
+        }
 
         EventHandler z = new EventHandler<MouseEvent>()
         {
 
             @Override
-            public void handle(MouseEvent t)
-            {
+            public void handle(MouseEvent t) {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
-                if(!tradingShowing||(row!=1||(col!=9&&col!=10&&col!=11))) {
+                if (!tradingShowing || (row != 1 || (col != 9 && col != 10 && col != 11))) {
                     if (t.getButton().equals(MouseButton.PRIMARY) && !clickedS) {
                         if (invSelectedCol != -1 && invSelectedRow != -1) {
                             System.out.println("hey");
-                            if (inventoryA[row][col].getName().equals("empty")||inventoryA[row][col].getName().equals("trade")) {
+                            if (inventoryA[row][col].getName().equals("empty") || inventoryA[row][col].getName().equals("trade")) {
                                 if (inventoryImg[row][col].getImage().equals(grayBack)) {
                                     if (furnaceShowing || tradingShowing) {
                                         System.out.println("hey2");
@@ -643,32 +689,31 @@ public class HelloController {
                                 invSelectedCol = col;
                                 clickedS = true;
                             }
-
                         }
                     }
                 }
 
-                if(!furnaceShowing){
+                if (!furnaceShowing) {
                     checkCrafts();
                 }
-                if(row==4&&col==9){
-                    if(!inventoryA[4][9].getName().equals("empty")){
-                        if(!craftingShowing){
+                if (row == 4 && col == 9) {
+                    if (!inventoryA[4][9].getName().equals("empty")) {
+                        if (!craftingShowing) {
                             for (int i = 1; i < 3; i++) {
                                 for (int j = 9; j < 11; j++) {
-                                    if(inventoryA[i][j].getAmount()>1){
-                                        inventoryA[i][j].setAmount(inventoryA[i][j].getAmount()-1);
-                                    }else{
+                                    if (inventoryA[i][j].getAmount() > 1) {
+                                        inventoryA[i][j].setAmount(inventoryA[i][j].getAmount() - 1);
+                                    } else {
                                         inventoryA[i][j] = new inventoryItems("empty");
                                     }
                                 }
                             }
-                        }else{
+                        } else {
                             for (int i = 0; i < 3; i++) {
                                 for (int j = 9; j < 12; j++) {
-                                    if(inventoryA[i][j].getAmount()>1){
-                                        inventoryA[i][j].setAmount(inventoryA[i][j].getAmount()-1);
-                                    }else{
+                                    if (inventoryA[i][j].getAmount() > 1) {
+                                        inventoryA[i][j].setAmount(inventoryA[i][j].getAmount() - 1);
+                                    } else {
                                         inventoryA[i][j] = new inventoryItems("empty");
                                     }
                                 }
@@ -677,9 +722,9 @@ public class HelloController {
                     }
                 }
 
-                if(tradingShowing){
-                    if(row==1||(col==9||col==10||col==11)){
-                        if(inventoryImg[row][col].getImage() == flintInv){
+                if (tradingShowing) {
+                    if (row == 1 || (col == 9 || col == 10 || col == 11)) {
+                        if (inventoryImg[row][col].getImage() == flintInv) {
                             inventoryImg[2][9].setImage(rubyInv);
                             inventoryA[2][9].setAmountNeeded(15);
                             inventoryImg[2][10].setImage(stickInv);
@@ -690,107 +735,61 @@ public class HelloController {
                             inventoryA[2][10] = new inventoryItems("trade");
                             typeTradeSelected = "inventoryItems";
                             tradeSelected = "flint";
-                            if(col==9){
-                                tradeSelectedIndex=1;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
                             }
-                            if(col==10){
-                                tradeSelectedIndex=2;
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
                             }
-                            if(col==11){
-                                tradeSelectedIndex=3;
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
                             }
                         }
                     }
-                }
 
-                if(inventoryImg[1][7].getImage()==inventoryImg[2][9].getImage()&&inventoryA[1][7].getAmount()>=inventoryA[2][9].getAmountNeeded()){
-                    inventoryImg[2][9].setOpacity(1);
-                }else if(!(inventoryImg[2][9].getImage()==grayBack)){
-                    inventoryImg[2][9].setOpacity(.3);
-                }
-                if(inventoryImg[2][7].getImage()==inventoryImg[2][10].getImage()&&inventoryA[1][7].getAmount()>=inventoryA[2][10].getAmountNeeded()){
-                    inventoryImg[2][10].setOpacity(1);
-                }else if(!(inventoryImg[2][10].getImage()==grayBack)){
-                    inventoryImg[2][10].setOpacity(.3);
-                }
-                if(inventoryImg[3][7].getImage()==inventoryImg[2][11].getImage()&&inventoryA[1][7].getAmount()>=inventoryA[2][11].getAmountNeeded()){
-                    inventoryImg[2][11].setOpacity(1);
-                }else if(!(inventoryImg[2][11].getImage()==grayBack)){
-                    inventoryImg[2][11].setOpacity(.3);
-                }
+                    if (inventoryImg[1][7].getImage() == inventoryImg[2][9].getImage() && inventoryA[1][7].getAmount() >= inventoryA[2][9].getAmountNeeded()) {
+                        inventoryImg[2][9].setOpacity(1);
+                    } else if (!(inventoryImg[2][9].getImage() == grayBack) && tradingShowing) {
+                        inventoryImg[2][9].setOpacity(.3);
+                    }
+                    if (inventoryImg[2][7].getImage() == inventoryImg[2][10].getImage() && inventoryA[1][7].getAmount() >= inventoryA[2][10].getAmountNeeded()) {
+                        inventoryImg[2][10].setOpacity(1);
+                    } else if (!(inventoryImg[2][10].getImage() == grayBack) && tradingShowing) {
+                        inventoryImg[2][10].setOpacity(.3);
+                    }
+                    if (inventoryImg[3][7].getImage() == inventoryImg[2][11].getImage() && inventoryA[1][7].getAmount() >= inventoryA[2][11].getAmountNeeded()) {
+                        inventoryImg[2][11].setOpacity(1);
+                    } else if (!(inventoryImg[2][11].getImage() == grayBack) && tradingShowing) {
+                        inventoryImg[2][11].setOpacity(.3);
+                    }
 
-                if(inventoryImg[2][9].getOpacity()==1&&inventoryImg[2][10].getOpacity()==1&&inventoryImg[2][11].getOpacity()==1){
-                    if(tradeSelectedIndex==1){
-                        if(typeTradeSelected.equals("inventoryItems")) {
-                            inventoryA[1][9] = new inventoryItems(tradeSelected);
+                    if (inventoryImg[2][9].getOpacity() == 1 && inventoryImg[2][10].getOpacity() == 1 && inventoryImg[2][11].getOpacity() == 1) {
+                        if (tradeSelectedIndex == 1) {
+                            if (typeTradeSelected.equals("inventoryItems")) {
+                                inventoryA[1][9] = new inventoryItems(tradeSelected);
+                                System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+                            }
+                            inventoryImg[1][9].setOpacity(1);
+                        } else if (tradeSelectedIndex == 2) {
+                            if (typeTradeSelected.equals("inventoryItems")) {
+                                inventoryA[1][10] = new inventoryItems(tradeSelected);
+                            }
+                            inventoryImg[1][10].setOpacity(1);
+                        } else if (tradeSelectedIndex == 3) {
+                            if (typeTradeSelected.equals("inventoryItems")) {
+                                inventoryA[1][11] = new inventoryItems(tradeSelected);
+                            }
+                            inventoryImg[1][11].setOpacity(1);
                         }
-                        inventoryImg[1][9].setOpacity(1);
-                    } else if(tradeSelectedIndex==2){
-                        if(typeTradeSelected.equals("inventoryItems")) {
-                            inventoryA[1][10] = new inventoryItems(tradeSelected);
-                        }
-                        inventoryImg[1][10].setOpacity(1);
-                    }else if(tradeSelectedIndex==3){
-                        if(typeTradeSelected.equals("inventoryItems")) {
-                            inventoryA[1][11] = new inventoryItems(tradeSelected);
-                        }
-                        inventoryImg[1][11].setOpacity(1);
                     }
                 }
             }
+
         };
 
         for(int i=0; i<inventoryImg.length; i++){
             for(int j=0; j<inventoryImg[0].length;j++){
                 inventoryImg[i][j].setOnMouseClicked(z);
-            }
-        }
-
-        for (int i = 0; i < inventoryImg.length; i++) {
-            for (int j = 0; j < inventoryImg[0].length; j++) {
-                inventoryImg[i][j].setImage(blackBack);
-            }
-        }
-
-        inventoryImg[1][7].setImage(grayBack);
-        inventoryImg[2][7].setImage(grayBack);
-        inventoryImg[3][7].setImage(grayBack);
-        inventoryImg[4][7].setImage(grayBack);
-
-        inventoryImg[1][9].setImage(grayBack);
-        inventoryImg[2][9].setImage(grayBack);
-        inventoryImg[1][10].setImage(grayBack);
-        inventoryImg[2][10].setImage(grayBack);
-
-
-        inventoryImg[4][9].setImage(grayBack);
-
-        for (int i = 1; i <=4 ; i++) {
-            for (int j = 1; j <=5 ; j++) {
-                inventoryImg[i][j].setImage(grayBack);
-            }
-        }
-
-
-//        inventoryImg[1][3].setImage(rubyInv);
-//        inventoryA[1][3] = new inventoryItems("ruby",1);
-
-        for (int i = 0; i < 5; i++) {
-            hotbarImg[i][0] = new ImageView();
-            hotbarImg[i][0].setImage(grayBack);
-            hotbarImg[i][0].setFitHeight(170);
-            hotbarImg[i][0].setFitWidth(170);
-            hotbarG.add(hotbarImg[i][0],0,i);
-        }
-        arrowImg.setImage(arrow);
-
-        for (int i = 0; i < img.length; i++) {
-            for (int j = 0; j < img[0].length; j++) {
-                img[i][j] = new ImageView();
-                img[i][j].setImage(grass);
-                img[i][j].setFitHeight(40);
-                img[i][j].setFitWidth(40);
-                gPane.add(img[i][j], j, i);
             }
         }
 
@@ -885,9 +884,7 @@ public class HelloController {
                 }else{
                     inventoryA[i][j] = new inventoryItems("nothing");
                 }
-
             }
-
         }
 
         inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
@@ -2608,7 +2605,6 @@ public class HelloController {
                 }
             }
 
-
             else if("furnace".equals(map[playerPositionX+directionChange][playerPositionY])){
                 if (inventoryShowing) {
                     gPane.setVisible(true);
@@ -2705,6 +2701,9 @@ public class HelloController {
                     inventoryImg[1][9].setOpacity(1);
                     inventoryImg[1][10].setOpacity(1);
                     inventoryImg[1][11].setOpacity(1);
+                    inventoryImg[2][9].setOpacity(1);
+                    inventoryImg[2][10].setOpacity(1);
+                    inventoryImg[2][11].setOpacity(1);
 
                     inventoryA[4][9] = new inventoryItems("empty");
                     inventoryA[4][7] = new inventoryItems("empty");
@@ -2712,6 +2711,8 @@ public class HelloController {
                     inventoryA[1][10] = new inventoryItems("empty");
                     inventoryA[2][11] = new inventoryItems("nothing");
                     inventoryA[1][11] = new inventoryItems("nothing");
+                    inventoryA[2][9] = new inventoryItems("empty");
+                    inventoryA[2][10] = new inventoryItems("empty");
 
 
                 }else{
@@ -2950,6 +2951,9 @@ public class HelloController {
                     inventoryImg[1][9].setOpacity(1);
                     inventoryImg[1][10].setOpacity(1);
                     inventoryImg[1][11].setOpacity(1);
+                    inventoryImg[2][9].setOpacity(1);
+                    inventoryImg[2][10].setOpacity(1);
+                    inventoryImg[2][11].setOpacity(1);
 
                     inventoryA[4][9] = new inventoryItems("empty");
                     inventoryA[4][7] = new inventoryItems("empty");
@@ -2957,6 +2961,8 @@ public class HelloController {
                     inventoryA[1][10] = new inventoryItems("empty");
                     inventoryA[2][11] = new inventoryItems("nothing");
                     inventoryA[1][11] = new inventoryItems("nothing");
+                    inventoryA[2][9] = new inventoryItems("empty");
+                    inventoryA[2][10] = new inventoryItems("empty");
 
                 }else{
                     gPane.setVisible(false);
@@ -4305,7 +4311,9 @@ public class HelloController {
 
                 for (int i = 1; i <=4 ; i++) {
                     if(inventoryA[i][7].getDurability()<=0){
-                        inventoryA[i][7] = new inventoryItems("empty");
+                        if(!tradingShowing&&!furnaceShowing) {
+                            inventoryA[i][7] = new inventoryItems("empty");
+                        }
                     }
                 }
 
