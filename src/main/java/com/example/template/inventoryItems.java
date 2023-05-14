@@ -10,11 +10,11 @@ public class inventoryItems {
     int hungerGain;
 
     int damage;
-    int durbality;
+
     int tier = 0;
     int protection = 0;
 
-    int durability;
+    int durability =0;
     double boost;
 
     String type;
@@ -104,6 +104,10 @@ public class inventoryItems {
 
     public int getDurability() {
         return durability;
+    }
+
+    public void changeDurability(int i) {
+        durability+=i;
     }
 }
 

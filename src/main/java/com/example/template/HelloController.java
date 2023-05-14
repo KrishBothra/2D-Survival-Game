@@ -83,13 +83,20 @@ public class HelloController {
 
     String[][] mapNightCave = new String[x * 8 + 1][y * 8 + 1];
 
-    ImageView[][] caveImg = new ImageView[x][y]; //100 //164
     String[][] mapCave = new String[x * 8 + 1][y * 8 + 1]; //100 //164
+
+    String[][] mapNether  = new String[x ][y ]; //100 //164
+    String[][] mapNightNether  = new String[x ][y ]; //100 //164
+
+
     private String[][] mapBackgroundCave = new String[x * 8 + 1][y * 8 + 1];
     private ArrayList<String> biomeNameList = new ArrayList<>();
     private String directionInter = "right";
     private ArrayList<Biome> biomeArrayList = new ArrayList<>();
     private ArrayList<mineObjects> mineObjectsOnMap = new ArrayList<>();
+    private ArrayList<mineObjects> mineObjectsOnMapCave = new ArrayList<>();
+
+    private ArrayList<mineObjects> mineObjectsOnMapNether = new ArrayList<>();
 
     private inventoryItems[] hotbar = new inventoryItems[5];
     private inventoryItems[][] inventoryA = new inventoryItems[6][12];
@@ -141,6 +148,8 @@ public class HelloController {
     private boolean burningFuel = false;
     private boolean smelting = false;
 
+    private boolean inNether = false;
+
     int dayTime = 180;
     int nightTime = 60;
 
@@ -174,7 +183,8 @@ public class HelloController {
             ,rubyPickaxeeInv, goldPickaxeeInv, diamondPickaxeeInv, woodHelmettInv, woodChestplateeInv, woodLeggingssInv, woodBootssInv, rubyHelmettInv, rubyChestplateeInv, rubyLeggingssInv, rubyBootssInv, goldHelmettInv
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
             ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
-            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann,flintAndSteelInvv,netherPortalImgg;
+            ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann,flintAndSteelInvv,netherPortalImgg,netherrackk,playerOverNetherrackk
+            ,netherrackWXx;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -183,7 +193,7 @@ public class HelloController {
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
             ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX, obsidian, obsidianInv
-            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg;
+            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg,netherrack,playerOverNetherrack,netherrackWX;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -205,6 +215,8 @@ public class HelloController {
     private boolean moveAble = true;
 
     private long moveTime;
+    private int OWplayerPositionY =0;
+    private int OWplayerPositionX = 0;
 
 
     public HelloController() {
@@ -327,8 +339,13 @@ public class HelloController {
             obsidiann = new FileInputStream("src/main/resources/obsidian.jpg");
             flintAndSteelInvv = new FileInputStream("src/main/resources/InventoryItems/flintAndSteelInv.png");
             netherPortalImgg = new FileInputStream("src/main/resources/netherPortalImg.png");
-
-
+            netherrackk = new FileInputStream("src/main/resources/netherrack.png");
+            playerOverNetherrackk = new FileInputStream("src/main/resources/playerOverNetherrack.png");
+            netherrackWXx = new FileInputStream("src/main/resources/netherrackWX.png");
+            
+            netherrackWX = new Image(netherrackWXx);
+            netherrack = new Image(netherrackk);
+            playerOverNetherrack = new Image(playerOverNetherrackk);
             flintAndSteelInv = new Image(flintAndSteelInvv);
             netherPortalImg = new Image(netherPortalImgg);
             stoneWX = new Image(stoneWXX);
@@ -434,7 +451,6 @@ public class HelloController {
             bossSoulInv = new Image(bossSoullInv);
             obsidianInv = new Image(obsidiannInv);
             obsidian = new Image(obsidiann);
-
             craftingTableInv = new Image(craftingTableeInv);
             craftingTable = new Image(craftingTablee);
             stickInv = new Image(stickkInv);
@@ -750,6 +766,22 @@ public class HelloController {
             }
         }
 
+        for (int i = 0; i < mapNether.length; i++) {
+            for (int j = 0; j < mapNether[0].length; j++) {
+                mapNether[i][j] = "netherrack";
+                if (i == 0 || i == mapNether.length - 1 || j == 0 || j == mapNether[0].length - 1) {
+                    mapNether[i][j] = "netherrackWX";
+                }
+            }
+        }
+
+        mapNether[1][1] = "obsidian";
+        mapNether[1][2] = "obsidian";
+        mapNether[1][3] = "obsidian";
+        mapNether[2][1] = "obsidian";
+        mapNether[2][3] = "obsidian";
+        mapNether[2][2] = "netherPortal";
+
         for (int i = 0; i < mapBackgroundCave.length; i++) {
             for (int j = 0; j < mapBackgroundCave[0].length; j++) {
                 mapBackgroundCave[i][j] = "stone";
@@ -776,6 +808,12 @@ public class HelloController {
         for (int i = 0; i < mapNightCave.length; i++) {
             for (int j = 0; j < mapNightCave[0].length; j++) {
                 mapNightCave[i][j] = "night";
+            }
+        }
+
+        for (int i = 0; i < mapNightNether.length; i++) {
+            for (int j = 0; j < mapNightNether[0].length; j++) {
+                mapNightNether[i][j] = "light";
             }
         }
 
@@ -807,7 +845,7 @@ public class HelloController {
 
         inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
         inventoryA[4][2] = new Resources("craftingTable", "axe");
-        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",15,20);
+        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",15,1);
         inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
         inventoryA[1][1].setAmount(99);
         inventoryA[1][4] = new inventoryItems("coal");
@@ -826,8 +864,8 @@ public class HelloController {
         inventoryA[3][4].setAmount(99);
         inventoryA[2][3] = new inventoryItems("goldIngot");
         inventoryA[2][3].setAmount(99);
-        inventoryA[3][1] = new inventoryItems("diamond");
-        inventoryA[3][1].setAmount(99);
+//        inventoryA[3][1] = new inventoryItems("diamond");
+//        inventoryA[3][1].setAmount(99);
         inventoryA[3][2] = new inventoryItems("stick");
         inventoryA[3][2].setAmount(99);
         inventoryA[4][4] = new Resources("furnace", "pickaxe");
@@ -835,6 +873,7 @@ public class HelloController {
         inventoryA[4][5] = new Resources("goldOre","pickaxe");
         inventoryA[4][5].setAmount(99);
         inventoryA[3][5] = new inventoryItems("drill");
+        inventoryA[3][1] = new inventoryItems("flintAndSteel");
         inventoryA[2][5] = new Resources("obsidian","pickaxe");
         inventoryA[2][5].setAmount(99);
 
@@ -912,7 +951,99 @@ public class HelloController {
             }
 
             //UPDATE SCREEN EDGE
-            if(!inCave) {
+            if(inNether) {
+                for (int i = 0; i < img.length; i++) {
+                    for (int j = 0; j < img[0].length; j++) {
+                        if (mapNether[i][j].equals("grass")) {
+                            img[i][j].setImage(grass);
+                        } else if (mapNether[i][j].equals("grassWX")) {
+                            img[i][j].setImage(grassWX); //steve
+                        } else if (mapNether[i][j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        } else if (mapNether[i][j].equals("normalTree")) {
+                            img[i][j].setImage(normalTree);
+                        } else if (mapNether[i][j].equals("fruitTree")) {
+                            img[i][j].setImage(fruitTree);
+                        } else if (mapNether[i][j].equals("autumnTree")) {
+                            img[i][j].setImage(autumnTree);
+                        } else if (mapNether[i][j].equals("stone")) {
+                            img[i][j].setImage(stone);
+                        } else if (mapNether[i][j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        } else if (mapNether[i][j].equals("rock")) {
+                            img[i][j].setImage(rock);
+                        } else if (mapNether[i][j].equals("goldOre")) {
+                            img[i][j].setImage(goldOre);
+                        } else if (mapNether[i][j].equals("rubyOre")) {
+                            img[i][j].setImage(rubyOre);
+                        } else if (mapNether[i][j].equals("diamondOre")) {
+                            img[i][j].setImage(diamondOre);
+                        } else if (mapNether[i][j].equals("water")) {
+                            img[i][j].setImage(water);
+                        } else if (mapNether[i][j].equals("null")) {
+                            img[i][j].setImage(null);
+                        } else if (mapNether[i][j].equals("normalWood")) {
+                            img[i][j].setImage(normalWood);
+                        } else if (mapNether[i][j].equals("autumnWood")) {
+                            img[i][j].setImage(autumnWood);
+                        } else if (mapNether[i][j].equals("fruitWood")) {
+                            img[i][j].setImage(fruitWood);
+                        } else if (mapNether[i][j].equals("sheep")) {
+                            img[i][j].setImage(sheep);
+                        } else if (mapNether[i][j].equals("fruitPlank")) {
+                            img[i][j].setImage(fruitPlank);
+                        } else if (mapNether[i][j].equals("normalPlank")) {
+                            img[i][j].setImage(normalPlank);
+                        } else if (mapNether[i][j].equals("autumnPlank")) {
+                            img[i][j].setImage(autumnPlank);
+                        } else if (mapNether[i][j].equals("craftingTable")) {
+                            img[i][j].setImage(craftingTable);
+                        } else if (mapNether[i][j].equals("boat")) {
+                            img[i][j].setImage(boat);
+                        } else if (mapNether[i][j].equals("cow")) {
+                            img[i][j].setImage(cow);
+                        } else if (mapNether[i][j].equals("pig")) {
+                            img[i][j].setImage(pig);
+                        } else if (mapNether[i][j].equals("furnace")) {
+                            img[i][j].setImage(furnace);
+                        } else if (mapNether[i][j].equals("zombieOverGrass")) {
+                            img[i][j].setImage(zombieOverGrass);
+                        } else if (mapNether[i][j].equals("zombieOverStone")) {
+                            img[i][j].setImage(zombieOverStone);
+                        } else if (mapNether[i][j].equals("coalOre")) {
+                            img[i][j].setImage(coalOre);
+                        } else if (mapNether[i][j].equals("spiderOverStone")) {
+                            img[i][j].setImage(spiderOverStone);
+                        } else if (mapNether[i][j].equals("spiderOverGrass")) {
+                            img[i][j].setImage(spiderOverGrass);
+                        } else if (mapNether[i][j].equals("creeperOverStone")) {
+                            img[i][j].setImage(creeperOverStone);
+                        } else if (mapNether[i][j].equals("creeperOverGrass")) {
+                            img[i][j].setImage(creeperOverGrass);
+                        } else if (mapNether[i][j].startsWith("torch")) {
+                            //torch over netherrack
+                        } else if (mapNether[i][j].equals("villager")) {
+                            img[i][j].setImage(villager);
+                        } else if (mapNether[i][j].equals("obsidian")) {
+                            img[i][j].setImage(obsidian);
+                        } else if (mapNether[i][j].equals("netherPortal")) {
+                            img[i][j].setImage(netherPortalImg);
+                        }else if (mapNether[i][j].equals("netherrack")) {
+                            img[i][j].setImage(netherrack);
+                        }else if (mapNether[i][j].equals("netherrackWX")) {
+                            img[i][j].setImage(netherrackWX);
+                        }else if (mapNether[i][j].equals("playerOverNetherrack")) {
+                            img[i][j].setImage(playerOverNetherrack);
+                        }
+
+                        if (mapNightNether[i][j].equals("light")) {
+                            mapNight[i][j].setOpacity(0.0);
+                        } else if (mapNightNether[i][j].equals("night")) {
+                            mapNight[i][j].setOpacity(0.5);
+                        }
+                    }
+                }
+            } else if (!inCave) {
                 for (int i = 0; i < img.length; i++) {
                     for (int j = 0; j < img[0].length; j++) {
                         if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
@@ -1002,7 +1133,7 @@ public class HelloController {
                         }
                     }
                 }
-            }else{
+            } else{
                 for (int i = 0; i < img.length; i++) {
                     for (int j = 0; j < img[0].length; j++) {
                         if (mapCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass")) {
@@ -1098,7 +1229,109 @@ public class HelloController {
             }
         } else {
             //UPDATE SCREEN
-            if(!inCave) {
+            if(inNether) {
+                for (int i = 0; i < img.length; i++) {
+                    for (int j = 0; j < img[0].length; j++) {
+                        if (mapNether[i][j].equals("grass")) {
+                            img[i][j].setImage(grass);
+                        } else if (mapNether[i][j].equals("grassWX")) {
+                            img[i][j].setImage(grassWX); //steve
+                        } else if (mapNether[i][j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        } else if (mapNether[i][j].equals("normalTree")) {
+                            img[i][j].setImage(normalTree); //steve
+                        } else if (mapNether[i][j].equals("fruitTree")) {
+                            img[i][j].setImage(fruitTree); //steve
+                        } else if (mapNether[i][j].equals("autumnTree")) {
+                            img[i][j].setImage(autumnTree); //steve
+                        } else if (mapNether[i][j].equals("stone")) {
+                            img[i][j].setImage(stone);
+                        } else if (mapNether[i][j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        } else if (mapNether[i][j].equals("rock")) {
+                            img[i][j].setImage(rock);
+                        } else if (mapNether[i][j].equals("rubyOre")) {
+                            img[i][j].setImage(rubyOre);
+                        } else if (mapNether[i][j].equals("diamondOre")) {
+                            img[i][j].setImage(diamondOre);
+                        } else if (mapNether[i][j].equals("goldOre")) {
+                            img[i][j].setImage(goldOre);
+                        } else if (mapNether[i][j].equals("water")) {
+                            img[i][j].setImage(water);
+                        } else if (mapNether[i][j].equals("fruitQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (mapNether[i][j].equals("autumnQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (mapNether[i][j].equals("normalQuest")) {
+                            img[i][j].setImage(mailboxGrass);
+                        } else if (mapNether[i][j].equals("stoneQuest")) {
+                            img[i][j].setImage(mailboxStone);
+                        } else if (mapNether[i][j].equals("waterQuest")) {
+                            img[i][j].setImage(chestWater);
+                        } else if (mapNether[i][j].equals("null")) {
+                            img[i][j].setImage(null); //steve
+                        } else if (mapNether[i][j].equals("normalWood")) {
+                            img[i][j].setImage(normalWood); //steve
+                        } else if (mapNether[i][j].equals("autumnWood")) {
+                            img[i][j].setImage(autumnWood); //steve
+                        } else if (mapNether[i][j].equals("fruitWood")) {
+                            img[i][j].setImage(fruitWood); //steve
+                        } else if (mapNether[i][j].equals("sheep")) {
+                            img[i][j].setImage(sheep); //steve
+                        } else if (mapNether[i][j].equals("fruitPlank")) {
+                            img[i][j].setImage(fruitPlank); //steve
+                        } else if (mapNether[i][j].equals("normalPlank")) {
+                            img[i][j].setImage(normalPlank); //steve
+                        } else if (mapNether[i][j].equals("autumnPlank")) {
+                            img[i][j].setImage(autumnPlank); //steve
+                        } else if (mapNether[i][j].equals("craftingTable")) {
+                            img[i][j].setImage(craftingTable); //steve
+                        } else if (mapNether[i][j].equals("boat")) {
+                            img[i][j].setImage(boat); //steve
+                        } else if (mapNether[i][j].equals("cow")) {
+                            img[i][j].setImage(cow); //steve
+                        } else if (mapNether[i][j].equals("pig")) {
+                            img[i][j].setImage(pig); //steve
+                        } else if (mapNether[i][j].equals("furnace")) {
+                            img[i][j].setImage(furnace); //steve
+                        } else if (mapNether[i][j].equals("zombieOverGrass")) {
+                            img[i][j].setImage(zombieOverGrass); //steve
+                        } else if (mapNether[i][j].equals("zombieOverStone")) {
+                            img[i][j].setImage(zombieOverStone); //steve
+                        } else if (mapNether[i][j].equals("coalOre")) {
+                            img[i][j].setImage(coalOre); //steve
+                        } else if (mapNether[i][j].equals("spiderOverGrass")) {
+                            img[i][j].setImage(spiderOverGrass); //steve
+                        } else if (mapNether[i][j].equals("spiderOverStone")) {
+                            img[i][j].setImage(spiderOverStone); //steve
+                        } else if (mapNether[i][j].equals("creeperOverGrass")) {
+                            img[i][j].setImage(creeperOverGrass); //steve
+                        } else if (mapNether[i][j].equals("creeperOverStone")) {
+                            img[i][j].setImage(creeperOverStone); //steve
+                        } else if (mapNether[i][j].startsWith("torch")) {
+                            //torch over netherrack
+                        } else if (mapNether[i][j].equals("villager")) {
+                            img[i][j].setImage(villager); //steve
+                        }else if (mapNether[i][j].equals("obsidian")) {
+                            img[i][j].setImage(obsidian); //steve
+                        }else if (mapNether[i][j].equals("netherPortal")) {
+                            img[i][j].setImage(netherPortalImg); //steve
+                        }else if (mapNether[i][j].equals("netherrack")) {
+                            img[i][j].setImage(netherrack); //steve
+                        }else if (mapNether[i][j].equals("netherrackWX")) {
+                            img[i][j].setImage(netherrackWX); //steve
+                        }else if (mapNether[i][j].equals("playerOverNetherrack")) {
+                            img[i][j].setImage(playerOverNetherrack); //steve
+                        }
+
+                        if (mapNightNether[i][j].equals("light")) {
+                            mapNight[i][j].setOpacity(0.0); //steve
+                        } else if (mapNightNether[i][j].equals("night")) {
+                            mapNight[i][j].setOpacity(0.5); //steve
+                        }
+                    }
+                }
+            }else if (!inCave) {
                 for (int i = 0; i < img.length; i++) {
                     for (int j = 0; j < img[0].length; j++) {
                         if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
@@ -1198,7 +1431,7 @@ public class HelloController {
                         }
                     }
                 }
-            }else{
+            } else{
                 for (int i = 0; i < img.length; i++) {
                     for (int j = 0; j < img[0].length; j++) {
                         if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("grass")) {
@@ -3166,6 +3399,433 @@ public class HelloController {
 
     }
 
+    private void interactTwoNether(){
+        int directionChange = switch (directionInter) {
+            case "up" -> -1;
+            case "down" -> 1;
+            case "right" -> 1;
+            case "left" -> -1;
+            default -> 0;
+        };
+        if (directionInter.equals("up") || directionInter.equals("down")) {
+            if ("craftingTable".equals(mapNether[playerPositionX + directionChange][playerPositionY])) {
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    craftingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            one3cv.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                            three1cv.setVisible(false);
+                            three2cv.setVisible(false);
+                            three3cv.setVisible(false);
+                            result.setVisible(false);
+                        }
+                    }
+
+
+                    inventoryImg[0][9].setImage(blackBack);
+                    inventoryImg[0][10].setImage(blackBack);
+                    inventoryImg[0][11].setImage(blackBack);
+                    inventoryImg[1][11].setImage(blackBack);
+                    inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[0][9] = new inventoryItems("nothing");
+                    inventoryA[0][10]= new inventoryItems("nothing");
+                    inventoryA[0][11]= new inventoryItems("nothing");
+                    inventoryA[1][11]= new inventoryItems("nothing");
+                    inventoryA[2][11]= new inventoryItems("nothing");
+                } else {
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    craftingShowing = true;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            one3cv.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                            three1cv.setVisible(true);
+                            three2cv.setVisible(true);
+                            three3cv.setVisible(true);
+                            result.setVisible(true);
+                        }
+                    }
+
+                    inventoryImg[0][9].setImage(grayBack);
+                    inventoryImg[0][10].setImage(grayBack);
+                    inventoryImg[0][11].setImage(grayBack);
+                    inventoryImg[1][11].setImage(grayBack);
+                    inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[0][9] = new inventoryItems("empty");
+                    inventoryA[0][10]= new inventoryItems("empty");
+                    inventoryA[0][11]= new inventoryItems("empty");
+                    inventoryA[1][11]= new inventoryItems("empty");
+                    inventoryA[2][11]= new inventoryItems("empty");
+                }
+            }
+
+
+            else if("furnace".equals(mapNether[playerPositionX+directionChange][playerPositionY])){
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    furnaceShowing = false;
+                    smeltingBar.setVisible(false);
+                    fuelBar.setVisible(false);
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            two1c.setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[2][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[2][7].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[2][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[2][7] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    furnaceShowing=true;
+                    smeltingBar.setVisible(true);
+                    fuelBar.setVisible(true);
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            two1c.setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                        }
+                    }
+
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[2][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[2][7].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[2][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[2][7] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                }
+            }
+
+            else if("villager".equals(mapNether[playerPositionX+directionChange][playerPositionY])){
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    tradingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                            tradingLabel.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+                    inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+                    inventoryA[2][11] = new inventoryItems("nothing");
+
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    tradingShowing = true;
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                            tradingLabel.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+                    inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                    inventoryA[2][11] = new inventoryItems("empty");
+                }
+            }
+
+
+        }
+        else{
+            if("craftingTable".equals(mapNether[playerPositionX][playerPositionY + directionChange])) {
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    craftingShowing = false;
+
+
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            inventoryLabels[i][j].setVisible(false);
+                            one1c.setVisible(false);
+                            one2c.setVisible(false);
+                            one3cv.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                            three1cv.setVisible(false);
+                            three2cv.setVisible(false);
+                            three3cv.setVisible(false);
+                            result.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[0][9].setImage(blackBack);
+                    inventoryImg[0][10].setImage(blackBack);
+                    inventoryImg[0][11].setImage(blackBack);
+                    inventoryImg[1][11].setImage(blackBack);
+                    inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[0][9] = new inventoryItems("nothing");
+                    inventoryA[0][10]= new inventoryItems("nothing");
+                    inventoryA[0][11]= new inventoryItems("nothing");
+                    inventoryA[1][11]= new inventoryItems("nothing");
+                    inventoryA[2][11]= new inventoryItems("nothing");
+                } else {
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    craftingShowing = true;
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            one1c.setVisible(true);
+                            one2c.setVisible(true);
+                            one3cv.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                            three1cv.setVisible(true);
+                            three2cv.setVisible(true);
+                            three3cv.setVisible(true);
+                            result.setVisible(true);
+                        }
+                    }
+
+                    inventoryImg[0][9].setImage(grayBack);
+                    inventoryImg[0][10].setImage(grayBack);
+                    inventoryImg[0][11].setImage(grayBack);
+                    inventoryImg[1][11].setImage(grayBack);
+                    inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[0][9] = new inventoryItems("empty");
+                    inventoryA[0][10]= new inventoryItems("empty");
+                    inventoryA[0][11]= new inventoryItems("empty");
+                    inventoryA[1][11]= new inventoryItems("empty");
+                    inventoryA[2][11]= new inventoryItems("empty");
+                }
+            }
+            else if("furnace".equals(mapNether[playerPositionX][playerPositionY + directionChange])){
+
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    furnaceShowing = false;
+                    smeltingBar.setVisible(false);
+                    fuelBar.setVisible(false);
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            two1c.setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[2][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[2][7].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[2][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[2][7] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    furnaceShowing = true;
+                    smeltingBar.setVisible(true);
+                    fuelBar.setVisible(true);
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            two1c.setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[2][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[2][7].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[2][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[2][7] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                }
+            }
+
+            else if("villager".equals(mapNether[playerPositionX][playerPositionY+directionChange])){
+                if (inventoryShowing) {
+                    gPane.setVisible(true);
+                    hotbarG.setVisible(true);
+                    inventoryPane.setVisible(false);
+                    inventoryShowing = false;
+                    tradingShowing = false;
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(false);
+                            furnaceTop.setVisible(false);
+                            furnaceBottom.setVisible(false);
+                            tradingLabel.setVisible(false);
+                            two1c.setVisible(false);
+                            two2c.setVisible(false);
+                            two3cv.setVisible(false);
+                        }
+                    }
+
+                    inventoryImg[1][9].setImage(grayBack);
+                    inventoryImg[1][10].setImage(grayBack);
+                    inventoryImg[4][9].setImage(grayBack);
+                    inventoryImg[4][7].setImage(grayBack);
+                    inventoryImg[2][11].setImage(blackBack);
+
+                    inventoryA[1][9] = new inventoryItems("empty");
+                    inventoryA[1][10] = new inventoryItems("empty");
+                    inventoryA[4][9] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+                    inventoryA[2][11] = new inventoryItems("nothing");
+
+                }else{
+                    gPane.setVisible(false);
+                    hotbarG.setVisible(false);
+                    inventoryPane.setVisible(true);
+                    inventoryShowing = true;
+                    tradingShowing = true;
+
+                    for (int i = 0; i < inventoryLabels.length; i++) {
+                        for (int j = 0; j < inventoryLabels[0].length; j++) {
+                            inventoryLabels[i][j].setVisible(true);
+                            furnaceTop.setVisible(true);
+                            furnaceBottom.setVisible(true);
+                            tradingLabel.setVisible(true);
+                            two1c.setVisible(true);
+                            two2c.setVisible(true);
+                            two3cv.setVisible(true);
+                        }
+                    }
+
+
+                    inventoryImg[1][9].setImage(blackBack);
+                    inventoryImg[1][10].setImage(blackBack);
+                    inventoryImg[4][9].setImage(blackBack);
+                    inventoryImg[4][7].setImage(blackBack);
+                    inventoryImg[2][11].setImage(grayBack);
+
+                    inventoryA[1][9] = new inventoryItems("nothing");
+                    inventoryA[1][10] = new inventoryItems("nothing");
+                    inventoryA[4][9] = new inventoryItems("nothing");
+                    inventoryA[4][7] = new inventoryItems("nothing");
+                    inventoryA[2][11] = new inventoryItems("empty");
+                }
+            }
+        }
+
+
+
+    }
+
 
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
@@ -3174,32 +3834,43 @@ public class HelloController {
                 if (keyEvent.getText().equalsIgnoreCase("w")) {
                     if(inCave) {
                         movePlayer("x", -1,mapCave);
-                    }else{
+                    } else if (inNether) {
+                        movePlayer("x", -1,mapNether);
+                    } else{
                         movePlayer("x", -1,map);
                     }
                 } else if (keyEvent.getText().equalsIgnoreCase("a")) {
                     if(inCave) {
                         movePlayer("y", -1,mapCave);
+                    }else if (inNether) {
+                        movePlayer("y", -1,mapNether);
                     }else{
                         movePlayer("y", -1,map);
                     }
                 } else if (keyEvent.getText().equalsIgnoreCase("s")) {
                     if(inCave) {
                         movePlayer("x", 1,mapCave);
+                    }else if (inNether) {
+                        movePlayer("x", 1,mapNether);
                     }else{
                         movePlayer("x", 1,map);
                     }
                 } else if (keyEvent.getText().equalsIgnoreCase("d")) {
                     if(inCave) {
                         movePlayer("y", 1,mapCave);
+                    }else if (inNether) {
+                        movePlayer("y", 1,mapNether);
                     }else{
                         movePlayer("y", 1,map);
                     }
                 } else if (keyEvent.getText().equalsIgnoreCase("e")) {
-                    if(!inCave) {
-                        interact();
-                    }else{
+                    if(inCave) {
                         interactCave();
+                    }else if (inNether) {
+                        System.out.println("hey");
+                        interactNether();
+                    }else{
+                        interact();
                     }
                 } else if (keyEvent.getText().equalsIgnoreCase("i")) {
                     directionInter = "up";
@@ -3220,10 +3891,13 @@ public class HelloController {
                 }
             }
             if (keyEvent.getText().equalsIgnoreCase("r")) {
-                if(!inCave) {
-                    interactTwo();
-                }else{
+                if(inCave) {
                     interactTwoCave();
+                }else if(inNether){
+                    interactTwoNether();
+                }
+                else{
+                    interactTwo();
                 }
             }
             if(!craftingShowing) {
@@ -3441,7 +4115,14 @@ public class HelloController {
                             miningObject = false;
                             miningBar.setVisible(false);
                             firstMine = false;
-                            mineObjectsOnMap.remove(tempMine);
+                            if(!inCave) {
+                                mineObjectsOnMap.remove(tempMine);
+                            }else if(inNether){
+                                mineObjectsOnMapNether.remove(tempMine);
+                            }
+                            else{
+                                mineObjectsOnMapCave.remove(tempMine);
+                            }
                             breakB = false;
                             for (int i = 4; i >=1; i--) {
                                 for (int j = 1; j <=5; j++) {
@@ -3553,6 +4234,18 @@ public class HelloController {
                     }
 
 
+                }
+
+                if(!miningObject){
+                    for (int i = 0; i <inventoryA.length ; i++) {
+                        for (int j = 0; j <inventoryA[0].length ; j++) {
+                            if(inventoryA[i][j].getTier()>0){
+                                if(inventoryA[i][j].getDurability()<=0){
+                                    inventoryA[i][j] = new inventoryItems("empty");
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if(eatingFood){
@@ -3669,7 +4362,7 @@ public class HelloController {
                         dayNightTime = System.nanoTime();
                         nightTime--;
                         dayNightBar.setProgress((double) nightTime / totalNightTime);
-                        if(!inCave){
+                        if(!inCave&&!inNether){
                             spawnMob();
                         }
                         if (nightTime <= 0) {
@@ -4081,6 +4774,7 @@ public class HelloController {
                         System.out.println(tempMine.getType());
                         if(tempMine.getType().equals(equipped.getType())){
                             toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            equipped.changeDurability(-1);
                             System.out.println(toolBoost);
                         }
                     }
@@ -4149,8 +4843,23 @@ public class HelloController {
                                 break;
                             }
                         }
+                        for (int i = 0; i <map.length; i++) {
+                            for (int j = 0; j < map[0].length; j++) {
+                                    if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
+                                        if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
+                                            map[i][j] = "grass";
+                                        } else {
+                                            map[i][j] = "stone";
+                                        }
+                                    }
+                            }
+                        }
+                        
+                        mobsNoCreepersOnMap.clear();
+                        creepersOnMap.clear();
                         inCave = true;
                     }
+                    // 1,1 1,2 1,3 2,1 2,3 2,2 3,2
                     break;
                 case "sheep","cow","pig","villager":
                     if(!swing) {
@@ -4161,6 +4870,7 @@ public class HelloController {
                         int damage = 1;
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (Animals animal : animalsOnMap) {
                             if (animal.getX() == playerPositionX + directionChange && animal.getY() == playerPositionY) {
@@ -4238,6 +4948,7 @@ public class HelloController {
                         int damage = 1;
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
                             if (mobs.getX() == playerPositionX + directionChange && mobs.getY() == playerPositionY) {
@@ -4393,6 +5104,7 @@ public class HelloController {
                         System.out.println(tempMine.getType());
                         if(tempMine.getType().equals(equipped.getType())){
                             toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            equipped.changeDurability(-1);
                             System.out.println(toolBoost);
                         }
                     }
@@ -4457,10 +5169,24 @@ public class HelloController {
                                break;
                            }
                         }
+                        for (int i = 0; i <map.length; i++) {
+                            for (int j = 0; j < map[0].length; j++) {
+                                if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
+                                    if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
+                                        map[i][j] = "grass";
+                                    } else {
+                                        map[i][j] = "stone";
+                                    }
+                                }
+                            }
+                        }
+
+                        mobsNoCreepersOnMap.clear();
+                        creepersOnMap.clear();
                         inCave = true;
                     }
                     break;
-                case "sheep","cow","pig", "villager":
+                case "sheep","cow","pig","villager":
                     if(!swing) {
                         int damage = 1;
                         swing = true;
@@ -4469,6 +5195,7 @@ public class HelloController {
                         swingBar.setProgress(swingCount/4);
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (Animals animal : animalsOnMap) {
                             if (animal.getX() == playerPositionX && animal.getY() == playerPositionY + directionChange) {
@@ -4546,6 +5273,7 @@ public class HelloController {
                         swingBar.setProgress(swingCount/4);
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
                             if (mobs.getX() == playerPositionX && mobs.getY() == playerPositionY + directionChange) {
@@ -4694,7 +5422,7 @@ public class HelloController {
                     miningX = playerPositionX + directionChange;
                     miningY = playerPositionY;
                     miningBar.setVisible(true);
-                    for (mineObjects m : mineObjectsOnMap) {
+                    for (mineObjects m : mineObjectsOnMapCave) {
                         if (miningX == m.getX() && miningY == m.getY()) {
                             tempMine = m;
                             System.out.println(m.getX());
@@ -4712,6 +5440,7 @@ public class HelloController {
                         System.out.println(tempMine.getType());
                         if(tempMine.getType().equals(equipped.getType())){
                             toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            equipped.changeDurability(-1);
                             System.out.println(toolBoost);
                         }
                     }
@@ -4732,7 +5461,7 @@ public class HelloController {
 
                         mapCave[playerPositionX + directionChange][playerPositionY] = equipped.getName();
                         System.out.println(mapCave[playerPositionX + directionChange][playerPositionY]);
-                        mineObjectsOnMap.add(new mineObjects(equipped.getName(), equipped.getType(), mineTime, new Resources(equipped.getName(), type), 1, playerPositionX + directionChange, playerPositionY));
+                        mineObjectsOnMapCave.add(new mineObjects(equipped.getName(), equipped.getType(), mineTime, new Resources(equipped.getName(), type), 1, playerPositionX + directionChange, playerPositionY));
                         if (equipped.getAmount() > 1) {
                             equipped.changeAmount(-1);
                         } else {
@@ -4765,6 +5494,17 @@ public class HelloController {
                                 break;
                             }
                         }
+
+                        for (int i = 0; i <map.length; i++) {
+                            for (int j = 0; j < mapCave[0].length; j++) {
+                                if(mapCave[i][j].startsWith("zombie")||mapCave[i][j].startsWith("spider")||mapCave[i][j].startsWith("creeper")){
+                                    mapCave[i][j] = "stone";
+                                }
+                            }
+                        }
+
+                        mobsNoCreepersOnMap.clear();
+                        creepersOnMap.clear();
                         inCave = false;
                     }
                     break;
@@ -4777,6 +5517,7 @@ public class HelloController {
                         int damage = 1;
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (Animals animal : animalsOnMap) {
                             if (animal.getX() == playerPositionX + directionChange && animal.getY() == playerPositionY) {
@@ -4854,6 +5595,7 @@ public class HelloController {
                         int damage = 1;
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
                             if (mobs.getX() == playerPositionX + directionChange && mobs.getY() == playerPositionY) {
@@ -4992,7 +5734,7 @@ public class HelloController {
                     miningX = playerPositionX;
                     miningY = playerPositionY + directionChange;
                     miningBar.setVisible(true);
-                    for (mineObjects m : mineObjectsOnMap) {
+                    for (mineObjects m : mineObjectsOnMapCave) {
                         if (miningX == m.getX() && miningY == m.getY()) {
                             tempMine = m;
                             System.out.println(m.getX());
@@ -5009,6 +5751,7 @@ public class HelloController {
                         System.out.println(tempMine.getType());
                         if(tempMine.getType().equals(equipped.getType())){
                             toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            equipped.changeDurability(-1);
                             System.out.println(toolBoost);
                         }
                     }
@@ -5028,7 +5771,7 @@ public class HelloController {
 
                         mapCave[playerPositionX][playerPositionY + directionChange] = equipped.getName();
                         System.out.println(mapCave[playerPositionX][playerPositionY + directionChange]);
-                        mineObjectsOnMap.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName(),type), 1, playerPositionX, playerPositionY + directionChange));
+                        mineObjectsOnMapCave.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName(),type), 1, playerPositionX, playerPositionY + directionChange));
                         if(equipped.getAmount()>1){
                             equipped.changeAmount(-1);
                         }else{
@@ -5063,7 +5806,7 @@ public class HelloController {
                         inCave = false;
                     }
                     break;
-                case "sheep","cow","pig", "villager":
+                case "sheep","cow","pig","villager":
                     if(!swing) {
                         int damage = 1;
                         swing = true;
@@ -5072,6 +5815,7 @@ public class HelloController {
                         swingBar.setProgress(swingCount/4);
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (Animals animal : animalsOnMap) {
                             if (animal.getX() == playerPositionX && animal.getY() == playerPositionY + directionChange) {
@@ -5149,6 +5893,7 @@ public class HelloController {
                         swingBar.setProgress(swingCount/4);
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
                         }
                         for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
                             if (mobs.getX() == playerPositionX && mobs.getY() == playerPositionY + directionChange) {
@@ -5262,6 +6007,216 @@ public class HelloController {
 
     }
 
+    private void interactNether() {
+        int directionChange = switch (directionInter) {
+            case "up" -> -1;
+            case "down" -> 1;
+            case "right" -> 1;
+            case "left" -> -1;
+            default -> 0;
+        };
+        if (directionInter.equals("up") || directionInter.equals("down")) {
+            switch (mapNether[playerPositionX + directionChange][playerPositionY]) {
+                case "normalTree":
+                case "fruitTree":
+                case "autumnTree":
+                case "rock":
+                case "goldOre":
+                case "rubyOre":
+                case "diamondOre":
+                case "normalWood":
+                case "fruitWood":
+                case "autumnWood":
+                case "fruitPlank":
+                case "normalPlank":
+                case "autumnPlank":
+                case "boat":
+                case "craftingTable":
+                case "furnace":
+                case "coalOre":
+                case "torch":
+                case "obsidian":
+
+
+                    miningObject = true;
+                    miningX = playerPositionX + directionChange;
+                    miningY = playerPositionY;
+                    miningBar.setVisible(true);
+                    for (mineObjects m : mineObjectsOnMapCave) {
+                        if (miningX == m.getX() && miningY == m.getY()) {
+                            tempMine = m;
+                            System.out.println(m.getX());
+                            System.out.println(m.getY());
+                        }
+                    }
+                    tempMineTime = tempMine.getMineTime();
+                    System.out.println("MINE TIME "+tempMineTime);
+                    miningBar.setProgress(1.0);
+//                    firstMine = true;
+                    System.out.println(equipped.getName());
+                    System.out.println(equipped.getTier());
+                    System.out.println(equipped.getType());
+                    if(equipped.getTier()>0){
+                        System.out.println(tempMine.getType());
+                        if(tempMine.getType().equals(equipped.getType())){
+                            toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            equipped.changeDurability(-1);
+                            System.out.println(toolBoost);
+                        }
+                    }
+//                    mapNether[playerPositionX + directionChange][playerPositionY] = "grass";
+                    break;
+                case "netherrack":
+                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX+directionChange!=3||playerPositionY!=2)){
+                        int mineTime;
+                        String type;
+
+                        if (equipped.getType().equals("pickaxe")) {
+                            mineTime = (int) (Math.random() * 6) + 10;
+                            type = "pickaxe";
+                        } else {
+                            mineTime = (int) (Math.random() * 5) + 5;
+                            type = "axe";
+                        }
+
+                        mapNether[playerPositionX + directionChange][playerPositionY] = equipped.getName();
+                        System.out.println(mapNether[playerPositionX + directionChange][playerPositionY]);
+                        mineObjectsOnMapCave.add(new mineObjects(equipped.getName(), equipped.getType(), mineTime, new Resources(equipped.getName(), type), 1, playerPositionX + directionChange, playerPositionY));
+                        if (equipped.getAmount() > 1) {
+                            equipped.changeAmount(-1);
+                        } else {
+                            inventoryA[4][selected + 1] = new inventoryItems("empty");
+                            System.out.println(inventoryA[4][selected + 1].getName());
+                            updateScreen();
+                            System.out.println(hotbar[selected].getName());
+                            System.out.println(equipped.getName());
+                        }
+                    }
+                    else if (equipped.isEatable()) {
+                        eatingFood = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
+                    }
+                    break;
+                case "finalBoss":
+                    if(!swing) {
+                        swing = true;
+                        swingTime = System.nanoTime();
+                        swingBar.setVisible(true);
+                        swingBar.setProgress(swingCount/4);
+                        int damage = 1;
+                        if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
+                            damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
+                        }
+
+                    }
+
+
+                    break;
+            }
+
+        } else {
+            switch (mapNether[playerPositionX][playerPositionY + directionChange]) {
+                case "normalTree":
+                case "fruitTree":
+                case "autumnTree":
+                case "rock":
+                case "goldOre":
+                case "rubyOre":
+                case "diamondOre":
+                case "normalWood":
+                case "fruitWood":
+                case "autumnWood":
+                case "fruitPlank":
+                case "normalPlank":
+                case "autumnPlank":
+                case "boat":
+                case "craftingTable":
+                case "furnace":
+                case "coalOre":
+                case "torch":
+                case "obsidian":
+
+
+
+                    miningObject = true;
+                    miningX = playerPositionX;
+                    miningY = playerPositionY + directionChange;
+                    miningBar.setVisible(true);
+                    for (mineObjects m : mineObjectsOnMapNether) {
+                        if (miningX == m.getX() && miningY == m.getY()) {
+                            tempMine = m;
+                            System.out.println(m.getX());
+                            System.out.println(m.getY());
+                        }
+                    }
+                    tempMineTime = tempMine.getMineTime();
+                    System.out.println("MINE TIME "+tempMineTime);
+                    miningBar.setProgress(1.0);
+//                    firstMine = true;
+                    System.out.println(equipped.getName());
+                    System.out.println(equipped.getTier());
+                    if(equipped.getTier()>0){
+                        System.out.println(tempMine.getType());
+                        if(tempMine.getType().equals(equipped.getType())){
+                            toolBoost = equipped.getTier() +(equipped.getTier()*0.6);
+                            equipped.changeDurability(-1);
+                            System.out.println(toolBoost);
+                        }
+                    }
+//                    mapNether[playerPositionX][playerPositionY + directionChange] = "grass";
+                    break;
+                case "netherrack":
+                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX!=3||playerPositionY+directionChange!=2)){
+                        int mineTime;
+                        String type;
+                        if(equipped.getType().equals("pickaxe")){
+                            mineTime = (int) (Math.random() * 6) + 10;
+                            type = "pickaxe";
+                        }else{
+                            mineTime = (int) (Math.random() * 5) + 5;
+                            type = "axe";
+                        }
+
+                        mapNether[playerPositionX][playerPositionY + directionChange] = equipped.getName();
+                        System.out.println(mapNether[playerPositionX][playerPositionY + directionChange]);
+                        mineObjectsOnMapNether.add(new mineObjects(equipped.getName(),equipped.getType(), mineTime, new Resources(equipped.getName(),type), 1, playerPositionX, playerPositionY + directionChange));
+                        if(equipped.getAmount()>1){
+                            equipped.changeAmount(-1);
+                        }else{
+                            inventoryA[4][selected+1] = new inventoryItems("empty");
+                            System.out.println(inventoryA[4][selected+1].getName());
+                            updateScreen();
+                            System.out.println(hotbar[selected].getName());
+                            System.out.println(equipped.getName());
+                        }
+                    }else if (equipped.isEatable()) {
+                        eatingFood = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
+                    }
+                    break;
+                case "finalBoss":
+                    if(!swing) {
+                        int damage = 1;
+                        swing = true;
+                        swingTime = System.nanoTime();
+                        swingBar.setVisible(true);
+                        swingBar.setProgress(swingCount/4);
+                        if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
+                            damage = equipped.getDamage();
+                            equipped.changeDurability(-1);
+                        }
+                    }
+                    break;
+
+            }
+        }
+
+
+    }
+
     public void movePlayer(String dirStr, int dirNum, String[][] mapP) {
         if(moveAble) {
             if (dirStr.equals("x")) {
@@ -5282,6 +6237,16 @@ public class HelloController {
                     playerPositionX += dirNum;
                     mapP[playerPositionX][playerPositionY] = "playerOverStone";
 
+                }else if (mapP[playerPositionX + dirNum][playerPositionY].equals("netherrack")) {
+                    mapP[playerPositionX][playerPositionY] = "netherrack";
+                    playerPositionX += dirNum;
+                    mapP[playerPositionX][playerPositionY] = "playerOverNetherrack";
+                }else if (mapP[playerPositionX + dirNum][playerPositionY].equals("netherPortal")) {
+                    if(!inNether) {
+                        enterNether();
+                    }else{
+                        exitNether();
+                    }
                 }
             } else if (dirStr.equals("y")) {
                 if (mapP[playerPositionX][playerPositionY + dirNum].equals("grass")) {
@@ -5300,6 +6265,16 @@ public class HelloController {
                     }
                     playerPositionY += dirNum;
                     mapP[playerPositionX][playerPositionY] = "playerOverStone";
+                }else if (mapP[playerPositionX][playerPositionY + dirNum].equals("netherrack")) {
+                    mapP[playerPositionX][playerPositionY] = "netherrack";
+                    playerPositionY += dirNum;
+                    mapP[playerPositionX][playerPositionY] = "playerOverNetherrack";
+                }else if (mapP[playerPositionX][playerPositionY + dirNum].equals("netherPortal")) {
+                    if(!inNether) {
+                        enterNether();
+                    }else{
+                        exitNether();
+                    }
                 }
             }
             tempHunger -= 0.1;
@@ -5309,6 +6284,91 @@ public class HelloController {
                 moveTime = System.nanoTime();
             }
         }
+    }
+
+    private void exitNether() {
+
+        mapNether[playerPositionX][playerPositionY] = "netherrack";
+
+
+//                int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+//                int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+
+
+
+
+        while (true) {
+            System.out.println("1");
+            int ranX = (int) (Math.random() * 31) + OWplayerPositionX - 15;
+            int ranY = (int) (Math.random() * 31) + OWplayerPositionY - 15;
+            if (map[ranX][ranY].equals("grass")) {
+                map[ranX][ranY] = "playerOverGrass";
+                playerPositionY = ranY;
+                playerPositionX = ranX;
+                break;
+            }else if (map[ranX][ranY].equals("stone")) {
+                map[ranX][ranY] = "playerOverStone";
+                playerPositionY = ranY;
+                playerPositionX = ranX;
+                break;
+            }
+        }
+
+
+
+//        for (int i = 0; i <map.length; i++) {
+//            for (int j = 0; j < map[0].length; j++) {
+//                if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
+//                    if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
+//                        map[i][j] = "grass";
+//                    } else {
+//                        map[i][j] = "stone";
+//                    }
+//                }
+//            }
+//        }
+
+
+        inNether = false;
+
+    }
+
+    private void enterNether() {
+            //NORMAL MAP
+            if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
+                map[playerPositionX][playerPositionY] = "grass";
+            } else {
+                map[playerPositionX][playerPositionY] = "stone";
+            }
+            System.out.println("1");
+//                int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+//                int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+
+
+            mapNether[3][2] = "playerOverNetherrack";
+            OWplayerPositionY = playerPositionY;
+            OWplayerPositionX = playerPositionX;
+            playerPositionY = 2;
+            playerPositionX = 3;
+
+
+
+            for (int i = 0; i <map.length; i++) {
+                for (int j = 0; j < map[0].length; j++) {
+                    if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
+                        if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
+                            map[i][j] = "grass";
+                        } else {
+                            map[i][j] = "stone";
+                        }
+                    }
+                }
+            }
+
+            mobsNoCreepersOnMap.clear();
+            creepersOnMap.clear();
+            inNether = true;
+
     }
 
     private void createCaveBiomes(){
@@ -5361,23 +6421,23 @@ public class HelloController {
                     mineralRand = (int) (Math.random() * 70);
                     if (mineralRand < 4) {
                         mapCave[i][j] = "rock";
-                        mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
+                        mineObjectsOnMapCave.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
 
                     } else if (mineralRand < 6) {
                         mapCave[i][j] = "goldOre";
-                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
+                        mineObjectsOnMapCave.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
 
                     } else if (mineralRand < 8) {
                         mapCave[i][j] = "diamondOre";
-                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new inventoryItems("diamond"), 1, i, j));
+                        mineObjectsOnMapCave.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new inventoryItems("diamond"), 1, i, j));
 
                     } else if (mineralRand < 11) {
                         mapCave[i][j] = "rubyOre";
-                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("rubyOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
+                        mineObjectsOnMapCave.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("rubyOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
 
                     }else if (mineralRand < 15) {
                         mapCave[i][j] = "coalOre";
-                        mineObjectsOnMap.add(new mineObjects("coalOre","pickaxe", (int) (Math.random() * 5) + 15, new inventoryItems("coal"), (int) (Math.random() * 2) + 1, i, j));
+                        mineObjectsOnMapCave.add(new mineObjects("coalOre","pickaxe", (int) (Math.random() * 5) + 15, new inventoryItems("coal"), (int) (Math.random() * 2) + 1, i, j));
 
                     }
                 }
