@@ -66,7 +66,15 @@ public class HelloController {
     private long smeltingTime;
     private long amountToSmelt, amountToBurn;
 
+    private long inLavaTime = System.nanoTime();
+
     private long mobSpawnTimeCave = System.nanoTime();
+
+    private long drillTime = System.nanoTime();
+
+    private boolean isDrilling =false;
+
+    private double drillAmt = 3;
 
     private boolean inCave = false;
 
@@ -184,7 +192,7 @@ public class HelloController {
             ,goldChestplateeInv, goldLeggingssInv, goldBootssInv, diamondHelmettInv, diamondChestplateeInv, diamondLeggingssInv, diamondBootssInv,villagerr,zombieOverGrasss,zombieOverStonee,rottenFleshh, coalOree
             ,rubyOreeInv, coallInv, spiderOverGrasss, spiderOverStonee, goldOreInvv,creeperOverGrasss,creeperOverStonee,deathScreenn, cookedPorkkInv, cookedMuttonnInv, cookedBeeffInv
             ,hitScreenn,nightTimee,torchInvv,torchOverStonee,torchOverGrasss,lightt,stoneWXX, obsidiannInv, flinttInv, bossSoullInv, drilllInv, obsidiann,flintAndSteelInvv,netherPortalImgg,netherrackk,playerOverNetherrackk
-            ,netherrackWXx;
+            ,netherrackWXx,lavaa,playerInLavaa;
 
     Image grass, player, playerOverGrass, playerOverStone, autumnTree, fruitTree, normalTree, grassWX, arrow, stone, rock, diamondOre, rubyOre, goldOre, water, chestWater, mailboxGrass, mailboxStone
             , grayBack, blackBack, yellowBack, rubyInv,goldIngotInv,diamondInv, normalWood,normalWoodInv,autumnWoodInv,fruitWoodInv,appleInv,cobbelstoneInv,woodAxeInv,autumnWood,fruitWood
@@ -193,7 +201,7 @@ public class HelloController {
             ,goldPickaxeInv, diamondPickaxeInv, woodHelmetInv, woodChestplateInv, woodLeggingsInv, woodBootsInv, rubyHelmetInv, rubyChestplateInv, rubyLeggingsInv, rubyBootsInv, goldHelmetInv, goldChestplateInv,
             goldLeggingsInv, goldBootsInv, diamondHelmetInv, diamondChestplateInv, diamondLeggingsInv, diamondBootsInv,villager,zombieOverGrass,zombieOverStone,rottenFlesh, coalOre, rubyOreInv, coalInv, spiderOverGrass, spiderOverStone
             ,creeperOverGrass,creeperOverStone,deathScreen,goldOreInv,cookedPorkInv, cookedMuttonInv, cookedBeefInv,hitScreen,nightTimeI,torchInv,torchOverStone,torchOverGrass,light,stoneWX, obsidian, obsidianInv
-            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg,netherrack,playerOverNetherrack,netherrackWX;
+            , drillInv, flintInv, bossSoulInv,flintAndSteelInv,netherPortalImg,netherrack,playerOverNetherrack,netherrackWX,lava,playerInLava;
     private boolean miningObject = false;
     private boolean eatingFood = false;
     private int tempMineTime;
@@ -217,6 +225,7 @@ public class HelloController {
     private long moveTime;
     private int OWplayerPositionY =0;
     private int OWplayerPositionX = 0;
+    private boolean inLava = false;
 
 
     public HelloController() {
@@ -342,7 +351,11 @@ public class HelloController {
             netherrackk = new FileInputStream("src/main/resources/netherrack.png");
             playerOverNetherrackk = new FileInputStream("src/main/resources/playerOverNetherrack.png");
             netherrackWXx = new FileInputStream("src/main/resources/netherrackWX.png");
-            
+            lavaa = new FileInputStream("src/main/resources/lava.jpeg");
+            playerInLavaa = new FileInputStream("src/main/resources/playerInLava.png");
+
+            lava = new Image(lavaa);
+            playerInLava = new Image(playerInLavaa);
             netherrackWX = new Image(netherrackWXx);
             netherrack = new Image(netherrackk);
             playerOverNetherrack = new Image(playerOverNetherrackk);
@@ -577,7 +590,7 @@ public class HelloController {
                                             row == 2 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Chestplate") ||
                                             row == 3 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Leggings") ||
                                             row == 4 && col == 7 && inventoryA[invSelectedRow][invSelectedCol].getName().endsWith("Boots") || col != 7) {
-                                        if (row != 4 || col != 7) {
+                                        if (row != 4 || col != 9) {
                                             System.out.println("hey2");
                                             inventoryA[row][col] = inventoryA[invSelectedRow][invSelectedCol];
                                             inventoryA[invSelectedRow][invSelectedCol] = new inventoryItems("empty");
@@ -824,6 +837,7 @@ public class HelloController {
 //        map[30][160] = "normalTree";
         createBiomes();
         createCaveBiomes();
+        createLava();
 
 
         gPane.setGridLinesVisible(true);
@@ -1034,6 +1048,10 @@ public class HelloController {
                             img[i][j].setImage(netherrackWX);
                         }else if (mapNether[i][j].equals("playerOverNetherrack")) {
                             img[i][j].setImage(playerOverNetherrack);
+                        }else if (mapNether[i][j].equals("lava")) {
+                            img[i][j].setImage(lava);
+                        }else if (mapNether[i][j].equals("playerInLava")) {
+                            img[i][j].setImage(playerInLava);
                         }
 
                         if (mapNightNether[i][j].equals("light")) {
@@ -1322,6 +1340,10 @@ public class HelloController {
                             img[i][j].setImage(netherrackWX); //steve
                         }else if (mapNether[i][j].equals("playerOverNetherrack")) {
                             img[i][j].setImage(playerOverNetherrack); //steve
+                        }else if (mapNether[i][j].equals("lava")) {
+                            img[i][j].setImage(lava);
+                        }else if (mapNether[i][j].equals("playerInLava")) {
+                            img[i][j].setImage(playerInLava);
                         }
 
                         if (mapNightNether[i][j].equals("light")) {
@@ -3829,7 +3851,7 @@ public class HelloController {
 
     public void onKeyPressed(KeyEvent keyEvent) {
         coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
-        if(!miningObject&&!eatingFood) {
+        if(!miningObject&&!eatingFood&&!isDrilling) {
             if (!inventoryShowing) {
                 if (keyEvent.getText().equalsIgnoreCase("w")) {
                     if(inCave) {
@@ -4248,6 +4270,27 @@ public class HelloController {
                     }
                 }
 
+                for (int i = 1; i <=4 ; i++) {
+                    if(inventoryA[i][7].getDurability()<=0){
+                        inventoryA[i][7] = new inventoryItems("empty");
+                    }
+                }
+
+
+                if(inLava){
+                    if(now - inLavaTime >1000000000.0){
+                        tempHealth -= 10 - (10*(tempOverHealth*0.005833333333));
+                        healthBar.setProgress(tempHealth / totalHealth);
+                        inLavaTime = System.nanoTime();
+                        for (int i = 1; i <=4 ; i++) {
+                            inventoryA[i][7].changeDurability(-1);
+                        }
+                        playerHit = true;
+                        hitScreenImg.setVisible(true);
+                        playerHitTime = System.nanoTime();
+                    }
+                }
+
                 if(eatingFood){
                     if(now-eatingTime>1000000000.0/2){
                         eatingTime = System.nanoTime();
@@ -4311,6 +4354,82 @@ public class HelloController {
                     updateScreen();
                 }
 
+
+                if(isDrilling){
+                    if(now - drillTime> 1000000000.0) {
+                        drillAmt--;
+                        drillTime = System.nanoTime();
+                        miningBar.setProgress(drillAmt/3);
+                        if(drillAmt<=0){
+                            miningBar.setVisible(false);
+                            isDrilling = false;
+                            drillAmt = 3;
+                            if(inCave){
+                                mapCave[playerPositionX][playerPositionY] = "stone";
+                                while (true) {
+                                    System.out.println("1");
+                                    int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                                    int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+                                    if (map[ranX][ranY].equals("grass")) {
+                                        map[ranX][ranY] = "playerOverGrass";
+                                        playerPositionY = ranY;
+                                        playerPositionX = ranX;
+                                        break;
+                                    }else if (map[ranX][ranY].equals("stone")) {
+                                        map[ranX][ranY] = "playerOverStone";
+                                        playerPositionY = ranY;
+                                        playerPositionX = ranX;
+                                        break;
+                                    }
+                                }
+
+                                for (int i = 0; i <map.length; i++) {
+                                    for (int j = 0; j < mapCave[0].length; j++) {
+                                        if(mapCave[i][j].startsWith("zombie")||mapCave[i][j].startsWith("spider")||mapCave[i][j].startsWith("creeper")){
+                                            mapCave[i][j] = "stone";
+                                        }
+                                    }
+                                }
+
+                                mobsNoCreepersOnMap.clear();
+                                creepersOnMap.clear();
+                                inCave = false;
+                            }else{
+                                if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
+                                    map[playerPositionX][playerPositionY] = "grass";
+                                } else {
+                                    map[playerPositionX][playerPositionY] = "stone";
+                                }
+                                while (true) {
+                                    System.out.println("1");
+                                    int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                                    int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+                                    if (mapCave[ranX][ranY].equals("stone")) {
+                                        mapCave[ranX][ranY] = "playerOverStone";
+                                        playerPositionY = ranY;
+                                        playerPositionX = ranX;
+                                        break;
+                                    }
+                                }
+                                for (int i = 0; i <map.length; i++) {
+                                    for (int j = 0; j < map[0].length; j++) {
+                                        if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
+                                            if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
+                                                map[i][j] = "grass";
+                                            } else {
+                                                map[i][j] = "stone";
+                                            }
+                                        }
+                                    }
+                                }
+
+                                mobsNoCreepersOnMap.clear();
+                                creepersOnMap.clear();
+                                inCave = true;
+                            }
+                        }
+                    }
+                }
 
 
                 if(day){
@@ -4388,6 +4507,9 @@ public class HelloController {
                                             if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
                                                 hitScreenImg.setVisible(true);
                                             }
+                                            for (int i = 1; i <=4 ; i++) {
+                                                inventoryA[i][7].changeDurability(-1);
+                                            }
                                         }
                                     }else{
                                         if (mobs.changeLoc(mapCave, mapBackgroundCave, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
@@ -4397,6 +4519,9 @@ public class HelloController {
                                             playerHitTime = System.nanoTime();
                                             if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
                                                 hitScreenImg.setVisible(true);
+                                            }
+                                            for (int i = 1; i <=4 ; i++) {
+                                                inventoryA[i][7].changeDurability(-1);
                                             }
                                         }
                                     }
@@ -4477,6 +4602,9 @@ public class HelloController {
                                         if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
                                             hitScreenImg.setVisible(true);
                                         }
+                                        for (int i = 1; i <=4 ; i++) {
+                                            inventoryA[i][7].changeDurability(-1);
+                                        }
                                     }
                                 }else{
                                     if (creeperL.changeLoc(mapCave, mapBackgroundCave, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
@@ -4486,6 +4614,9 @@ public class HelloController {
                                         playerHitTime = System.nanoTime();
                                         if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
                                             hitScreenImg.setVisible(true);
+                                        }
+                                        for (int i = 1; i <=4 ; i++) {
+                                            inventoryA[i][7].changeDurability(-1);
                                         }
                                     }
                                 }
@@ -4697,8 +4828,28 @@ public class HelloController {
         }
 
         while(true) {
-            int ranX = (int)(Math.random()*31)+playerPositionX-15;
-            int ranY = (int)(Math.random()*31)+playerPositionY-15;
+            int ranX;
+            int ranY;
+            if(inNether) {
+                ranX = (int) (Math.random() * 31) + OWplayerPositionX - 15;
+                ranY = (int) (Math.random() * 31) + OWplayerPositionY - 15;
+            }else{
+                ranX = (int) (Math.random() * 31) + playerPositionX - 15;
+                ranY = (int) (Math.random() * 31) + playerPositionY - 15;
+            }
+            if(inCave){
+                mapCave[playerPositionX][playerPositionY] = "stone";
+            }
+            if (inNether) {
+                if(mapNether[playerPositionX][playerPositionY].endsWith("Netherrack")){
+                    mapNether[playerPositionX][playerPositionY] = "netherrack";
+                }else{
+                    mapNether[playerPositionX][playerPositionY] = "lava";
+                }
+            }
+            inCave = false;
+            inNether = false;
+            inLava = false;
             if (map[ranX][ranY].equals("grass")) {
                 if (mapBackground[playerPositionX][playerPositionY].equals("grass") || mapBackground[playerPositionX][playerPositionY].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY].equals("autumn")) {
                     map[playerPositionX][playerPositionY] = "grass";
@@ -4827,37 +4978,9 @@ public class HelloController {
 
 
                     }else if (equipped.getName().equals("drill")) {
-                        if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
-                            map[playerPositionX][playerPositionY] = "grass";
-                        } else {
-                            map[playerPositionX][playerPositionY] = "stone";
-                        }
-                        while (true) {
-                            System.out.println("1");
-                            int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
-                            int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
-                            if (mapCave[ranX][ranY].equals("stone")) {
-                                mapCave[ranX][ranY] = "playerOverStone";
-                                playerPositionY = ranY;
-                                playerPositionX = ranX;
-                                break;
-                            }
-                        }
-                        for (int i = 0; i <map.length; i++) {
-                            for (int j = 0; j < map[0].length; j++) {
-                                    if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
-                                        if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
-                                            map[i][j] = "grass";
-                                        } else {
-                                            map[i][j] = "stone";
-                                        }
-                                    }
-                            }
-                        }
-                        
-                        mobsNoCreepersOnMap.clear();
-                        creepersOnMap.clear();
-                        inCave = true;
+                        isDrilling = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
                     }
                     // 1,1 1,2 1,3 2,1 2,3 2,2 3,2
                     break;
@@ -5153,37 +5276,10 @@ public class HelloController {
 
                         }
                     } else if (equipped.getName().equals("drill")) {
-                        if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
-                            map[playerPositionX][playerPositionY] = "grass";
-                        } else {
-                            map[playerPositionX][playerPositionY] = "stone";
-                        }
-                        while (true) {
-                           System.out.println("1");
-                           int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
-                           int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
-                           if (mapCave[ranX][ranY].equals("stone")) {
-                               mapCave[ranX][ranY] = "playerOverStone";
-                               playerPositionY = ranY;
-                               playerPositionX = ranX;
-                               break;
-                           }
-                        }
-                        for (int i = 0; i <map.length; i++) {
-                            for (int j = 0; j < map[0].length; j++) {
-                                if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
-                                    if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
-                                        map[i][j] = "grass";
-                                    } else {
-                                        map[i][j] = "stone";
-                                    }
-                                }
-                            }
-                        }
+                        isDrilling = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
 
-                        mobsNoCreepersOnMap.clear();
-                        creepersOnMap.clear();
-                        inCave = true;
                     }
                     break;
                 case "sheep","cow","pig","villager":
@@ -5477,35 +5573,10 @@ public class HelloController {
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
                     }else if (equipped.getName().equals("drill")) {
-                        mapCave[playerPositionX][playerPositionY] = "stone";
-                        while (true) {
-                            System.out.println("1");
-                            int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
-                            int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
-                            if (map[ranX][ranY].equals("grass")) {
-                                map[ranX][ranY] = "playerOverGrass";
-                                playerPositionY = ranY;
-                                playerPositionX = ranX;
-                                break;
-                            }else if (map[ranX][ranY].equals("stone")) {
-                                map[ranX][ranY] = "playerOverStone";
-                                playerPositionY = ranY;
-                                playerPositionX = ranX;
-                                break;
-                            }
-                        }
+                        isDrilling = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
 
-                        for (int i = 0; i <map.length; i++) {
-                            for (int j = 0; j < mapCave[0].length; j++) {
-                                if(mapCave[i][j].startsWith("zombie")||mapCave[i][j].startsWith("spider")||mapCave[i][j].startsWith("creeper")){
-                                    mapCave[i][j] = "stone";
-                                }
-                            }
-                        }
-
-                        mobsNoCreepersOnMap.clear();
-                        creepersOnMap.clear();
-                        inCave = false;
                     }
                     break;
                 case "sheep","cow","pig","villager":
@@ -5786,24 +5857,10 @@ public class HelloController {
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
                     } else if (equipped.getName().equals("drill")) {
-                        mapCave[playerPositionX][playerPositionY] = "stone";
-                        while (true) {
-                            System.out.println("1");
-                            int ranX = (int) (Math.random() * 31) + playerPositionX - 15;
-                            int ranY = (int) (Math.random() * 31) + playerPositionY - 15;
-                            if (map[ranX][ranY].equals("grass")) {
-                                map[ranX][ranY] = "playerOverGrass";
-                                playerPositionY = ranY;
-                                playerPositionX = ranX;
-                                break;
-                            }else if (map[ranX][ranY].equals("stone")) {
-                                map[ranX][ranY] = "playerOverStone";
-                                playerPositionY = ranY;
-                                playerPositionX = ranX;
-                                break;
-                            }
-                        }
-                        inCave = false;
+                        isDrilling = true;
+                        miningBar.setVisible(true);
+                        miningBar.setProgress(1.0);
+
                     }
                     break;
                 case "sheep","cow","pig","villager":
@@ -6066,7 +6123,7 @@ public class HelloController {
                     }
 //                    mapNether[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
-                case "netherrack":
+                case "netherrack","lava":
                     if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX+directionChange!=3||playerPositionY!=2)){
                         int mineTime;
                         String type;
@@ -6167,7 +6224,7 @@ public class HelloController {
                     }
 //                    mapNether[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
-                case "netherrack":
+                case "netherrack","lava":
                     if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX!=3||playerPositionY+directionChange!=2)){
                         int mineTime;
                         String type;
@@ -6219,6 +6276,7 @@ public class HelloController {
 
     public void movePlayer(String dirStr, int dirNum, String[][] mapP) {
         if(moveAble) {
+            inLava = false;
             if (dirStr.equals("x")) {
                 if (mapP[playerPositionX + dirNum][playerPositionY].equals("grass")) {
                     if (mapP[playerPositionX][playerPositionY].equals("playerOverGrass")) {
@@ -6238,7 +6296,11 @@ public class HelloController {
                     mapP[playerPositionX][playerPositionY] = "playerOverStone";
 
                 }else if (mapP[playerPositionX + dirNum][playerPositionY].equals("netherrack")) {
-                    mapP[playerPositionX][playerPositionY] = "netherrack";
+                    if(mapP[playerPositionX][playerPositionY].endsWith("Netherrack")){
+                        mapP[playerPositionX][playerPositionY] = "netherrack";
+                    }else{
+                        mapP[playerPositionX][playerPositionY] = "lava";
+                    }
                     playerPositionX += dirNum;
                     mapP[playerPositionX][playerPositionY] = "playerOverNetherrack";
                 }else if (mapP[playerPositionX + dirNum][playerPositionY].equals("netherPortal")) {
@@ -6247,6 +6309,17 @@ public class HelloController {
                     }else{
                         exitNether();
                     }
+                }else if (mapP[playerPositionX + dirNum][playerPositionY].equals("lava")) {
+                    if(mapP[playerPositionX][playerPositionY].endsWith("Netherrack")){
+                        mapP[playerPositionX][playerPositionY] = "netherrack";
+                    }else{
+                        mapP[playerPositionX][playerPositionY] = "lava";
+                    }
+                    playerPositionX += dirNum;
+                    mapP[playerPositionX][playerPositionY] = "playerInLava";
+                    inLava = true;
+                    moveAble = false;
+                    moveTime = System.nanoTime();
                 }
             } else if (dirStr.equals("y")) {
                 if (mapP[playerPositionX][playerPositionY + dirNum].equals("grass")) {
@@ -6266,7 +6339,11 @@ public class HelloController {
                     playerPositionY += dirNum;
                     mapP[playerPositionX][playerPositionY] = "playerOverStone";
                 }else if (mapP[playerPositionX][playerPositionY + dirNum].equals("netherrack")) {
-                    mapP[playerPositionX][playerPositionY] = "netherrack";
+                    if(mapP[playerPositionX][playerPositionY].endsWith("Netherrack")){
+                        mapP[playerPositionX][playerPositionY] = "netherrack";
+                    }else{
+                        mapP[playerPositionX][playerPositionY] = "lava";
+                    }
                     playerPositionY += dirNum;
                     mapP[playerPositionX][playerPositionY] = "playerOverNetherrack";
                 }else if (mapP[playerPositionX][playerPositionY + dirNum].equals("netherPortal")) {
@@ -6275,6 +6352,17 @@ public class HelloController {
                     }else{
                         exitNether();
                     }
+                }else if (mapP[playerPositionX][playerPositionY + dirNum].equals("lava")) {
+                    if(mapP[playerPositionX][playerPositionY].endsWith("Netherrack")){
+                        mapP[playerPositionX][playerPositionY] = "netherrack";
+                    }else{
+                        mapP[playerPositionX][playerPositionY] = "lava";
+                    }
+                    playerPositionY += dirNum;
+                    mapP[playerPositionX][playerPositionY] = "playerInLava";
+                    inLava = true;
+                    moveAble = false;
+                    moveTime = System.nanoTime();
                 }
             }
             tempHunger -= 0.1;
@@ -6371,6 +6459,19 @@ public class HelloController {
 
     }
 
+
+    private void createLava(){
+        for (int i = 0; i < mapNether.length; i++) {
+            for (int j = 0; j < mapNether[0].length; j++) {
+                int ranNum = (int)(Math.random()*10);
+                if(ranNum == 0){
+                    if(mapNether[i][j].equals("netherrack")&&(i!=3||j!=2)) {
+                        mapNether[i][j] = "lava";
+                    }
+                }
+            }
+        }
+    }
     private void createCaveBiomes(){
         int startX = 0;
         int startY = 0;
