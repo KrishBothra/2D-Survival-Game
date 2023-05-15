@@ -167,7 +167,7 @@ public class HelloController {
 
     private boolean inNether = false;
 
-    int dayTime = 180;
+    int dayTime = 10;
     int nightTime = 60;
 
     boolean day = true;
@@ -500,7 +500,7 @@ public class HelloController {
     @FXML
     private void onClick() {
         System.out.println((false));
-        creepersOnMap.add(new Creepers("creeperOverGrass",30,new Food("rottenFlesh",5),(int)(Math.random()*15),0.75,(int) (Math.random()*3)+1,  99,160));
+        creepersOnMap.add(new Creepers("creeperOverGrass",30,new inventoryItems("flint"),(int)(Math.random()*15),0.75,1,  99,160));
         startB.setDisable(true);
         healthBar.setProgress(tempHealth/totalHealth);
         healthBar.setStyle(" -fx-accent: #FF0000; ");
@@ -1598,6 +1598,16 @@ public class HelloController {
                             mapNight[i][j].setOpacity(0.0);
                         } else if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
                             mapNight[i][j].setOpacity(0.5);
+                            if (mapBackground[tempPlayerPositionX - 12 + i][j ].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][j ].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][j ].equals("autumn")) {
+                                img[i][j].setImage(grass);
+                            } else {
+                                img[i][j].setImage(stone);
+                            }
+                        }
+                        if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        }else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
                         }
                     }
                 }
@@ -1690,6 +1700,11 @@ public class HelloController {
                             mapNight[i][j].setOpacity(0.5);
                         } else if (mapNightCave[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
                             mapNight[i][j].setOpacity(0.8);
+                            img[i][j].setImage(stone);
+                        }
+
+                        if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
                         }
                     }
                 }
@@ -1905,8 +1920,19 @@ public class HelloController {
                         if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("light")) {
                             mapNight[i][j].setOpacity(0.0); //steve
                         } else if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
-                            mapNight[i][j].setOpacity(0.5); //steve
+                            mapNight[i][j].setOpacity(0.5);
+                            if (mapBackground[playerPositionX - 12 + i][j ].equals("grass") || mapBackground[playerPositionX - 12 + i][j ].equals("normal") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruit") || mapBackground[playerPositionX - 12 + i][j ].equals("autumn")) {
+                                img[i][j].setImage(grass);
+                            } else {
+                                img[i][j].setImage(stone);
+                            }
                         }
+                        if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
+                        }else if (map[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverGrass")) {
+                            img[i][j].setImage(playerOverGrass); //steve
+                        }
+                        
                     }
                 }
             } else{
@@ -2012,6 +2038,11 @@ public class HelloController {
                             mapNight[i][j].setOpacity(0.5); //steve
                         } else if (mapNightCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
                             mapNight[i][j].setOpacity(0.8); //steve
+                            img[i][j].setImage(stone);
+                        }
+
+                        if (mapCave[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("playerOverStone")) {
+                            img[i][j].setImage(playerOverStone);
                         }
                     }
                 }
@@ -2372,7 +2403,10 @@ public class HelloController {
                 inventoryA[4][9] = new Resources("torch","axe");
                 inventoryA[4][9].setAmount(4);
             }
-
+            //flint and steel
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("flint")){
+                inventoryA[4][9] = new inventoryItems("flintAndSteel");
+            }
 
 
             else{
@@ -2381,6 +2415,11 @@ public class HelloController {
                 }
                 inventoryA[4][9].setAmount(0);
             }
+
+
+
+
+
         }
 
 
@@ -2928,7 +2967,17 @@ public class HelloController {
                 inventoryA[4][9].setAmount(4);
             }
 
+            //flint and steel
 
+            else if(tl.getName().equals("ruby")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("flint")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("flintAndSteel");
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("ruby")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("flint")){
+                inventoryA[4][9] = new inventoryItems("flintAndSteel");
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("flint")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("ruby")&&tmc.getName().equals("empty")&&trc.getName().equals("empty")&&mrc.getName().equals("empty")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("flintAndSteel");
+            }else if(tl.getName().equals("empty")&&tr.getName().equals("empty")&&bl.getName().equals("empty")&&br.getName().equals("empty")&&tlc.getName().equals("empty")&&tmc.getName().equals("ruby")&&trc.getName().equals("empty")&&mrc.getName().equals("flint")&&brc.getName().equals("empty")){
+                inventoryA[4][9] = new inventoryItems("flintAndSteel");
+            }
 
 
 
@@ -4315,7 +4364,7 @@ public class HelloController {
 
 
     public void onKeyPressed(KeyEvent keyEvent) {
-        coordsLabel.setText("X: " + playerPositionX + "\nY: " + playerPositionY);
+        coordsLabel.setText("X: " + playerPositionX + " Y: " + playerPositionY);
         if(!miningObject&&!eatingFood&&!isDrilling) {
             if (!inventoryShowing) {
                 if (keyEvent.getText().equalsIgnoreCase("w")) {
@@ -5231,12 +5280,22 @@ public class HelloController {
                                     mapNightCave[k][m] = "light";
                                 }
                             }
-                            updateScreen();
+
                         }
                     }
                 }
 
+                for (int k = playerPositionX-2; k <= playerPositionX+2; k++) {
+                    for (int m = playerPositionY - 2; m <= playerPositionY + 2; m++) {
+                        mapNightCave[k][m] = "light";
+                        mapNightS[k][m] = "light";
+                    }
+                }
+                updateScreen();
+                
+
                 if(inCave) {
+                    
                     if (now - mobSpawnTimeCave > 1000000000.0) {
                         mobSpawnTimeCave = System.nanoTime();
                         int ranNum = (int) (Math.random() * 10);
@@ -5260,7 +5319,7 @@ public class HelloController {
                                         }
                                     } else {
                                        if (mapCave[ranX][ranY].equals("stone")) {
-                                            creepersOnMap.add(new Creepers("creeperOverStone", 30, new Food("rottenFlesh", 5), (int) (Math.random() * 15), 0.75, (int) (Math.random() * 3) + 1, ranX, ranY));
+                                            creepersOnMap.add(new Creepers("creeperOverStone", 30, new inventoryItems("flint"), (int) (Math.random() * 15), 0.75, 1, ranX, ranY));
                                             break;
                                        }
                                     }
@@ -5312,10 +5371,10 @@ public class HelloController {
                         }
                     } else {
                         if (map[ranX][ranY].equals("grass")) {
-                            creepersOnMap.add(new Creepers("creeperOverGrass", 30, new Food("rottenFlesh", 5), (int) (Math.random() * 15), 0.75, (int) (Math.random() * 3) + 1, ranX, ranY));
+                            creepersOnMap.add(new Creepers("creeperOverGrass", 30, new inventoryItems("flint"), (int) (Math.random() * 15), 0.75, 1, ranX, ranY));
                             break;
                         } else if (map[ranX][ranY].equals("stone")) {
-                            creepersOnMap.add(new Creepers("creeperOverStone", 30, new Food("rottenFlesh", 5), (int) (Math.random() * 15), 0.75, (int) (Math.random() * 3) + 1, ranX, ranY));
+                            creepersOnMap.add(new Creepers("creeperOverStone", 30, new inventoryItems("flint"), (int) (Math.random() * 15), 0.75, 1, ranX, ranY));
                             break;
                         }
                     }
