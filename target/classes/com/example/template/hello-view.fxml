@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="1080" maxWidth="1920" minHeight="1080" minWidth="1920" onKeyPressed="#onKeyPressed" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
+<AnchorPane fx:id="anchor" maxHeight="1080" maxWidth="1920" minHeight="1080" minWidth="1920" onKeyPressed="#onKeyPressed" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #D3D3D3" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.template.HelloController">
    <children>
       <Rectangle fx:id="slot1" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="100.0" stroke="RED" strokeType="INSIDE" width="30.0" />
       <Rectangle fx:id="slot2" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="1880.0" layoutY="262.0" stroke="RED" strokeType="INSIDE" visible="false" width="30.0" />
@@ -28,7 +28,10 @@
       <GridPane fx:id="inventoryPane" layoutX="10.0" layoutY="25.0" />
       <GridPane fx:id="craftingPane" layoutX="10.0" layoutY="25.0" />
       <GridPane fx:id="hotbarG" layoutX="1700.0" layoutY="25.0" />
-      <Label fx:id="coordsLabel" layoutX="1803.0" layoutY="253.0" text="Label" />
+      <Label fx:id="coordsLabel" layoutX="800.0" layoutY="985.0" text="X: 98 Y: 163" textFill="WHITE">
+         <font>
+            <Font name="Comic Sans MS" size="23.0" />
+         </font></Label>
       <Label fx:id="one2" layoutX="452.0" layoutY="310.0" text="22">
          <font>
             <Font name="Comic Sans MS" size="23.0" />
