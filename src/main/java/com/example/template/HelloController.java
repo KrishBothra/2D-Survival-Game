@@ -51,7 +51,7 @@ public class HelloController {
     private ImageView arrowImg,deathScreenImg,hitScreenImg;
 
     @FXML
-    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar,swingBar, fuelBar, smeltingBar;
+    private ProgressBar miningBar, healthBar, hungerBar,dayNightBar,overHealthBar,swingBar, fuelBar, smeltingBar,witherHealth;
 
     @FXML
     private Rectangle slot1,slot2,slot3,slot4,slot5;
@@ -66,6 +66,10 @@ public class HelloController {
     private long smeltingTime;
     private long amountToSmelt, amountToBurn;
 
+    int placeBossX = 0;
+    int placeBossY = 0;
+    boolean placedBoss = false;
+    long placeBossTime =System.nanoTime();
     private long inLavaTime = System.nanoTime();
 
     private long mobSpawnTimeCave = System.nanoTime();
@@ -79,6 +83,8 @@ public class HelloController {
     private boolean inCave = false;
 
     ImageView[][] img = new ImageView[x][y];
+
+    double bossCount = 4;
 
 
     private ImageView[][] hotbarImg = new ImageView[5][1];
@@ -153,7 +159,7 @@ public class HelloController {
 
     double totalHealth = 100;
     int tradeSelectedIndex;
-    double tempHealth = 15;
+    double tempHealth = 100;
 
     String typeTradeSelected;
 
@@ -167,7 +173,7 @@ public class HelloController {
 
     private boolean inNether = false;
 
-    int dayTime = 10;
+    int dayTime = 120;
     int nightTime = 60;
 
     boolean day = true;
@@ -193,6 +199,10 @@ public class HelloController {
     int miningX;
     int miningY;
     mineObjects tempMine = null;
+
+    inventoryItems randomWitherDrop;
+
+
     //12,20----13,21
 //    MediaPlayer mediaPlayer;
 //    Media sound;
@@ -508,6 +518,7 @@ public class HelloController {
         hungerBar.setStyle(" -fx-accent: #987554; ");
         dayNightBar.setStyle(" -fx-accent: orange; ");
         hitScreenImg.setImage(hitScreen);
+        witherHealth.setStyle("-fx-accent: purple;");
 
 //        mediaPlayer.play();
         biomeNameList.add("fruitTree");
@@ -1300,21 +1311,21 @@ public class HelloController {
             }
         }
 
-        inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
+//        inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
         inventoryA[4][2] = new Resources("craftingTable", "axe");
-        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",15,1);
-        inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
-        inventoryA[1][1].setAmount(99);
-        inventoryA[1][4] = new inventoryItems("coal");
-        inventoryA[1][4].setAmount(99);
+        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",15,20);
+//        inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
+//        inventoryA[1][1].setAmount(99);
+//        inventoryA[1][4] = new inventoryItems("coal");
+//        inventoryA[1][4].setAmount(99);
         inventoryA[2][4] = new Resources("torch","axe");
         inventoryA[2][4].setAmount(99);
         inventoryA[1][2] = new Resources("normalWood", "axe");
         inventoryA[1][2].setAmount(99);
-        inventoryA[1][3] = new Resources("autumnWood", "axe");
-        inventoryA[1][3].setAmount(99);
-        inventoryA[2][1] = new Resources("fruitWood", "axe");
-        inventoryA[2][1].setAmount(99);
+//        inventoryA[1][3] = new Resources("autumnWood", "axe");
+//        inventoryA[1][3].setAmount(99);
+//        inventoryA[2][1] = new Resources("fruitWood", "axe");
+//        inventoryA[2][1].setAmount(99);
         inventoryA[2][2] = new Food("cookedBeef",25);
         inventoryA[2][2].setAmount(99);
         inventoryA[3][4] = new inventoryItems("ruby");
@@ -1325,17 +1336,18 @@ public class HelloController {
 //        inventoryA[3][1].setAmount(99);
         inventoryA[3][2] = new inventoryItems("stick");
         inventoryA[3][2].setAmount(99);
-        inventoryA[4][4] = new Resources("furnace", "pickaxe");
-        inventoryA[4][4].setAmount(99);
-        inventoryA[4][5] = new Resources("goldOre","pickaxe");
-        inventoryA[4][5].setAmount(99);
+//        inventoryA[4][4] = new Resources("furnace", "pickaxe");
+//        inventoryA[4][4].setAmount(99);
+//        inventoryA[4][5] = new Resources("goldOre","pickaxe");
+//        inventoryA[4][5].setAmount(99);
         inventoryA[3][5] = new inventoryItems("drill");
         inventoryA[3][1] = new inventoryItems("flintAndSteel");
         inventoryA[2][5] = new Resources("obsidian","pickaxe");
         inventoryA[2][5].setAmount(99);
         inventoryA[1][5] = new inventoryItems("diamond");
         inventoryA[1][5].setAmount(99);
-
+        inventoryA[4][5] = new Resources("bossSoul");
+        inventoryA[4][5].setAmount(2);
         otherTrades.add("goldHelmet");
         otherTrades.add("woodChestplate");
         otherTrades.add("rubyAxe");
@@ -1347,6 +1359,9 @@ public class HelloController {
         otherTrades.add("goldSword");
         otherTrades.add("rawPork");
         otherTrades.add("cookedBeef");
+
+
+
 
         for(Villagers villager: villagersOnMap){
             int random = (int)(Math.random()*2)+1;
@@ -1396,6 +1411,7 @@ public class HelloController {
 //        inCave = true;
 
     }
+
 
 
 
@@ -4364,7 +4380,11 @@ public class HelloController {
 
 
     public void onKeyPressed(KeyEvent keyEvent) {
-        coordsLabel.setText("X: " + playerPositionX + " Y: " + playerPositionY);
+        if(!inNether) {
+            coordsLabel.setText("X: " + playerPositionX + " Y: " + playerPositionY);
+        }else{
+            coordsLabel.setText("Wither Health");
+        }
         if(!miningObject&&!eatingFood&&!isDrilling) {
             if (!inventoryShowing) {
                 if (keyEvent.getText().equalsIgnoreCase("w")) {
@@ -4436,7 +4456,7 @@ public class HelloController {
                     interactTwo();
                 }
             }
-            if(!craftingShowing) {
+            if(!craftingShowing&&!furnaceShowing&&!tradingShowing) {
                 if (keyEvent.getText().equalsIgnoreCase("q")) {
                     if (inventoryShowing) {
                         gPane.setVisible(true);
@@ -4473,45 +4493,46 @@ public class HelloController {
                     }
                 }
             }
-            if (keyEvent.getText().equalsIgnoreCase("1")) {
-                selected = 0;
-                slot1.setVisible(true);
-                slot2.setVisible(false);
-                slot3.setVisible(false);
-                slot4.setVisible(false);
-                slot5.setVisible(false);
-            } else if (keyEvent.getText().equalsIgnoreCase("2")) {
-                selected = 1;
-                slot1.setVisible(false);
-                slot2.setVisible(true);
-                slot3.setVisible(false);
-                slot4.setVisible(false);
-                slot5.setVisible(false);
-            } else if (keyEvent.getText().equalsIgnoreCase("3")) {
-                selected = 2;
-                slot1.setVisible(false);
-                slot2.setVisible(false);
-                slot3.setVisible(true);
-                slot4.setVisible(false);
-                slot5.setVisible(false);
-            } else if (keyEvent.getText().equalsIgnoreCase("4")) {
-                selected = 3;
-                slot1.setVisible(false);
-                slot2.setVisible(false);
-                slot3.setVisible(false);
-                slot4.setVisible(true);
-                slot5.setVisible(false);
-            } else if (keyEvent.getText().equalsIgnoreCase("5")) {
-                selected = 4;
-                slot1.setVisible(false);
-                slot2.setVisible(false);
-                slot3.setVisible(false);
-                slot4.setVisible(false);
-                slot5.setVisible(true);
-            }else if (keyEvent.getText().equalsIgnoreCase("6")) {
-                wither.add(new Wither("witherOverNetherrack",100,new inventoryItems("rottenFlesh"),3,10,10,15));
+            if(!placedBoss) {
+                if (keyEvent.getText().equalsIgnoreCase("1")) {
+                    selected = 0;
+                    slot1.setVisible(true);
+                    slot2.setVisible(false);
+                    slot3.setVisible(false);
+                    slot4.setVisible(false);
+                    slot5.setVisible(false);
+                } else if (keyEvent.getText().equalsIgnoreCase("2")) {
+                    selected = 1;
+                    slot1.setVisible(false);
+                    slot2.setVisible(true);
+                    slot3.setVisible(false);
+                    slot4.setVisible(false);
+                    slot5.setVisible(false);
+                } else if (keyEvent.getText().equalsIgnoreCase("3")) {
+                    selected = 2;
+                    slot1.setVisible(false);
+                    slot2.setVisible(false);
+                    slot3.setVisible(true);
+                    slot4.setVisible(false);
+                    slot5.setVisible(false);
+                } else if (keyEvent.getText().equalsIgnoreCase("4")) {
+                    selected = 3;
+                    slot1.setVisible(false);
+                    slot2.setVisible(false);
+                    slot3.setVisible(false);
+                    slot4.setVisible(true);
+                    slot5.setVisible(false);
+                } else if (keyEvent.getText().equalsIgnoreCase("5")) {
+                    selected = 4;
+                    slot1.setVisible(false);
+                    slot2.setVisible(false);
+                    slot3.setVisible(false);
+                    slot4.setVisible(false);
+                    slot5.setVisible(true);
+                } else if (keyEvent.getText().equalsIgnoreCase("6")) {
+//                    wither.add(new Wither("witherOverNetherrack", 100, new inventoryItems("rottenFlesh"), 3, 10, 10, 15));
+                }
             }
-
 
         }
         updateScreen();
@@ -4522,153 +4543,156 @@ public class HelloController {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                    //3,7 is fuel        1,7 is smelted        2,9 is result
+                //3,7 is fuel        1,7 is smelted        2,9 is result
 
-                    fuelBar.setProgress(amountToBurn*1000000000.0/(double) ((now-burningTime)*10));
-                smeltingBar.setProgress(amountToSmelt*1000000000.0/(double) ((now-smeltingTime)*10));
-                    if((inventoryA[3][7].getName().equals("coal")||inventoryA[3][7].getName().equals("autumnWood")||inventoryA[3][7].getName().equals("fruitWood")||inventoryA[3][7].getName().equals("normalWood")||inventoryA[3][7].getName().equals("stick"))&&(inventoryA[1][7].getName().equals("goldOre")||inventoryA[1][7].getName().equals("rubyOre")||inventoryA[1][7].getName().equals("rawPork")||inventoryA[1][7].getName().equals("rawBeef")||inventoryA[1][7].getName().equals("rawMutton"))){
-                        if(!burningFuel){
-                            if(inventoryA[3][7].getName().equals("coal")){
-                                burningTime = System.nanoTime();
-                                burningFuel = true;
-                                amountToBurn = 10;
-                            }if(inventoryA[3][7].getName().equals("autumnWood")){
-                                burningTime = System.nanoTime();
-                                burningFuel = true;
-                                amountToBurn = 5;
-                            }if(inventoryA[3][7].getName().equals("fruitWood")){
-                                burningTime = System.nanoTime();
-                                burningFuel = true;
-                                amountToBurn = 5;
-                            }if(inventoryA[3][7].getName().equals("normalWood")){
-                                burningTime = System.nanoTime();
-                                burningFuel = true;
-                                amountToBurn = 5;
-                            }if(inventoryA[3][7].getName().equals("stick")){
-                                burningTime = System.nanoTime();
-                                burningFuel = true;
-                                amountToBurn = 2;
-                            }
+                fuelBar.setProgress(amountToBurn * 1000000000.0 / (double) ((now - burningTime) * 10));
+                smeltingBar.setProgress(amountToSmelt * 1000000000.0 / (double) ((now - smeltingTime) * 10));
+                if ((inventoryA[3][7].getName().equals("coal") || inventoryA[3][7].getName().equals("autumnWood") || inventoryA[3][7].getName().equals("fruitWood") || inventoryA[3][7].getName().equals("normalWood") || inventoryA[3][7].getName().equals("stick")) && (inventoryA[1][7].getName().equals("goldOre") || inventoryA[1][7].getName().equals("rubyOre") || inventoryA[1][7].getName().equals("rawPork") || inventoryA[1][7].getName().equals("rawBeef") || inventoryA[1][7].getName().equals("rawMutton"))) {
+                    if (!burningFuel) {
+                        if (inventoryA[3][7].getName().equals("coal")) {
+                            burningTime = System.nanoTime();
+                            burningFuel = true;
+                            amountToBurn = 10;
                         }
-                        if(!smelting){
-                            if(inventoryA[1][7].getName().equals("goldOre")){
-                                 smeltingTime = System.nanoTime();
-                                 amountToSmelt = 5;
-                                 smelting = true;
-                                 currentSmelting = "gold";
-                            }
-                            if(inventoryA[1][7].getName().equals("rubyOre")){
-                                smeltingTime = System.nanoTime();
-                                amountToSmelt = 5;
-                                smelting = true;
-                                currentSmelting = "ruby";
-                            }
-                            if(inventoryA[1][7].getName().equals("rawPork")){
-                                smeltingTime = System.nanoTime();
-                                amountToSmelt = 3;
-                                smelting = true;
-                                currentSmelting = "pork";
-                            }
-                            if(inventoryA[1][7].getName().equals("rawBeef")){
-                                smeltingTime = System.nanoTime();
-                                amountToSmelt = 4;
-                                smelting = true;
-                                currentSmelting = "beef";
-                            }
-                            if(inventoryA[1][7].getName().equals("rawMutton")){
-                                smeltingTime = System.nanoTime();
-                                amountToSmelt = 3;
-                                smelting = true;
-                                currentSmelting = "mutton";
-                            }
-                            if(inventoryA[3][7].getAmount()==1){
-                                inventoryA[3][7] = new inventoryItems("empty");
-                            }else{
-                                inventoryA[3][7].changeAmount(-1);
-                            }
+                        if (inventoryA[3][7].getName().equals("autumnWood")) {
+                            burningTime = System.nanoTime();
+                            burningFuel = true;
+                            amountToBurn = 5;
+                        }
+                        if (inventoryA[3][7].getName().equals("fruitWood")) {
+                            burningTime = System.nanoTime();
+                            burningFuel = true;
+                            amountToBurn = 5;
+                        }
+                        if (inventoryA[3][7].getName().equals("normalWood")) {
+                            burningTime = System.nanoTime();
+                            burningFuel = true;
+                            amountToBurn = 5;
+                        }
+                        if (inventoryA[3][7].getName().equals("stick")) {
+                            burningTime = System.nanoTime();
+                            burningFuel = true;
+                            amountToBurn = 2;
                         }
                     }
-                if(smelting) {
+                    if (!smelting) {
+                        if (inventoryA[1][7].getName().equals("goldOre")) {
+                            smeltingTime = System.nanoTime();
+                            amountToSmelt = 5;
+                            smelting = true;
+                            currentSmelting = "gold";
+                        }
+                        if (inventoryA[1][7].getName().equals("rubyOre")) {
+                            smeltingTime = System.nanoTime();
+                            amountToSmelt = 5;
+                            smelting = true;
+                            currentSmelting = "ruby";
+                        }
+                        if (inventoryA[1][7].getName().equals("rawPork")) {
+                            smeltingTime = System.nanoTime();
+                            amountToSmelt = 3;
+                            smelting = true;
+                            currentSmelting = "pork";
+                        }
+                        if (inventoryA[1][7].getName().equals("rawBeef")) {
+                            smeltingTime = System.nanoTime();
+                            amountToSmelt = 4;
+                            smelting = true;
+                            currentSmelting = "beef";
+                        }
+                        if (inventoryA[1][7].getName().equals("rawMutton")) {
+                            smeltingTime = System.nanoTime();
+                            amountToSmelt = 3;
+                            smelting = true;
+                            currentSmelting = "mutton";
+                        }
+                        if (inventoryA[3][7].getAmount() == 1) {
+                            inventoryA[3][7] = new inventoryItems("empty");
+                        } else {
+                            inventoryA[3][7].changeAmount(-1);
+                        }
+                    }
+                }
+                if (smelting) {
                     if (now - smeltingTime > 1000000000.0 * amountToSmelt) {
-                        if(inventoryA[2][9].getName().equals("empty")){
-                            if(currentSmelting.equals("gold")){
+                        if (inventoryA[2][9].getName().equals("empty")) {
+                            if (currentSmelting.equals("gold")) {
                                 inventoryA[2][9] = new inventoryItems("goldIngot");
                                 inventoryA[2][9].setAmount(1);
                             }
-                            if(currentSmelting.equals("ruby")){
+                            if (currentSmelting.equals("ruby")) {
                                 inventoryA[2][9] = new inventoryItems("ruby");
                                 inventoryA[2][9].setAmount(1);
                             }
-                            if(currentSmelting.equals("pork")){
+                            if (currentSmelting.equals("pork")) {
                                 inventoryA[2][9] = new Food("cookedPork", 20);
                                 inventoryA[2][9].setAmount(1);
                             }
-                            if(currentSmelting.equals("mutton")){
+                            if (currentSmelting.equals("mutton")) {
                                 inventoryA[2][9] = new Food("cookedMutton", 15);
                                 inventoryA[2][9].setAmount(1);
                             }
-                            if(currentSmelting.equals("beef")){
+                            if (currentSmelting.equals("beef")) {
                                 inventoryA[2][9] = new Food("cookedBeef", 25);
                                 inventoryA[2][9].setAmount(1);
                             }
-                        }else{
+                        } else {
                             inventoryA[2][9].changeAmount(1);
                         }
-                        if(inventoryA[1][7].getAmount()==1){
+                        if (inventoryA[1][7].getAmount() == 1) {
                             inventoryA[1][7] = new inventoryItems("empty");
-                        }else{
+                        } else {
                             inventoryA[1][7].changeAmount(-1);
                         }
                         currentSmelting = "";
                         smelting = false;
                     }
                 }
-                if(burningFuel){
-                    if(now-burningTime > 1000000000.0 * amountToBurn){
+                if (burningFuel) {
+                    if (now - burningTime > 1000000000.0 * amountToBurn) {
                         burningFuel = false;
                     }
                 }
-                if(miningObject){
+                if (miningObject) {
                     //1000000000.0
 
-                    if(now-miningTime>1000000000.0/toolBoost){
+                    if (now - miningTime > 1000000000.0 / toolBoost) {
                         miningTime = System.nanoTime();
                         tempMineTime--;
-                        miningBar.setProgress((double) tempMineTime/tempMine.getMineTime());
-                        if(tempMineTime < 1)   {
-                            toolBoost =1 ;
+                        miningBar.setProgress((double) tempMineTime / tempMine.getMineTime());
+                        if (tempMineTime < 1) {
+                            toolBoost = 1;
                             ///////TEMPORARY not anymore?
-                            if(!inCave) {
+                            if (!inCave) {
                                 if (mapBackground[miningX][miningY].equals("grass") || mapBackground[miningX][miningY].equals("normal") || mapBackground[miningX][miningY].equals("fruit") || mapBackground[miningX][miningY].equals("autumn")) {
                                     map[miningX][miningY] = "grass";
                                 } else {
                                     System.out.println(tempMine.getName());
                                     map[miningX][miningY] = "stone";
                                 }
-                            }else{
+                            } else {
                                 mapCave[miningX][miningY] = "stone";
                             }
                             miningObject = false;
                             miningBar.setVisible(false);
                             firstMine = false;
-                            if(!inCave) {
+                            if (!inCave) {
                                 mineObjectsOnMap.remove(tempMine);
-                            }else if(inNether){
+                            } else if (inNether) {
                                 mineObjectsOnMapNether.remove(tempMine);
-                            }
-                            else{
+                            } else {
                                 mineObjectsOnMapCave.remove(tempMine);
                             }
                             breakB = false;
-                            for (int i = 4; i >=1; i--) {
-                                for (int j = 1; j <=5; j++) {
-                                    if(inventoryA[i][j].getName().equals(tempMine.getResourceDrop().getName())){
+                            for (int i = 4; i >= 1; i--) {
+                                for (int j = 1; j <= 5; j++) {
+                                    if (inventoryA[i][j].getName().equals(tempMine.getResourceDrop().getName())) {
                                         System.out.println("hi");
                                         inventoryA[i][j].changeAmount(tempMine.getAmountDrop());
-                                        if(tempMine.getAmountDropSecond()!= 0){
-                                            for (int m = 4; m >=1; m--) {
-                                                for (int k = 1; k <=5; k++) {
-                                                    if(inventoryA[m][k].getName().equals(tempMine.getResourceDropSecond().getName())){
+                                        if (tempMine.getAmountDropSecond() != 0) {
+                                            for (int m = 4; m >= 1; m--) {
+                                                for (int k = 1; k <= 5; k++) {
+                                                    if (inventoryA[m][k].getName().equals(tempMine.getResourceDropSecond().getName())) {
                                                         System.out.println("hey");
                                                         inventoryA[m][k].changeAmount(tempMine.getAmountDropSecond());
                                                         breakB = true;
@@ -4677,18 +4701,17 @@ public class HelloController {
                                                 }
 
 
-
-                                                if(breakB){
+                                                if (breakB) {
                                                     break;
                                                 }
                                             }
 
-                                            for (int m = 4; m >=1; m--) {
-                                                if(breakB){
+                                            for (int m = 4; m >= 1; m--) {
+                                                if (breakB) {
                                                     break;
                                                 }
-                                                for (int k = 1; k <=5; k++) {
-                                                    if(inventoryA[m][k].getName().equals("empty")){
+                                                for (int k = 1; k <= 5; k++) {
+                                                    if (inventoryA[m][k].getName().equals("empty")) {
                                                         inventoryA[m][k] = tempMine.getResourceDropSecond();
                                                         inventoryA[m][k].setAmount(tempMine.getAmountDropSecond());
                                                         breakB = true;
@@ -4696,7 +4719,7 @@ public class HelloController {
                                                     }
                                                 }
 
-                                                if(breakB){
+                                                if (breakB) {
                                                     break;
                                                 }
                                             }
@@ -4705,52 +4728,50 @@ public class HelloController {
                                         break;
                                     }
                                 }
-                                if(breakB){
+                                if (breakB) {
                                     break;
                                 }
                             }
 
 
-
-
-                            for (int i = 4; i >=1; i--) {
-                                if(breakB){
+                            for (int i = 4; i >= 1; i--) {
+                                if (breakB) {
                                     breakB = false;
                                     break;
                                 }
-                                for (int j = 1; j <=5; j++) {
-                                    if(inventoryA[i][j].getName().equals("empty")){
+                                for (int j = 1; j <= 5; j++) {
+                                    if (inventoryA[i][j].getName().equals("empty")) {
                                         inventoryA[i][j] = tempMine.getResourceDrop();
                                         inventoryA[i][j].setAmount(tempMine.getAmountDrop());
-                                        if(tempMine.getAmountDropSecond()!= 0){
-                                            for (int m = 4; m >=1; m--) {
-                                                for (int k = 1; k <=5; k++) {
-                                                    if(inventoryA[m][k].getName().equals(tempMine.getResourceDropSecond().getName())){
+                                        if (tempMine.getAmountDropSecond() != 0) {
+                                            for (int m = 4; m >= 1; m--) {
+                                                for (int k = 1; k <= 5; k++) {
+                                                    if (inventoryA[m][k].getName().equals(tempMine.getResourceDropSecond().getName())) {
                                                         System.out.println("hi");
                                                         inventoryA[m][k].changeAmount(tempMine.getAmountDropSecond());
                                                         breakB = true;
                                                         break;
                                                     }
                                                 }
-                                                if(breakB){
+                                                if (breakB) {
                                                     break;
                                                 }
                                             }
 
 
-                                            for (int m = 4; m >=1; m--) {
-                                                if(breakB){
+                                            for (int m = 4; m >= 1; m--) {
+                                                if (breakB) {
                                                     break;
                                                 }
-                                                for (int k = 1; k <=5; k++) {
-                                                    if(inventoryA[m][k].getName().equals("empty")){
+                                                for (int k = 1; k <= 5; k++) {
+                                                    if (inventoryA[m][k].getName().equals("empty")) {
                                                         inventoryA[m][k] = tempMine.getResourceDropSecond();
                                                         inventoryA[m][k].setAmount(tempMine.getAmountDropSecond());
                                                         breakB = true;
                                                         break;
                                                     }
                                                 }
-                                                if(breakB){
+                                                if (breakB) {
                                                     break;
                                                 }
                                             }
@@ -4759,7 +4780,7 @@ public class HelloController {
                                         break;
                                     }
                                 }
-                                if(breakB){
+                                if (breakB) {
                                     breakB = false;
                                     break;
                                 }
@@ -4772,11 +4793,11 @@ public class HelloController {
 
                 }
 
-                if(!miningObject){
-                    for (int i = 0; i <inventoryA.length ; i++) {
-                        for (int j = 0; j <inventoryA[0].length ; j++) {
-                            if(inventoryA[i][j].getTier()>0){
-                                if(inventoryA[i][j].getDurability()<=0){
+                if (!miningObject) {
+                    for (int i = 0; i < inventoryA.length; i++) {
+                        for (int j = 0; j < inventoryA[0].length; j++) {
+                            if (inventoryA[i][j].getTier() > 0) {
+                                if (inventoryA[i][j].getDurability() <= 0) {
                                     inventoryA[i][j] = new inventoryItems("empty");
                                 }
                             }
@@ -4784,21 +4805,21 @@ public class HelloController {
                     }
                 }
 
-                for (int i = 1; i <=4 ; i++) {
-                    if(inventoryA[i][7].getDurability()<=0){
-                        if(!tradingShowing&&!furnaceShowing) {
+                for (int i = 1; i <= 4; i++) {
+                    if (inventoryA[i][7].getDurability() <= 0) {
+                        if (!tradingShowing && !furnaceShowing) {
                             inventoryA[i][7] = new inventoryItems("empty");
                         }
                     }
                 }
 
 
-                if(inLava){
-                    if(now - inLavaTime >1000000000.0){
-                        tempHealth -= 10 - (10*(tempOverHealth*0.005833333333));
+                if (inLava) {
+                    if (now - inLavaTime > 1000000000.0) {
+                        tempHealth -= 10 - (10 * (tempOverHealth * 0.005833333333));
                         healthBar.setProgress(tempHealth / totalHealth);
                         inLavaTime = System.nanoTime();
-                        for (int i = 1; i <=4 ; i++) {
+                        for (int i = 1; i <= 4; i++) {
                             inventoryA[i][7].changeDurability(-1);
                         }
                         playerHit = true;
@@ -4807,42 +4828,72 @@ public class HelloController {
                     }
                 }
 
-                if(eatingFood){
-                    if(now-eatingTime>1000000000.0/2){
-                        eatingTime = System.nanoTime();
-                        eatingCount--;
-                        miningBar.setProgress((double) eatingCount/6);
-
-                        if(eatingCount<=0){
-                            eatingCount = 6;
+                if (placedBoss) {
+                    if (now - placeBossTime > 1000000000.0) {
+                        bossCount--;
+                        miningBar.setProgress(bossCount / 4);
+                        placeBossTime = System.nanoTime();
+                        if (bossCount <= 0) {
                             miningBar.setVisible(false);
-                            eatingFood = false;
-
-                            tempHunger+= equipped.getHungerGain();
-                            if(tempHunger>100){
-                                tempHunger = 100;
+                            bossCount = 4;
+                            placedBoss = false;
+                            randomWitherDropF();
+                            if (mapBackgroundNether[placeBossX][placeBossY].equals("netherrack")) {
+                                wither.add(new Wither("witherOverNetherrack", 100, randomWitherDrop, 10, placeBossX, placeBossY));
+                            } else {
+                                wither.add(new Wither("witherOverLava", 100, randomWitherDrop, 10, placeBossX, placeBossY));
                             }
-                            if(equipped.getAmount()>1){
+                            witherHealth.setVisible(true);
+                            witherHealth.setProgress(wither.get(0).getHealth()/100);
+                            if (equipped.getAmount() > 1) {
                                 equipped.changeAmount(-1);
-                            }else{
-                                inventoryA[4][selected+1] = new inventoryItems("empty");
-                                System.out.println(inventoryA[4][selected+1].getName());
+                            } else {
+                                inventoryA[4][selected + 1] = new inventoryItems("empty");
+                                System.out.println(inventoryA[4][selected + 1].getName());
                                 updateScreen();
                                 System.out.println(hotbar[selected].getName());
                                 System.out.println(equipped.getName());
                             }
-                            hungerBar.setProgress(tempHunger/totalHunger);
                         }
                     }
                 }
 
-                if(animalsOnMap.size()>0){
-                    for(Animals animal:animalsOnMap){
-                        if(now - animal.getStartTime() > 1000000000.0 * 1.5){
-                            if(animal.getMovementTime()<0){
+                if (eatingFood) {
+                    if (now - eatingTime > 1000000000.0 / 2) {
+                        eatingTime = System.nanoTime();
+                        eatingCount--;
+                        miningBar.setProgress((double) eatingCount / 6);
+
+                        if (eatingCount <= 0) {
+                            eatingCount = 6;
+                            miningBar.setVisible(false);
+                            eatingFood = false;
+
+                            tempHunger += equipped.getHungerGain();
+                            if (tempHunger > 100) {
+                                tempHunger = 100;
+                            }
+                            if (equipped.getAmount() > 1) {
+                                equipped.changeAmount(-1);
+                            } else {
+                                inventoryA[4][selected + 1] = new inventoryItems("empty");
+                                System.out.println(inventoryA[4][selected + 1].getName());
+                                updateScreen();
+                                System.out.println(hotbar[selected].getName());
+                                System.out.println(equipped.getName());
+                            }
+                            hungerBar.setProgress(tempHunger / totalHunger);
+                        }
+                    }
+                }
+
+                if (animalsOnMap.size() > 0) {
+                    for (Animals animal : animalsOnMap) {
+                        if (now - animal.getStartTime() > 1000000000.0 * 1.5) {
+                            if (animal.getMovementTime() < 0) {
                                 animal.changeLoc(map);
                                 animal.resetStartTime();
-                            }else{
+                            } else {
                                 animal.changeMovementTime(-1);
                             }
 
@@ -4852,15 +4903,15 @@ public class HelloController {
                     updateScreen();
                 }
 
-                if(villagersOnMap.size()>0){
-                    for(Villagers villager:villagersOnMap){
-                        if(now - villager.getStartTime() > 1000000000.0 * 1.5){
-                            if(villager.getMovementTime()<0){
-                                if(!tradingShowing){
+                if (villagersOnMap.size() > 0) {
+                    for (Villagers villager : villagersOnMap) {
+                        if (now - villager.getStartTime() > 1000000000.0 * 1.5) {
+                            if (villager.getMovementTime() < 0) {
+                                if (!tradingShowing) {
                                     villager.changeLoc(map, mapBackground);
                                 }
                                 villager.resetStartTime();
-                            }else{
+                            } else {
                                 villager.changeMovementTime(-1);
                             }
 
@@ -4869,7 +4920,7 @@ public class HelloController {
                     }
                     updateScreen();
                 }
-                if(inNether) {
+                if (inNether) {
                     if (wither.size() > 0) {
                         for (Wither w : wither) {
                             if (now - w.getStartTime() > 1000000000.0) {
@@ -4923,16 +4974,16 @@ public class HelloController {
                 }
 
 
-                if(isDrilling){
-                    if(now - drillTime> 1000000000.0) {
+                if (isDrilling) {
+                    if (now - drillTime > 1000000000.0) {
                         drillAmt--;
                         drillTime = System.nanoTime();
-                        miningBar.setProgress(drillAmt/3);
-                        if(drillAmt<=0){
+                        miningBar.setProgress(drillAmt / 3);
+                        if (drillAmt <= 0) {
                             miningBar.setVisible(false);
                             isDrilling = false;
                             drillAmt = 3;
-                            if(inCave){
+                            if (inCave) {
                                 mapCave[playerPositionX][playerPositionY] = "stone";
                                 while (true) {
                                     System.out.println("1");
@@ -4943,7 +4994,7 @@ public class HelloController {
                                         playerPositionY = ranY;
                                         playerPositionX = ranX;
                                         break;
-                                    }else if (map[ranX][ranY].equals("stone")) {
+                                    } else if (map[ranX][ranY].equals("stone")) {
                                         map[ranX][ranY] = "playerOverStone";
                                         playerPositionY = ranY;
                                         playerPositionX = ranX;
@@ -4951,9 +5002,9 @@ public class HelloController {
                                     }
                                 }
 
-                                for (int i = 0; i <map.length; i++) {
+                                for (int i = 0; i < map.length; i++) {
                                     for (int j = 0; j < mapCave[0].length; j++) {
-                                        if(mapCave[i][j].startsWith("zombie")||mapCave[i][j].startsWith("spider")||mapCave[i][j].startsWith("creeper")){
+                                        if (mapCave[i][j].startsWith("zombie") || mapCave[i][j].startsWith("spider") || mapCave[i][j].startsWith("creeper")) {
                                             mapCave[i][j] = "stone";
                                         }
                                     }
@@ -4962,8 +5013,8 @@ public class HelloController {
                                 mobsNoCreepersOnMap.clear();
                                 creepersOnMap.clear();
                                 inCave = false;
-                            }else{
-                                if (mapBackground[playerPositionX][playerPositionY ].equals("grass") || mapBackground[playerPositionX][playerPositionY ].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY ].equals("autumn")) {
+                            } else {
+                                if (mapBackground[playerPositionX][playerPositionY].equals("grass") || mapBackground[playerPositionX][playerPositionY].equals("normal") || mapBackground[playerPositionX][playerPositionY].equals("fruit") || mapBackground[playerPositionX][playerPositionY].equals("autumn")) {
                                     map[playerPositionX][playerPositionY] = "grass";
                                 } else {
                                     map[playerPositionX][playerPositionY] = "stone";
@@ -4979,10 +5030,10 @@ public class HelloController {
                                         break;
                                     }
                                 }
-                                for (int i = 0; i <map.length; i++) {
+                                for (int i = 0; i < map.length; i++) {
                                     for (int j = 0; j < map[0].length; j++) {
-                                        if(map[i][j].startsWith("zombie")||map[i][j].startsWith("spider")||map[i][j].startsWith("creeper")){
-                                            if (mapBackground[i][j ].equals("grass") || mapBackground[i][j ].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j ].equals("autumn")) {
+                                        if (map[i][j].startsWith("zombie") || map[i][j].startsWith("spider") || map[i][j].startsWith("creeper")) {
+                                            if (mapBackground[i][j].equals("grass") || mapBackground[i][j].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j].equals("autumn")) {
                                                 map[i][j] = "grass";
                                             } else {
                                                 map[i][j] = "stone";
@@ -5000,16 +5051,16 @@ public class HelloController {
                 }
 
 
-                if(day){
+                if (day) {
                     for (int i = 0; i < mapNightS.length; i++) {
                         for (int j = 0; j < mapNightS[0].length; j++) {
                             mapNightS[i][j] = "light";
                         }
                     }
-                    if(now-dayNightTime>1000000000.0) {
-                        if(mobsNoCreepersOnMap.size()>0){
-                            for (mobsNoCreeper mobs: mobsNoCreepersOnMap){
-                                if(mobs.getName().startsWith("zombie")){
+                    if (now - dayNightTime > 1000000000.0) {
+                        if (mobsNoCreepersOnMap.size() > 0) {
+                            for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
+                                if (mobs.getName().startsWith("zombie")) {
                                     mobs.changeHealth(-5);
                                 }
                             }
@@ -5024,7 +5075,7 @@ public class HelloController {
                             dayTime = totalDayTime;
                         }
                     }
-                }else{
+                } else {
 //                    if(!craftingShowing&&!furnaceShowing&&!inventoryShowing){
 //                        for (int i = 0; i < mapNight.length; i++) {
 //                            for (int j = 0; j < mapNight[0].length; j++) {
@@ -5044,12 +5095,12 @@ public class HelloController {
                         }
                     }
 
-                    if(now-dayNightTime>1000000000.0) {
+                    if (now - dayNightTime > 1000000000.0) {
 
                         dayNightTime = System.nanoTime();
                         nightTime--;
                         dayNightBar.setProgress((double) nightTime / totalNightTime);
-                        if(!inCave&&!inNether){
+                        if (!inCave && !inNether) {
                             spawnMob();
                         }
                         if (nightTime <= 0) {
@@ -5061,48 +5112,48 @@ public class HelloController {
                     }
                 }
 
-                if(mobsNoCreepersOnMap.size()>0){
-                    for(mobsNoCreeper mobs:mobsNoCreepersOnMap){
-                        if(now - mobs.getStartTime() > 1000000000.0 * mobs.getSpeed()){
-                            if(mobs.getMovementTime()<0){
-                                if((mobs.getName().startsWith("spider")&&!day)||mobs.getName().startsWith("zombie")||mobs.isAttacked()||(mobs.getName().startsWith("spider")&&inCave)) {
-                                    if(!inCave) {
+                if (mobsNoCreepersOnMap.size() > 0) {
+                    for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
+                        if (now - mobs.getStartTime() > 1000000000.0 * mobs.getSpeed()) {
+                            if (mobs.getMovementTime() < 0) {
+                                if ((mobs.getName().startsWith("spider") && !day) || mobs.getName().startsWith("zombie") || mobs.isAttacked() || (mobs.getName().startsWith("spider") && inCave)) {
+                                    if (!inCave) {
                                         if (mobs.changeLoc(map, mapBackground, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
                                             tempHealth = mobs.getPlayerHealth();
                                             healthBar.setProgress(tempHealth / totalHealth);
                                             playerHit = true;
                                             playerHitTime = System.nanoTime();
-                                            if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                            if (!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing) {
                                                 hitScreenImg.setVisible(true);
                                             }
-                                            for (int i = 1; i <=4 ; i++) {
+                                            for (int i = 1; i <= 4; i++) {
                                                 inventoryA[i][7].changeDurability(-1);
                                             }
                                         }
-                                    }else{
+                                    } else {
                                         if (mobs.changeLoc(mapCave, mapBackgroundCave, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
                                             tempHealth = mobs.getPlayerHealth();
                                             healthBar.setProgress(tempHealth / totalHealth);
                                             playerHit = true;
                                             playerHitTime = System.nanoTime();
-                                            if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                            if (!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing) {
                                                 hitScreenImg.setVisible(true);
                                             }
-                                            for (int i = 1; i <=4 ; i++) {
+                                            for (int i = 1; i <= 4; i++) {
                                                 inventoryA[i][7].changeDurability(-1);
                                             }
                                         }
                                     }
                                     mobs.resetStartTime();
                                     System.out.println("jhey");
-                                }else{
+                                } else {
                                     mobs.changeLocSpiderDay(map, mapBackground);
 //                                    tempHealth = mobs.getPlayerHealth();
 //                                    healthBar.setProgress(tempHealth / totalHealth);
                                     mobs.resetStartTime();
                                     System.out.println("eosugheoihEGHI");
                                 }
-                            }else{
+                            } else {
                                 mobs.changeMovementTime(-1);
                             }
 
@@ -5113,19 +5164,17 @@ public class HelloController {
                 }
 
 
-
-
-                if(mobsNoCreepersOnMap.size()>0) {
+                if (mobsNoCreepersOnMap.size() > 0) {
                     for (mobsNoCreeper mobs : mobsNoCreepersOnMap) {
                         if (mobs.getHealth() <= 0) {
                             mobsNoCreepersOnMap.remove(mobs);
-                            if(!inCave) {
+                            if (!inCave) {
                                 if (mapBackground[mobs.getX()][mobs.getY()].equals("grass") || mapBackground[mobs.getX()][mobs.getY()].equals("normal") || mapBackground[mobs.getX()][mobs.getY()].equals("fruit") || mapBackground[mobs.getX()][mobs.getY()].equals("autumn")) {
                                     map[mobs.getX()][mobs.getY()] = "grass";
                                 } else {
                                     map[mobs.getX()][mobs.getY()] = "stone";
                                 }
-                            }else{
+                            } else {
                                 mapCave[mobs.getX()][mobs.getY()] = "stone";
                             }
                             break;
@@ -5133,23 +5182,23 @@ public class HelloController {
                     }
                 }
 
-                if(now - regenTime>1000000000.0 * 2.5){
+                if (now - regenTime > 1000000000.0 * 2.5) {
                     regenTime = System.nanoTime();
-                    if(tempHunger>=85){
-                        tempHealth+= 5;
-                        if(tempHealth>100){
+                    if (tempHunger >= 85) {
+                        tempHealth += 5;
+                        if (tempHealth > 100) {
                             tempHealth = 100;
                         }
-                        healthBar.setProgress(tempHealth/totalHealth);
+                        healthBar.setProgress(tempHealth / totalHealth);
                     }
                 }
 
-                if(swing) {
+                if (swing) {
                     if (now - swingTime > 1000000000.0 * 0.2) {
                         swingCount--;
-                        swingBar.setProgress(swingCount/4);
+                        swingBar.setProgress(swingCount / 4);
                         swingTime = System.nanoTime();
-                        if(swingCount<=0) {
+                        if (swingCount <= 0) {
                             swing = false;
                             swingCount = 3;
                             swingBar.setVisible(false);
@@ -5157,44 +5206,44 @@ public class HelloController {
                     }
                 }
 
-                if(creepersOnMap.size()>0) {
+                if (creepersOnMap.size() > 0) {
                     for (Creepers creeperL : creepersOnMap) {
                         if (now - creeperL.getStartTime() > 1000000000.0 * creeperL.getSpeed()) {
                             if (creeperL.getMovementTime() < 0) {
-                                if(!inCave) {
+                                if (!inCave) {
                                     if (creeperL.changeLoc(map, mapBackground, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
                                         tempHealth = creeperL.getPlayerHealth();
                                         healthBar.setProgress(tempHealth / totalHealth);
                                         playerHit = true;
                                         playerHitTime = System.nanoTime();
-                                        if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                        if (!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing) {
                                             hitScreenImg.setVisible(true);
                                         }
-                                        for (int i = 1; i <=4 ; i++) {
+                                        for (int i = 1; i <= 4; i++) {
                                             inventoryA[i][7].changeDurability(-1);
                                         }
                                     }
-                                }else{
+                                } else {
                                     if (creeperL.changeLoc(mapCave, mapBackgroundCave, playerPositionX, playerPositionY, tempHealth, tempOverHealth)) {
                                         tempHealth = creeperL.getPlayerHealth();
                                         healthBar.setProgress(tempHealth / totalHealth);
                                         playerHit = true;
                                         playerHitTime = System.nanoTime();
-                                        if(!craftingShowing&&!furnaceShowing&&!tradingShowing&&!inventoryShowing){
+                                        if (!craftingShowing && !furnaceShowing && !tradingShowing && !inventoryShowing) {
                                             hitScreenImg.setVisible(true);
                                         }
-                                        for (int i = 1; i <=4 ; i++) {
+                                        for (int i = 1; i <= 4; i++) {
                                             inventoryA[i][7].changeDurability(-1);
                                         }
                                     }
                                 }
                                 creeperL.resetStartTime();
                                 System.out.println("jhey");
-                                if(creeperL.isBlownUp()){
-                                    for (int i = creeperL.getX()-1; i <= creeperL.getX()+1; i++) {
-                                        for (int j = creeperL.getY()-1; j <= creeperL.getY()+1; j++) {
+                                if (creeperL.isBlownUp()) {
+                                    for (int i = creeperL.getX() - 1; i <= creeperL.getX() + 1; i++) {
+                                        for (int j = creeperL.getY() - 1; j <= creeperL.getY() + 1; j++) {
 //                                            System.out.println(map[i][j]);
-                                            if(!inCave) {
+                                            if (!inCave) {
                                                 if ((!map[i][j].equals("grassWX") || !map[i][j].equals("water")) && !map[i][j].startsWith("player")) {
                                                     if (mapBackground[i][j].equals("grass") || mapBackground[i][j].equals("normal") || mapBackground[i][j].equals("fruit") || mapBackground[i][j].equals("autumn")) {
                                                         map[i][j] = "grass";
@@ -5202,26 +5251,26 @@ public class HelloController {
                                                         map[i][j] = "stone";
                                                     }
                                                 }
-                                            }else{
+                                            } else {
                                                 mapCave[i][j] = "stone";
                                             }
-                                            for (int k = mineObjectsOnMap.size()-1; k >=0; k--) {
-                                                if(mineObjectsOnMap.get(k).getX()==i&&mineObjectsOnMap.get(k).getY()==j){
+                                            for (int k = mineObjectsOnMap.size() - 1; k >= 0; k--) {
+                                                if (mineObjectsOnMap.get(k).getX() == i && mineObjectsOnMap.get(k).getY() == j) {
                                                     mineObjectsOnMap.remove(mineObjectsOnMap.get(k));
                                                 }
                                             }
 
-                                            for (int k = creepersOnMap.size()-1; k >=0; k--) {
+                                            for (int k = creepersOnMap.size() - 1; k >= 0; k--) {
                                                 if (creeperL.getX() != i || creeperL.getY() != j) {
-                                                    if(creepersOnMap.get(k).getX()==i&&creepersOnMap.get(k).getY()==j){
+                                                    if (creepersOnMap.get(k).getX() == i && creepersOnMap.get(k).getY() == j) {
                                                         creepersOnMap.remove(creepersOnMap.get(k));
                                                     }
                                                 }
 
                                             }
 
-                                            for (int k = mobsNoCreepersOnMap.size()-1; k >=0; k--) {
-                                                if(mobsNoCreepersOnMap.get(k).getX()==i&&mobsNoCreepersOnMap.get(k).getY()==j){
+                                            for (int k = mobsNoCreepersOnMap.size() - 1; k >= 0; k--) {
+                                                if (mobsNoCreepersOnMap.get(k).getX() == i && mobsNoCreepersOnMap.get(k).getY() == j) {
                                                     mobsNoCreepersOnMap.remove(mobsNoCreepersOnMap.get(k));
                                                 }
                                             }
@@ -5247,16 +5296,16 @@ public class HelloController {
                 }
 
 
-                if(tempHealth<=0){
+                if (tempHealth <= 0) {
                     deathScreenImg.setImage(deathScreen);
                     deathScreenImg.setVisible(true);
                     respawnB.setVisible(true);
                 }
 
-                for (int i = 1; i < map.length-1; i++) {
-                    for (int j = 1; j < map[0].length-1; j++) {
-                        if(map[i][j].startsWith("torch")){
-                            for (int k = i-2; k <= i+2; k++) {
+                for (int i = 1; i < map.length - 1; i++) {
+                    for (int j = 1; j < map[0].length - 1; j++) {
+                        if (map[i][j].startsWith("torch")) {
+                            for (int k = i - 2; k <= i + 2; k++) {
                                 for (int m = j - 2; m <= j + 2; m++) {
                                     mapNightS[k][m] = "light";
                                 }
@@ -5272,10 +5321,10 @@ public class HelloController {
                     }
                 }
 
-                for (int i = 1; i < mapCave.length-1; i++) {
-                    for (int j = 1; j < mapCave[0].length-1; j++) {
-                        if(mapCave[i][j].startsWith("torch")){
-                            for (int k = i-2; k <= i+2; k++) {
+                for (int i = 1; i < mapCave.length - 1; i++) {
+                    for (int j = 1; j < mapCave[0].length - 1; j++) {
+                        if (mapCave[i][j].startsWith("torch")) {
+                            for (int k = i - 2; k <= i + 2; k++) {
                                 for (int m = j - 2; m <= j + 2; m++) {
                                     mapNightCave[k][m] = "light";
                                 }
@@ -5284,11 +5333,12 @@ public class HelloController {
                         }
                     }
                 }
-
-                for (int k = playerPositionX-2; k <= playerPositionX+2; k++) {
-                    for (int m = playerPositionY - 2; m <= playerPositionY + 2; m++) {
-                        mapNightCave[k][m] = "light";
-                        mapNightS[k][m] = "light";
+                if (!inNether){
+                    for (int k = playerPositionX - 2; k <= playerPositionX + 2; k++) {
+                        for (int m = playerPositionY - 2; m <= playerPositionY + 2; m++) {
+                            mapNightCave[k][m] = "light";
+                            mapNightS[k][m] = "light";
+                        }
                     }
                 }
                 updateScreen();
@@ -5345,6 +5395,25 @@ public class HelloController {
         }.start();
     }
 
+    private void randomWitherDropF() {
+        int randNum = (int)(Math.random()*7);
+        if(randNum == 0){
+            randomWitherDrop = new Tools("diamondSword",5, "sword", 4, 60);
+        } else if (randNum == 1) {
+            randomWitherDrop = new Tools("diamondAxe",5, "axe", 3, 60);
+        }else if (randNum == 2) {
+            randomWitherDrop = new Tools("diamondPickaxe",5, "pickaxe", 2, 60);
+        }else if (randNum == 3) {
+            randomWitherDrop = new Armor("diamondHelmet",4,5,30);
+        }else if (randNum == 4) {
+            randomWitherDrop = new Armor("diamondLeggings",4,10,40);
+        }else if (randNum == 5) {
+            randomWitherDrop = new Armor("diamondChestplate",4,10,40);
+        }else if (randNum == 6) {
+            randomWitherDrop = new Armor("diamondBoots",4,5,30);
+        }
+    }
+
     private void spawnMob() {
         int ranNum = (int)(Math.random()*5);
         if(ranNum==0){
@@ -5393,8 +5462,133 @@ public class HelloController {
         hungerBar.setProgress(tempHunger/totalHunger);
         hungerBar.setStyle(" -fx-accent: #987554; ");
 
+
+        gPane.setVisible(true);
+        hotbarG.setVisible(true);
+        inventoryPane.setVisible(false);
+        inventoryShowing = false;
+        craftingShowing = false;
+        for (int i = 0; i < inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                inventoryLabels[i][j].setVisible(true);
+                inventoryLabels[i][j].setVisible(false);
+                one1c.setVisible(false);
+                one2c.setVisible(false);
+                one3cv.setVisible(false);
+                two1c.setVisible(false);
+                two2c.setVisible(false);
+                two3cv.setVisible(false);
+                three1cv.setVisible(false);
+                three2cv.setVisible(false);
+                three3cv.setVisible(false);
+                result.setVisible(false);
+            }
+        }
+
+
+        inventoryImg[0][9].setImage(blackBack);
+        inventoryImg[0][10].setImage(blackBack);
+        inventoryImg[0][11].setImage(blackBack);
+        inventoryImg[1][11].setImage(blackBack);
+        inventoryImg[2][11].setImage(blackBack);
+
+        inventoryA[0][9] = new inventoryItems("nothing");
+        inventoryA[0][10]= new inventoryItems("nothing");
+        inventoryA[0][11]= new inventoryItems("nothing");
+        inventoryA[1][11]= new inventoryItems("nothing");
+        inventoryA[2][11]= new inventoryItems("nothing");
+
+
+        gPane.setVisible(true);
+        hotbarG.setVisible(true);
+        inventoryPane.setVisible(false);
+        inventoryShowing = false;
+        for (int i = 0; i < inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                inventoryLabels[i][j].setVisible(false);
+                one1c.setVisible(false);
+                one2c.setVisible(false);
+                two1c.setVisible(false);
+                two2c.setVisible(false);
+                result.setVisible(false);
+            }
+        }
+
+
+        gPane.setVisible(true);
+        hotbarG.setVisible(true);
+        inventoryPane.setVisible(false);
+        inventoryShowing = false;
+        furnaceShowing = false;
+        smeltingBar.setVisible(false);
+        fuelBar.setVisible(false);
+        for (int i = 0; i < inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                inventoryLabels[i][j].setVisible(false);
+                two1c.setVisible(false);
+                furnaceTop.setVisible(false);
+                furnaceBottom.setVisible(false);
+            }
+        }
+
+        inventoryImg[1][9].setImage(grayBack);
+        inventoryImg[1][10].setImage(grayBack);
+        inventoryImg[2][10].setImage(grayBack);
+        inventoryImg[4][9].setImage(grayBack);
+        inventoryImg[2][7].setImage(grayBack);
+        inventoryImg[4][7].setImage(grayBack);
+
+        inventoryA[1][9] = new inventoryItems("empty");
+        inventoryA[1][10] = new inventoryItems("empty");
+        inventoryA[2][10] = new inventoryItems("empty");
+        inventoryA[4][9] = new inventoryItems("empty");
+        inventoryA[2][7] = new inventoryItems("empty");
+        inventoryA[4][7] = new inventoryItems("empty");
+
+
+
+        gPane.setVisible(true);
+        hotbarG.setVisible(true);
+        inventoryPane.setVisible(false);
+        inventoryShowing = false;
+        tradingShowing = false;
+        for (int i = 0; i < inventoryLabels.length; i++) {
+            for (int j = 0; j < inventoryLabels[0].length; j++) {
+                inventoryLabels[i][j].setVisible(false);
+                furnaceTop.setVisible(false);
+                furnaceBottom.setVisible(false);
+                tradingLabel.setVisible(false);
+                two1c.setVisible(false);
+                two2c.setVisible(false);
+                two3cv.setVisible(false);
+            }
+        }
+
+        inventoryImg[4][9].setImage(grayBack);
+        inventoryImg[4][7].setImage(grayBack);
+        inventoryImg[1][9].setImage(grayBack);
+        inventoryImg[1][10].setImage(grayBack);
+        inventoryImg[2][11].setImage(blackBack);
+        inventoryImg[1][11].setImage(blackBack);
+
+        inventoryImg[1][9].setOpacity(1);
+        inventoryImg[1][10].setOpacity(1);
+        inventoryImg[1][11].setOpacity(1);
+        inventoryImg[2][9].setOpacity(1);
+        inventoryImg[2][10].setOpacity(1);
+        inventoryImg[2][11].setOpacity(1);
+
+        inventoryA[4][9] = new inventoryItems("empty");
+        inventoryA[4][7] = new inventoryItems("empty");
+        inventoryA[1][9] = new inventoryItems("empty");
+        inventoryA[1][10] = new inventoryItems("empty");
+        inventoryA[2][11] = new inventoryItems("nothing");
+        inventoryA[1][11] = new inventoryItems("nothing");
+        inventoryA[2][9] = new inventoryItems("empty");
+        inventoryA[2][10] = new inventoryItems("empty");
+
         for (int i = 0; i < inventoryA.length; i++) {
-            for (int j = 0; j < inventoryA[0].length; j++) {
+            for (int j = 0; j < 5; j++) {
                 if(!inventoryA[i][j].getName().equals("empty")&&!inventoryA[i][j].getName().equals("nothing")){
                     int ranNum = (int) (Math.random()*8);
                     if(ranNum==0){
@@ -6702,7 +6896,7 @@ public class HelloController {
 //                    mapNether[playerPositionX + directionChange][playerPositionY] = "grass";
                     break;
                 case "netherrack","lava":
-                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX+directionChange!=3||playerPositionY!=2)){
+                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX+directionChange!=3||playerPositionY!=2)&&!equipped.getName().equals("bossSoul")){
                         int mineTime;
                         String type;
 
@@ -6731,9 +6925,19 @@ public class HelloController {
                         eatingFood = true;
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
+                    }else if (equipped.getName().equals("bossSoul")&&wither.size()==0) {
+                        if(mapNether[playerPositionX+directionChange][playerPositionY].equals("netherrack")){
+                            placeBossX = playerPositionX + directionChange;
+                            placeBossY = playerPositionY;
+                            placedBoss = true;
+                            placeBossTime = System.nanoTime();
+                            miningBar.setVisible(true);
+                            miningBar.setProgress(1.0);
+
+                        }
                     }
                     break;
-                case "finalBoss":
+                case "witherOverNetherrack","witherOverLava":
                     if(!swing) {
                         swing = true;
                         swingTime = System.nanoTime();
@@ -6743,6 +6947,44 @@ public class HelloController {
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
                             equipped.changeDurability(-1);
+                        }
+                        for (Wither w : wither) {
+                            if (w.getX() == playerPositionX + directionChange && w.getY() == playerPositionY) {
+                                w.changeHealth(-(damage));
+                                witherHealth.setProgress(w.getHealth()/100);
+                                System.out.println("HEALTH "+ w.getHealth());
+                                if (w.getHealth() <= 0) {
+                                    witherHealth.setVisible(false);
+                                    if (mapBackgroundNether[playerPositionX + directionChange][playerPositionY].equals("netherrack")) {
+                                        mapNether[playerPositionX + directionChange][playerPositionY] = "netherrack";
+                                    } else {
+                                        mapNether[playerPositionX + directionChange][playerPositionY] = "lava";
+                                    }
+                                    breakB = false;
+
+                                    for (int i = 4; i >= 1; i--) {
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals("empty")) {
+                                                inventoryA[i][j] = w.getResourceDrop();
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                    }
+
+
+                                    wither.remove(w);
+                                    break;
+                                }
+                            }
                         }
 
                     }
@@ -6803,7 +7045,7 @@ public class HelloController {
 //                    mapNether[playerPositionX][playerPositionY + directionChange] = "grass";
                     break;
                 case "netherrack","lava":
-                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX!=3||playerPositionY+directionChange!=2)){
+                    if(!equipped.getName().equals("empty")&&equipped.isPlaceable()&&(playerPositionX!=3||playerPositionY+directionChange!=2)&&!equipped.getName().equals("bossSoul")){
                         int mineTime;
                         String type;
                         if(equipped.getType().equals("pickaxe")){
@@ -6830,19 +7072,68 @@ public class HelloController {
                         eatingFood = true;
                         miningBar.setVisible(true);
                         miningBar.setProgress(1.0);
+                    }else if (equipped.getName().equals("bossSoul")&&wither.size()==0) {
+                        if(mapNether[playerPositionX][playerPositionY+directionChange].equals("netherrack")){
+                            placeBossX = playerPositionX;
+                            placeBossY = playerPositionY+directionChange;
+                            placedBoss = true;
+                            placeBossTime = System.nanoTime();
+                            miningBar.setVisible(true);
+                            miningBar.setProgress(1.0);
+
+                        }
                     }
                     break;
-                case "finalBoss":
+                case "witherOverNetherrack","witherOverLava":
                     if(!swing) {
-                        int damage = 1;
                         swing = true;
                         swingTime = System.nanoTime();
                         swingBar.setVisible(true);
                         swingBar.setProgress(swingCount/4);
+                        int damage = 1;
                         if (equipped.getName().endsWith("Axe") || equipped.getName().endsWith("Pickaxe") || equipped.getName().endsWith("Sword")) {
                             damage = equipped.getDamage();
                             equipped.changeDurability(-1);
                         }
+                        for (Wither w : wither) {
+                            if (w.getX() == playerPositionX && w.getY() == playerPositionY + directionChange) {
+                                w.changeHealth(-(damage));
+                                witherHealth.setProgress(w.getHealth()/100);
+                                System.out.println("HEALTH "+ w.getHealth());
+                                if (w.getHealth() <= 0) {
+                                    witherHealth.setVisible(false);
+                                    if (mapBackgroundNether[playerPositionX][playerPositionY + directionChange].equals("netherrack")) {
+                                        mapNether[playerPositionX][playerPositionY + directionChange] = "netherrack";
+                                    } else {
+                                        mapNether[playerPositionX][playerPositionY + directionChange] = "lava";
+                                    }
+                                    breakB = false;
+
+                                    for (int i = 4; i >= 1; i--) {
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                        for (int j = 1; j <= 5; j++) {
+                                            if (inventoryA[i][j].getName().equals("empty")) {
+                                                inventoryA[i][j] = w.getResourceDrop();
+                                                breakB = true;
+                                                break;
+                                            }
+                                        }
+                                        if (breakB) {
+                                            breakB = false;
+                                            break;
+                                        }
+                                    }
+
+
+                                    wither.remove(w);
+                                    break;
+                                }
+                            }
+                        }
+
                     }
                     break;
 

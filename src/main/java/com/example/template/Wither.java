@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Wither {
     private inventoryItems resourceDrop;
     String name;
-    int health;
+    double health;
     private int x;
     private int lastX;
     private int last2X;
@@ -31,7 +31,7 @@ public class Wither {
     private ArrayList<witherHead> witherHeads = new ArrayList<>();
     private boolean spawnWither = false;
 
-    public Wither(String name, int health, inventoryItems resourceDrop, int amount, int damage, int x, int y) {
+    public Wither(String name, double health, inventoryItems resourceDrop, int damage, int x, int y) {
         this.name = name;
         this.health = health;
         this.resourceDrop = resourceDrop;
@@ -78,7 +78,7 @@ public class Wither {
         startTime = System.nanoTime();
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
