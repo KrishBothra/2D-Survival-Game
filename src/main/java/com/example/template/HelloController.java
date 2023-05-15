@@ -161,7 +161,7 @@ public class HelloController {
 
     double totalHealth = 100;
     int tradeSelectedIndex;
-    double tempHealth = 100;
+    double tempHealth = 1000;
 
     String typeTradeSelected;
 
@@ -527,7 +527,7 @@ public class HelloController {
         biomeNameList.add("normalTree");
         biomeNameList.add("autumnTree");
         biomeNameList.add("stone");
-        biomeNameList.add("water");
+//        biomeNameList.add("water");
 //        hotbar[0] = new Resources("diamond");
 //        animalsOnMap.add(new Animals("sheep",15,new Food("rawMutton"),(int) (Math.random()*4),(int)(Math.random()*3)+1,100,163));
 
@@ -4604,7 +4604,8 @@ public class HelloController {
                     slot4.setVisible(false);
                     slot5.setVisible(true);
                 } else if (keyEvent.getText().equalsIgnoreCase("6")) {
-//                    wither.add(new Wither("witherOverNetherrack", 100, new inventoryItems("rottenFlesh"), 3, 10, 10, 15));
+                    tempHealth = 15;
+                    healthBar.setProgress(tempHealth/totalHealth);
                 }
             }
 
@@ -7508,7 +7509,7 @@ public class HelloController {
                 mapBackground[i][j] = "grass";
             }
         }
-        for (int p = 0; p < 15; p++) {
+        for (int p = 0; p < 20; p++) {
 
 
             if (biomeNameList.size() == 0) {
@@ -7521,7 +7522,9 @@ public class HelloController {
 
             randNum = (int) (Math.random() * biomeNameList.size());
             valid = false;
-            while(!valid){
+            int timeout = 0;
+            while(!valid&&timeout<3000){
+                timeout++;
                 System.out.println(biomeNameList);
                 valid = true;
                 lengthX = (int) (Math.random() * 9) + 40;
