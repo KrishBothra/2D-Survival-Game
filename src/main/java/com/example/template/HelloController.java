@@ -1318,29 +1318,29 @@ public class HelloController {
 
 //        inventoryA[4][1] = new Tools("woodAxe",1,"axe",3,20);
         inventoryA[4][2] = new Resources("craftingTable", "axe");
-        inventoryA[4][3] = new Tools("diamondPickaxe",5,"pickaxe",15,20);
-//        inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
-//        inventoryA[1][1].setAmount(99);
+        inventoryA[4][1] = new Tools("diamondPickaxe",5,"pickaxe",2,20);
+        inventoryA[1][1] = new Resources("cobblestone", "pickaxe");
+        inventoryA[1][1].setAmount(99);
 //        inventoryA[1][4] = new inventoryItems("coal");
 //        inventoryA[1][4].setAmount(99);
         inventoryA[2][4] = new Resources("torch","axe");
         inventoryA[2][4].setAmount(99);
-        inventoryA[1][2] = new Resources("normalWood", "axe");
-        inventoryA[1][2].setAmount(99);
-//        inventoryA[1][3] = new Resources("autumnWood", "axe");
-//        inventoryA[1][3].setAmount(99);
+        inventoryA[4][3] = new Tools("diamondAxe",5,"axe",3,5);
+
+        inventoryA[1][3] = new Resources("autumnWood", "axe");
+        inventoryA[1][3].setAmount(99);
 //        inventoryA[2][1] = new Resources("fruitWood", "axe");
 //        inventoryA[2][1].setAmount(99);
-        inventoryA[2][2] = new Food("cookedBeef",25);
-        inventoryA[2][2].setAmount(99);
+        inventoryA[4][4] = new Food("cookedBeef",25);
+        inventoryA[4][4].setAmount(99);
         inventoryA[3][4] = new inventoryItems("ruby");
         inventoryA[3][4].setAmount(99);
         inventoryA[2][3] = new inventoryItems("goldIngot");
         inventoryA[2][3].setAmount(99);
 //        inventoryA[3][1] = new inventoryItems("diamond");
 //        inventoryA[3][1].setAmount(99);
-        inventoryA[3][2] = new inventoryItems("stick");
-        inventoryA[3][2].setAmount(99);
+//        inventoryA[3][2] = new inventoryItems("stick");
+//        inventoryA[3][2].setAmount(99);
 //        inventoryA[4][4] = new Resources("furnace", "pickaxe");
 //        inventoryA[4][4].setAmount(99);
 //        inventoryA[4][5] = new Resources("goldOre","pickaxe");
@@ -1602,7 +1602,7 @@ public class HelloController {
                         } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("creeperOverGrass")) {
                             img[i][j].setImage(creeperOverGrass);
                         } else if (map[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].startsWith("torch")) {
-                            if (mapBackground[tempPlayerPositionX - 12 + j][tempPlayerPositionY - 20 + j].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumn")) {
+                            if (mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("autumn")) {
                                 img[i][j].setImage(torchOverGrass);
                             } else {
                                 img[i][j].setImage(torchOverStone);
@@ -1619,7 +1619,7 @@ public class HelloController {
                             mapNight[i][j].setOpacity(0.0);
                         } else if (mapNightS[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("night")) {
                             mapNight[i][j].setOpacity(0.5);
-                            if (mapBackground[tempPlayerPositionX - 12 + i][j ].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][j ].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][j ].equals("autumn")) {
+                            if (mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j ].equals("grass") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j ].equals("normal") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j].equals("fruit") || mapBackground[tempPlayerPositionX - 12 + i][tempPlayerPositionY - 20 + j ].equals("autumn")) {
                                 img[i][j].setImage(grass);
                             } else {
                                 img[i][j].setImage(stone);
@@ -1942,7 +1942,7 @@ public class HelloController {
                             mapNight[i][j].setOpacity(0.0); //steve
                         } else if (mapNightS[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("night")) {
                             mapNight[i][j].setOpacity(0.5);
-                            if (mapBackground[playerPositionX - 12 + i][j ].equals("grass") || mapBackground[playerPositionX - 12 + i][j ].equals("normal") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruit") || mapBackground[playerPositionX - 12 + i][j ].equals("autumn")) {
+                            if (mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j  ].equals("grass") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j ].equals("normal") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j].equals("fruit") || mapBackground[playerPositionX - 12 + i][playerPositionY - 20 + j ].equals("autumn")) {
                                 img[i][j].setImage(grass);
                             } else {
                                 img[i][j].setImage(stone);
@@ -5530,7 +5530,7 @@ public class HelloController {
     public void respawnF(ActionEvent event) {
         deathScreenImg.setVisible(false);
         respawnB.setVisible(false);
-        tempHealth = 10;
+        tempHealth = 100;
         tempHunger = 100;
         healthBar.setProgress(tempHealth/totalHealth);
         healthBar.setStyle(" -fx-accent: #FF0000; ");
@@ -7514,7 +7514,7 @@ public class HelloController {
             if (biomeNameList.size() == 0) {
                 biomeNameList.add("fruitTree");
                 biomeNameList.add("normalTree");
-                biomeNameList.add("water");
+//                biomeNameList.add("water");
                 biomeNameList.add("autumnTree");
                 biomeNameList.add("stone");
             }
@@ -7562,10 +7562,10 @@ public class HelloController {
                 case "normalTree" -> {
                     System.out.println("normal");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
-                    if(!normalQuest){
-                        map[x][y] = "normalQuest";
-                        normalQuest = true;
-                    }
+//                    if(!normalQuest){
+//                        map[x][y] = "normalQuest";
+//                        normalQuest = true;
+//                    }
                     villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v1x, v1y, "normal"));
                     villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v2x, v2y, "normal"));
                     biomeNameList.remove("normalTree");
@@ -7587,10 +7587,10 @@ public class HelloController {
                 case "fruitTree" -> {
                     System.out.println("fruit");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
-                    if(!fruitQuest){
-                        map[x][y] = "fruitQuest";
-                        fruitQuest = true;
-                    }
+//                    if(!fruitQuest){
+//                        map[x][y] = "fruitQuest";
+//                        fruitQuest = true;
+//                    }
                     villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v1x, v1y, "fruit"));
                     villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v2x, v2y, "fruit"));
                     biomeNameList.remove("fruitTree");
@@ -7613,10 +7613,10 @@ public class HelloController {
                     System.out.println("autumn");
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 0));
 
-                    if(!autumnQuest){
-                        map[x][y] = "autumnQuest";
-                        autumnQuest = true;
-                    }
+//                    if(!autumnQuest){
+//                        map[x][y] = "autumnQuest";
+//                        autumnQuest = true;
+//                    }
                     villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v1x, v1y, "autumn"));
                     villagersOnMap.add(new Villagers("villager", 15, (Math.random()*15), v2x, v2y, "autumn"));
                     biomeNameList.remove("autumnTree");
@@ -7641,14 +7641,14 @@ public class HelloController {
                     int mineralRand;
                     biomeArrayList.add(new Biome(startX, startY, startX + lengthX, startY + lengthY, 1));
                     biomeNameList.remove("stone");
-                    if(!stoneQuest){
-                        map[x][y] = "stoneQuest";
-                        stoneQuest = true;
-                    }
+//                    if(!stoneQuest){
+//                        map[x][y] = "stoneQuest";
+//                        stoneQuest = true;
+//                    }
                     for (int i = startX; i < startX + lengthX; i++) {
                         for (int j = startY; j < startY + lengthY; j++) {
 
-                            mineralRand = (int) (Math.random() * 70);
+                            mineralRand = (int) (Math.random() * 7);
                             if (i == startX || j == startY || i == startX + lengthX - 1 || j == startY + lengthY - 1) {
 
                                 if ((int) (Math.random() * 2) == 0) {
@@ -7658,7 +7658,7 @@ public class HelloController {
                             } else {
                                 if (map[i][j].equals("grass")) {
                                     mapBackground[i][j] = "stone";
-                                    if (mineralRand < 7) {
+                                    if (mineralRand ==0) {
                                         map[i][j] = "rock";
                                         mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
                                     }
