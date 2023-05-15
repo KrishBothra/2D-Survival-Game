@@ -161,7 +161,7 @@ public class HelloController {
 
     double totalHealth = 100;
     int tradeSelectedIndex;
-    double tempHealth = 1000;
+    double tempHealth = 1000 ;
 
     String typeTradeSelected;
 
