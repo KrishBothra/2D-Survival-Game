@@ -4655,11 +4655,6 @@ public class HelloController {
                                 smelting = true;
                                 currentSmelting = "mutton";
                             }
-                            if(inventoryA[3][7].getAmount()==1){
-                                inventoryA[3][7] = new inventoryItems("empty");
-                            }else{
-                                inventoryA[3][7].changeAmount(-1);
-                            }
                         }
                     }
                 if(smelting) {
@@ -4700,6 +4695,11 @@ public class HelloController {
                 if(burningFuel){
                     if(now-burningTime > 1000000000.0 * amountToBurn){
                         burningFuel = false;
+                        if(inventoryA[3][7].getAmount()==1){
+                            inventoryA[3][7] = new inventoryItems("empty");
+                        }else{
+                            inventoryA[3][7].changeAmount(-1);
+                        }
                     }
                 }
                 if(miningObject){
@@ -7366,26 +7366,9 @@ public class HelloController {
                             } else {
                                 if (map[i][j].equals("grass")) {
                                     mapBackground[i][j] = "stone";
-                                    if (mineralRand < 4) {
+                                    if (mineralRand < 7) {
                                         map[i][j] = "rock";
                                         mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
-
-                                    } else if (mineralRand < 6) {
-                                        map[i][j] = "goldOre";
-                                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
-
-                                    } else if (mineralRand < 8) {
-                                        map[i][j] = "diamondOre";
-                                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new inventoryItems("diamond"), 1, i, j));
-
-                                    } else if (mineralRand < 11) {
-                                        map[i][j] = "rubyOre";
-                                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("rubyOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
-
-                                    }else if (mineralRand < 15) {
-                                        map[i][j] = "coalOre";
-                                        mineObjectsOnMap.add(new mineObjects("coalOre","pickaxe", (int) (Math.random() * 5) + 15, new inventoryItems("coal"), (int) (Math.random() * 2) + 1, i, j));
-
                                     }
                                     else {
                                         map[i][j] = "stone";
