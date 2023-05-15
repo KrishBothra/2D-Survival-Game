@@ -119,6 +119,9 @@ public class HelloController {
     private inventoryItems inventorySelected = new inventoryItems("empty");
     private ImageView[][] inventoryImg = new ImageView[6][12];
 
+    private int tradeTier, tradeProtection, tradeDurability, tradeDamage, tradeHungerGain;
+    private String tradeType;
+
     private int invSelectedRow = -1;
     private int invSelectedCol = -1;
 
@@ -634,7 +637,7 @@ public class HelloController {
             public void handle(MouseEvent t) {
                 int row = GridPane.getRowIndex(((ImageView) t.getSource()));
                 int col = GridPane.getColumnIndex(((ImageView) t.getSource()));
-                if (!tradingShowing || (row != 1 || (col != 9 && col != 10 && col != 11))) {
+                if (!tradingShowing || (row != 1 || ((col != 9||inventoryImg[1][9].getOpacity()==1) && (col != 10||inventoryImg[1][10].getOpacity()==1) && (col != 11||inventoryImg[1][11].getOpacity()==1)))) {
                     if (t.getButton().equals(MouseButton.PRIMARY) && !clickedS) {
                         if (invSelectedCol != -1 && invSelectedRow != -1) {
                             System.out.println("hey");
@@ -738,16 +741,377 @@ public class HelloController {
                 if (tradingShowing) {
                     if (row == 1 || (col == 9 || col == 10 || col == 11)) {
                         if (inventoryImg[row][col].getImage() == flintInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
                             inventoryImg[2][9].setImage(rubyInv);
                             inventoryA[2][9].setAmountNeeded(15);
                             inventoryImg[2][10].setImage(stickInv);
                             inventoryA[2][10].setAmountNeeded(10);
                             inventoryImg[2][9].setOpacity(.3);
                             inventoryImg[2][10].setOpacity(.3);
-                            inventoryA[2][9] = new inventoryItems("trade");
-                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
                             typeTradeSelected = "inventoryItems";
                             tradeSelected = "flint";
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        } else if (inventoryImg[row][col].getImage() == bossSoulInv) {
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryA[2][11] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(diamondInv);
+                            inventoryA[2][9].setAmountNeeded(5);
+                            inventoryImg[2][10].setImage(goldIngotInv);
+                            inventoryA[2][10].setAmountNeeded(10);
+                            inventoryImg[2][11].setImage(rubyInv);
+                            inventoryA[2][11].setAmountNeeded(15);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setOpacity(.3);
+
+                            typeTradeSelected = "inventoryItems";
+                            tradeSelected = "bossSoul";
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == drillInv) {
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryA[2][11] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(woodPickaxeInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][10].setImage(woodAxeInv);
+                            inventoryA[2][10].setAmountNeeded(1);
+                            inventoryImg[2][11].setImage(woodSwordInv);
+                            inventoryA[2][11].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setOpacity(.3);
+
+                            typeTradeSelected = "inventoryItems";
+                            tradeSelected = "drill";
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == obsidianInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(diamondInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "resource";
+                            tradeSelected = "obsidian";
+                            tradeType = "pickaxe";
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == goldHelmetInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(rubyInv);
+                            inventoryA[2][9].setAmountNeeded(10);
+                            inventoryImg[2][10].setImage(normalPlankInv);
+                            inventoryA[2][10].setAmountNeeded(10);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "armor";
+                            tradeSelected = "goldHelmet";
+                            tradeTier = 3;
+                            tradeProtection = 5;
+                            tradeDurability = 13;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == rubyAxeInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(woodPickaxeInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][10].setImage(stonePickaxeInv);
+                            inventoryA[2][10].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "tool";
+                            tradeSelected = "rubyAxe";
+                            tradeTier = 3;
+                            tradeType = "axe";
+                            tradeDamage = 3;
+                            tradeDurability = 40;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == woodChestplateInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(woodAxeInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][10].setImage(woodPickaxeInv);
+                            inventoryA[2][10].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "armor";
+                            tradeSelected = "woodChestplate";
+                            tradeTier = 1;
+                            tradeProtection = 10;
+                            tradeDurability = 25;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == stoneSwordInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(woodBootsInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][10].setImage(woodHelmetInv);
+                            inventoryA[2][10].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "tool";
+                            tradeSelected = "stoneSword";
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == appleInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(rubyInv);
+                            inventoryA[2][9].setAmountNeeded(10);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "food";
+                            tradeSelected = "apples";
+                            tradeHungerGain = 15;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == woodBootsInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(stonePickaxeInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "armor";
+                            tradeSelected = "woodBoots";
+                            tradeTier = 1;
+                            tradeProtection = 5;
+                            tradeDurability = 15;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == rubyChestplateInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryA[2][10] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(goldChestplateInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][10].setImage(goldBootsInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryA[2][10].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setOpacity(.3);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "armor";
+                            tradeSelected = "rubyChestplate";
+                            tradeTier = 2;
+                            tradeProtection = 10;
+                            tradeDurability = 30;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == diamondLeggingsInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(rubyInv);
+                            inventoryA[2][9].setAmountNeeded(25);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "armor";
+                            tradeSelected = "diamondLeggings";
+                            tradeTier = 4;
+                            tradeProtection = 10;
+                            tradeDurability = 40;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == goldSwordInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(rubyInv);
+                            inventoryA[2][9].setAmountNeeded(3);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+
+                            typeTradeSelected = "tool";
+                            tradeSelected = "goldSword";
+                            tradeTier = 4;
+                            tradeType = "sword";
+                            tradeDamage = 4;
+                            tradeDurability = 50;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == rawPorkInv) {
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(normalPlankInv);
+                            inventoryA[2][9].setAmountNeeded(6);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+                            typeTradeSelected = "food";
+                            tradeSelected = "rawPork";
+                            tradeHungerGain = 15;
+                            if (col == 9) {
+                                tradeSelectedIndex = 1;
+                            }
+                            if (col == 10) {
+                                tradeSelectedIndex = 2;
+                            }
+                            if (col == 11) {
+                                tradeSelectedIndex = 3;
+                            }
+                        }else if (inventoryImg[row][col].getImage() == cookedBeefInv) {
+                            inventoryA[2][10] = new inventoryItems("empty");
+                            inventoryImg[2][11].setImage(grayBack);
+                            inventoryImg[2][11].setOpacity(1);
+                            inventoryA[2][11] = new inventoryItems("empty");
+                            inventoryA[2][9] = new inventoryItems("trade");
+                            inventoryImg[2][9].setImage(goldIngotInv);
+                            inventoryA[2][9].setAmountNeeded(1);
+                            inventoryImg[2][9].setOpacity(.3);
+                            inventoryImg[2][10].setImage(grayBack);
+                            inventoryImg[2][10].setOpacity(1);
+                            typeTradeSelected = "food";
+                            tradeSelected = "cookedBeef";
+                            tradeHungerGain = 25;
                             if (col == 9) {
                                 tradeSelectedIndex = 1;
                             }
@@ -760,39 +1124,74 @@ public class HelloController {
                         }
                     }
 
+                    System.out.println("general" + inventoryA[row][col].getAmount());
+                    System.out.println("have: " + inventoryA[1][7].getAmount());
+                    System.out.println("needed: " + inventoryA[2][9].getAmountNeeded());
                     if (inventoryImg[1][7].getImage() == inventoryImg[2][9].getImage() && inventoryA[1][7].getAmount() >= inventoryA[2][9].getAmountNeeded()) {
                         inventoryImg[2][9].setOpacity(1);
                     } else if (!(inventoryImg[2][9].getImage() == grayBack) && tradingShowing) {
                         inventoryImg[2][9].setOpacity(.3);
                     }
-                    if (inventoryImg[2][7].getImage() == inventoryImg[2][10].getImage() && inventoryA[1][7].getAmount() >= inventoryA[2][10].getAmountNeeded()) {
+                    if (inventoryImg[2][7].getImage() == inventoryImg[2][10].getImage() && inventoryA[2][7].getAmount() >= inventoryA[2][10].getAmountNeeded()) {
                         inventoryImg[2][10].setOpacity(1);
                     } else if (!(inventoryImg[2][10].getImage() == grayBack) && tradingShowing) {
                         inventoryImg[2][10].setOpacity(.3);
                     }
-                    if (inventoryImg[3][7].getImage() == inventoryImg[2][11].getImage() && inventoryA[1][7].getAmount() >= inventoryA[2][11].getAmountNeeded()) {
+                    if (inventoryImg[3][7].getImage() == inventoryImg[2][11].getImage() && inventoryA[3][7].getAmount() >= inventoryA[2][11].getAmountNeeded()) {
                         inventoryImg[2][11].setOpacity(1);
                     } else if (!(inventoryImg[2][11].getImage() == grayBack) && tradingShowing) {
                         inventoryImg[2][11].setOpacity(.3);
                     }
 
-                    if (inventoryImg[2][9].getOpacity() == 1 && inventoryImg[2][10].getOpacity() == 1 && inventoryImg[2][11].getOpacity() == 1) {
+                    if (inventoryImg[2][9].getImage()!=grayBack && inventoryImg[2][9].getOpacity() == 1 && inventoryImg[2][10].getOpacity() == 1 && inventoryImg[2][11].getOpacity() == 1) {
                         if (tradeSelectedIndex == 1) {
-                            if (typeTradeSelected.equals("inventoryItems")) {
-                                inventoryA[1][9] = new inventoryItems(tradeSelected);
-                                System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+                            switch (typeTradeSelected) {
+                                case "inventoryItems" -> inventoryA[1][9] = new inventoryItems(tradeSelected);
+                                case "resource" -> inventoryA[1][9] = new Resources(tradeSelected, tradeType);
+                                case "tool" -> inventoryA[1][9] = new Tools(tradeSelected, tradeTier, tradeType, tradeDamage, tradeDurability);
+                                case "armor" -> inventoryA[1][9] = new Armor(tradeSelected, tradeTier, tradeProtection, tradeDurability);
+                                case "food" -> inventoryA[1][9] = new Food(tradeSelected, tradeHungerGain);
                             }
                             inventoryImg[1][9].setOpacity(1);
                         } else if (tradeSelectedIndex == 2) {
-                            if (typeTradeSelected.equals("inventoryItems")) {
-                                inventoryA[1][10] = new inventoryItems(tradeSelected);
+                            switch (typeTradeSelected) {
+                                case "inventoryItems" -> inventoryA[1][10] = new inventoryItems(tradeSelected);
+                                case "resource" -> inventoryA[1][10] = new Resources(tradeSelected, tradeType);
+                                case "tool" -> inventoryA[1][10] = new Tools(tradeSelected, tradeTier, tradeType, tradeDamage, tradeDurability);
+                                case "armor" -> inventoryA[1][10] = new Armor(tradeSelected, tradeTier, tradeProtection, tradeDurability);
+                                case "food" -> inventoryA[1][10] = new Food(tradeSelected, tradeHungerGain);
                             }
                             inventoryImg[1][10].setOpacity(1);
                         } else if (tradeSelectedIndex == 3) {
-                            if (typeTradeSelected.equals("inventoryItems")) {
-                                inventoryA[1][11] = new inventoryItems(tradeSelected);
+                            switch (typeTradeSelected) {
+                                case "inventoryItems" -> inventoryA[1][11] = new inventoryItems(tradeSelected);
+                                case "resource" -> inventoryA[1][11] = new Resources(tradeSelected, tradeType);
+                                case "tool" -> inventoryA[1][11] = new Tools(tradeSelected, tradeTier, tradeType, tradeDamage, tradeDurability);
+                                case "armor" -> inventoryA[1][11] = new Armor(tradeSelected, tradeTier, tradeProtection, tradeDurability);
+                                case "food" -> inventoryA[1][11] = new Food(tradeSelected, tradeHungerGain);
                             }
                             inventoryImg[1][11].setOpacity(1);
+                        }
+                    }else{
+                        if(tradeSelectedIndex == 1){
+                            inventoryImg[1][9].setOpacity(.7);
+                        }else if(tradeSelectedIndex == 2){
+                            inventoryImg[1][10].setOpacity(.7);
+                        }else{
+                            inventoryImg[1][11].setOpacity(.7);
+                        }
+                    }
+
+
+                    if(row ==1&&(col==9||col==10||col==11)){
+                        if(inventoryImg[row][col].getOpacity()==1&&inventoryImg[row][col].getImage()!=grayBack){
+                            inventoryA[1][7].setAmount(inventoryA[1][7].getAmount()-inventoryA[2][9].getAmountNeeded());
+                            if(inventoryImg[2][7].getImage()!=grayBack){
+                                inventoryA[2][7].setAmount(inventoryA[2][7].getAmount()-inventoryA[2][10].getAmountNeeded());
+                            }
+                            if(inventoryImg[3][7].getImage()!=grayBack){
+                                inventoryA[3][7].setAmount(inventoryA[3][7].getAmount()-inventoryA[2][11].getAmountNeeded());
+                            }
                         }
                     }
                 }
@@ -934,12 +1333,13 @@ public class HelloController {
         inventoryA[3][1] = new inventoryItems("flintAndSteel");
         inventoryA[2][5] = new Resources("obsidian","pickaxe");
         inventoryA[2][5].setAmount(99);
+        inventoryA[1][5] = new inventoryItems("diamond");
+        inventoryA[1][5].setAmount(99);
 
         otherTrades.add("goldHelmet");
         otherTrades.add("woodChestplate");
         otherTrades.add("rubyAxe");
         otherTrades.add("stoneSword");
-        otherTrades.add("ruby");
         otherTrades.add("apple");
         otherTrades.add("woodBoots");
         otherTrades.add("rubyChestplate");
@@ -953,11 +1353,11 @@ public class HelloController {
             switch (villager.getBiome()) {
                 case "normal" -> {
                     villager.addTrades("obsidian");
-                    villager.addTrades(otherTrades.get((int) (Math.random() * 12)));
+                    villager.addTrades(otherTrades.get((int) (Math.random() * 11)));
                     if (random == 2) {
                         boolean valid = false;
                         while (!valid) {
-                            int randomNum2 = (int) (Math.random() * 12);
+                            int randomNum2 = (int) (Math.random() * 11);
                             if (!(otherTrades.get(randomNum2).equals(villager.getTrades().get(1)))) {
                                 villager.addTrades(otherTrades.get(randomNum2));
                                 valid = true;
@@ -969,16 +1369,16 @@ public class HelloController {
                     villager.addTrades("flint");
                     villager.addTrades("bossSoul");
                     if (random == 2) {
-                        villager.addTrades(otherTrades.get((int) (Math.random() * 12)));
+                        villager.addTrades(otherTrades.get((int) (Math.random() * 11)));
                     }
                 }
                 case "fruit" -> {
                     villager.addTrades("drill");
-                    villager.addTrades(otherTrades.get((int) (Math.random() * 12)));
+                    villager.addTrades(otherTrades.get((int) (Math.random() * 11)));
                     if (random == 2) {
                         boolean valid = false;
                         while (!valid) {
-                            int randomNum2 = (int) (Math.random() * 12) ;
+                            int randomNum2 = (int) (Math.random() * 11) ;
                             if (!(otherTrades.get(randomNum2).equals(villager.getTrades().get(1)))){
                                 villager.addTrades(otherTrades.get(randomNum2));
                                 valid = true;
