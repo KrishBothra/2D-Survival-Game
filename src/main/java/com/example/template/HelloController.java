@@ -84,6 +84,8 @@ public class HelloController {
 
     ImageView[][] img = new ImageView[x][y];
 
+    private Armor tempHelmet, tempChestplate, tempLeggings, tempBoots;
+
     double bossCount = 4;
 
 
@@ -1164,6 +1166,7 @@ public class HelloController {
                                 case "food" -> inventoryA[1][9] = new Food(tradeSelected, tradeHungerGain);
                             }
                             inventoryImg[1][9].setOpacity(1);
+                            inventoryA[1][9].setAmount(1);
                         } else if (tradeSelectedIndex == 2) {
                             switch (typeTradeSelected) {
                                 case "inventoryItems" -> inventoryA[1][10] = new inventoryItems(tradeSelected);
@@ -1173,6 +1176,7 @@ public class HelloController {
                                 case "food" -> inventoryA[1][10] = new Food(tradeSelected, tradeHungerGain);
                             }
                             inventoryImg[1][10].setOpacity(1);
+                            inventoryA[1][10].setAmount(1);
                         } else if (tradeSelectedIndex == 3) {
                             switch (typeTradeSelected) {
                                 case "inventoryItems" -> inventoryA[1][11] = new inventoryItems(tradeSelected);
@@ -1181,6 +1185,7 @@ public class HelloController {
                                 case "armor" -> inventoryA[1][11] = new Armor(tradeSelected, tradeTier, tradeProtection, tradeDurability);
                                 case "food" -> inventoryA[1][11] = new Food(tradeSelected, tradeHungerGain);
                             }
+                            inventoryA[1][11].setAmount(1);
                             inventoryImg[1][11].setOpacity(1);
                         }
                     }else{
@@ -3205,6 +3210,23 @@ public class HelloController {
                     inventoryA[2][9] = new inventoryItems("empty");
                     inventoryA[2][10] = new inventoryItems("empty");
 
+                    if(tempHelmet!=null){
+                        inventoryA[1][7] = tempHelmet;
+                    }
+                    if(tempChestplate!=null){
+                        inventoryA[2][7] = tempChestplate;
+                    }
+                    if(tempLeggings!=null){
+                        inventoryA[3][7] = tempLeggings;
+                    }
+                    if(tempBoots!=null){
+                        inventoryA[4][7] = tempBoots;
+                    }
+
+
+
+
+
 
                 }else{
                     gPane.setVisible(false);
@@ -3224,6 +3246,26 @@ public class HelloController {
                             two3cv.setVisible(true);
                         }
                     }
+
+                    if(!inventoryA[1][7].getName().equals("empty")){
+                        tempHelmet = (Armor) inventoryA[1][7];
+                    }
+                    if(!inventoryA[2][7].getName().equals("empty")) {
+                        tempChestplate = (Armor) inventoryA[2][7];
+                    }
+                    if(!inventoryA[3][7].getName().equals("empty")) {
+                        tempLeggings = (Armor) inventoryA[3][7];
+                    }
+                    if(!inventoryA[4][7].getName().equals("empty")) {
+                        tempBoots = (Armor) inventoryA[4][7];
+                    }
+
+                    inventoryA[1][7] = new inventoryItems("empty");
+                    inventoryA[2][7] = new inventoryItems("empty");
+                    inventoryA[3][7] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
+
+
 
                     inventoryImg[4][9].setImage(blackBack);
                     inventoryImg[4][7].setImage(blackBack);
@@ -3455,6 +3497,20 @@ public class HelloController {
                     inventoryA[2][9] = new inventoryItems("empty");
                     inventoryA[2][10] = new inventoryItems("empty");
 
+
+                    if(tempHelmet!=null){
+                        inventoryA[1][7] = tempHelmet;
+                    }
+                    if(tempChestplate!=null){
+                        inventoryA[2][7] = tempChestplate;
+                    }
+                    if(tempLeggings!=null){
+                        inventoryA[3][7] = tempLeggings;
+                    }
+                    if(tempBoots!=null){
+                        inventoryA[4][7] = tempBoots;
+                    }
+
                 }else{
                     gPane.setVisible(false);
                     hotbarG.setVisible(false);
@@ -3473,6 +3529,24 @@ public class HelloController {
                             two3cv.setVisible(true);
                         }
                     }
+
+                    if(!inventoryA[1][7].getName().equals("empty")){
+                        tempHelmet = (Armor) inventoryA[1][7];
+                    }
+                    if(!inventoryA[2][7].getName().equals("empty")) {
+                        tempChestplate = (Armor) inventoryA[2][7];
+                    }
+                    if(!inventoryA[3][7].getName().equals("empty")) {
+                        tempLeggings = (Armor) inventoryA[3][7];
+                    }
+                    if(!inventoryA[4][7].getName().equals("empty")) {
+                        tempBoots = (Armor) inventoryA[4][7];
+                    }
+
+                    inventoryA[1][7] = new inventoryItems("empty");
+                    inventoryA[2][7] = new inventoryItems("empty");
+                    inventoryA[3][7] = new inventoryItems("empty");
+                    inventoryA[4][7] = new inventoryItems("empty");
 
 
                     inventoryImg[4][9].setImage(blackBack);
@@ -4606,11 +4680,7 @@ public class HelloController {
                             smelting = true;
                             currentSmelting = "mutton";
                         }
-                        if (inventoryA[3][7].getAmount() == 1) {
-                            inventoryA[3][7] = new inventoryItems("empty");
-                        } else {
-                            inventoryA[3][7].changeAmount(-1);
-                        }
+
                     }
                 }
                 if (smelting) {
@@ -4651,6 +4721,11 @@ public class HelloController {
                 if (burningFuel) {
                     if (now - burningTime > 1000000000.0 * amountToBurn) {
                         burningFuel = false;
+                        if(inventoryA[3][7].getAmount()==1){
+                            inventoryA[3][7] = new inventoryItems("empty");
+                        }else{
+                            inventoryA[3][7].changeAmount(-1);
+                        }
                     }
                 }
                 if (miningObject) {
@@ -7583,26 +7658,9 @@ public class HelloController {
                             } else {
                                 if (map[i][j].equals("grass")) {
                                     mapBackground[i][j] = "stone";
-                                    if (mineralRand < 4) {
+                                    if (mineralRand < 7) {
                                         map[i][j] = "rock";
                                         mineObjectsOnMap.add(new mineObjects("rock","pickaxe", (int) (Math.random() * 5) + 10, new Resources("cobblestone","pickaxe"), (int) (Math.random() * 3) + 2, i, j));
-
-                                    } else if (mineralRand < 6) {
-                                        map[i][j] = "goldOre";
-                                        mineObjectsOnMap.add(new mineObjects("goldOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("goldOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
-
-                                    } else if (mineralRand < 8) {
-                                        map[i][j] = "diamondOre";
-                                        mineObjectsOnMap.add(new mineObjects("diamondOre","pickaxe", (int) (Math.random() * 5) + 20, new inventoryItems("diamond"), 1, i, j));
-
-                                    } else if (mineralRand < 11) {
-                                        map[i][j] = "rubyOre";
-                                        mineObjectsOnMap.add(new mineObjects("rubyOre","pickaxe", (int) (Math.random() * 5) + 15, new Resources("rubyOre","pickaxe"), (int) (Math.random() * 2) + 1, i, j));
-
-                                    }else if (mineralRand < 15) {
-                                        map[i][j] = "coalOre";
-                                        mineObjectsOnMap.add(new mineObjects("coalOre","pickaxe", (int) (Math.random() * 5) + 15, new inventoryItems("coal"), (int) (Math.random() * 2) + 1, i, j));
-
                                     }
                                     else {
                                         map[i][j] = "stone";
